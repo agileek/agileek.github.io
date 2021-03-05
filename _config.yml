@@ -6,7 +6,7 @@ baseurl: ""
 url: "https://agileek.github.io"
 twitter_username: BitardMichael
 github_username:  MichaelBitard
-
+include: [".well-known"]
 # Build settings
 markdown: kramdown
 permalink: pretty
