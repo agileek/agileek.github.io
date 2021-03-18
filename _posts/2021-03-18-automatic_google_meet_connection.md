@@ -6,7 +6,7 @@ date: 2021-03-18
 tags: [software, terminal, systemd]
 ---
 
-I don't like to be late at meetings, and I relied heavily on my coworkers to warn be about a meeting starting.
+I don't like to be late at meetings, and I relied heavily on my coworkers to warn me about a meeting starting.
 
 Now, I'm working in a fully remote company, and I can't rely on my coworkers, because they can only message me, and I don't look at slack/emails all day.
 
