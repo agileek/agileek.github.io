@@ -12,7 +12,10 @@ Now, I'm working in a fully remote company, and I can't rely on my coworkers, be
 
 So I came up with 1 little script (and 2 systemd units) to automatically launch my meeting 1-2 minutes before it actually starts.
 
-The script relies on [gcalcli][gcalcli], it checks the next meeting I accepted, retrieves the google meet url and launch it in a new google-chrome windows.
+The script relies on [gcalcli][gcalcli]:
+- it checks the next meeting I accepted
+- it retrieves the Google Meet URL
+- it launches a new Google Chrome windows.
 
 ```bash
 #!/bin/bash
@@ -23,7 +26,7 @@ BACKUP_FILE=.previous-meetup
 touch "${BACKUP_FILE}"
 PREVIOUS_MEETUP=$(cat "${BACKUP_FILE}")
 
-NEW_MEETUP=$(gcalcli --calendar="${EMAIL_ADDRESS}' agenda --details url --tsv --nodeclined "$(date --date="+1 minutes" +"%Y-%m-%dT%H:%M")" "$(date --date="+3 minutes" +"%Y-%m-%dT%H:%M")" | cut -d$'\t' -f6)
+NEW_MEETUP=$(gcalcli --calendar="${EMAIL_ADDRESS}" agenda --details url --tsv --nodeclined "$(date --date="+1 minutes" +"%Y-%m-%dT%H:%M")" "$(date --date="+3 minutes" +"%Y-%m-%dT%H:%M")" | cut -d$'\t' -f6)
 
 if [ "$NEW_MEETUP" != "$PREVIOUS_MEETUP" ]; then
   if [ "$NEW_MEETUP" != "" ]; then
