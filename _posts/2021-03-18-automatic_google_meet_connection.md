@@ -17,6 +17,7 @@ The script relies on [gcalcli][gcalcli]:
 - it retrieves the Google Meet URL
 - it launches a new Google Chrome windows.
 
+`~/.local/bin/auto-google-meet`
 ```bash
 #!/bin/bash
 set -eufo pipefail
@@ -39,7 +40,7 @@ echo "${NEW_MEETUP}" > "${BACKUP_FILE}"
 ```
 
 The next step is to have one systemd user service:
-
+`~/.config/systemd/user/auto-google-meet.service`
 {% highlight ruby %}
 [Unit]
 Description=Auto launch google-meet
@@ -55,6 +56,7 @@ WantedBy=timers.target
 
 and a systemd timer:
 
+`~/.config/systemd/user/auto-google-meet.timer`
 {% highlight ruby %}
 [Timer]
 OnUnitActiveSec=1min
@@ -63,6 +65,12 @@ Unit=auto-google-meet.service
 [Install]
 WantedBy=timers.target
 {% endhighlight %}
+
+Don't forget to enable the timer and the service:
+```
+systemctl --user enable auto-google-meet.timer
+systemctl --user enable auto-google-meet.service
+```
 
 and voilà! you'll never miss a google meet now.
 
