@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: agileek.github.io
+Token: d8e3f77f1940553494c305b7f97ab1e85f44427e0ce71d8b0189867dbbedb502
