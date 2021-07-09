@@ -103,12 +103,14 @@ jobs:
 The python file `ecr_password_updater.py`:
 
 ```python
-from base64 import b64encode
+# From https://github.community/t/github-actions-new-pulling-from-private-docker-repositories/16089/28
+# The goal is to retrieve the ecr password every 6 hours and put it as a secret
+from base64 import b64encode, b64decode
 from nacl import encoding, public
 import requests
 import os
-import subprocess
 import json
+import boto3
 
 
 def encrypt(raw_public_key: str, secret_value: str) -> str:
@@ -119,9 +121,21 @@ def encrypt(raw_public_key: str, secret_value: str) -> str:
     return b64encode(encrypted).decode("utf-8")
 
 
+def get_ecr_password() -> str:
+    """Retrieve ECR password, it comes b64 encoded, in the format user:password
+       From https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecr.html#ECR.Client.get_authorization_token
+    """
+    ecr = boto3.client('ecr')
+    response = ecr.get_authorization_token()
+    encoded_login_password = response['authorizationData'][0]['authorizationToken']
+
+    decoded_login_password = b64decode(encoded_login_password).decode('UTF-8')
+    return decoded_login_password.split(':')[1]
+
+
 if __name__ == '__main__':
 
-    get_public_key = requests.get(f'https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/public-key',
+    get_public_key = requests.get('https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/public-key',
                                   headers={'Accept': 'application/vnd.github.v3+json',
                                            'Authorization': 'token ' + os.environ['GH_API_ACCESS_TOKEN']})
     if get_public_key.ok is False:
@@ -132,12 +146,13 @@ if __name__ == '__main__':
     public_key_value = get_public_key_response['key']
     public_key_id = get_public_key_response['key_id']
 
-    password = subprocess.run(['aws', 'ecr', 'get-login-password'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    password = get_ecr_password()
     encrypted_password = encrypt(public_key_value, password)
     update_password = requests.put('https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/ECR_PASSWORD',
                                    headers={'Accept': 'application/vnd.github.v3+json',
                                             'Authorization': 'token ' + os.environ['GH_API_ACCESS_TOKEN']},
-                                   data=json.dumps({'encrypted_value': encrypted_password, 'key_id': public_key_id}))
+                                   data=json.dumps({'encrypted_value': encrypted_password, 'key_id': public_key_id,
+                                                    'visibility': 'all'}))
     if update_password.ok is False:
         print('could not update password')
         print(update_password.text)
@@ -148,12 +163,17 @@ if __name__ == '__main__':
 The dependencies used by the python code:
 ```text
 pynacl==1.4.0
-requests==2.24.0
+requests==2.25.1
+boto3==1.17.107
 ```
 
 I first started with a simple bash script, but it became quite complex[^2], so I switched to python.
 
 Enjoy!
+
+### Edit 2021-07-09
+
+Thanks to Alex Pavlenko, I switched from using the aws cli to boto3. Python all the way!
 
 [pubstack]: https://pubstack.io/
 [ecr]: https://aws.amazon.com/ecr/
