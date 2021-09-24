@@ -270,6 +270,10 @@ a:visited { color: #205caa; }
 
 .center-image {
   max-height: 500px;
+  max-width: 800px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .post-content img.banner {

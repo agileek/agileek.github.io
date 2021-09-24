@@ -2,7 +2,7 @@
 layout: post
 title: "Rust AWS lambda with glibc"
 categories: [software, aws]
-date: 2021-09-15
+date: 2021-09-24
 tags: [rust, software, aws]
 ---
 
@@ -15,15 +15,21 @@ While it appears you could [statically link the glibc][glibc_statically_link], i
 
 So for AWS:
 
-![ThisIsTheWay][ThisIsTheWay]
+![ThisIsTheWay][ThisIsTheWay]{: .center-image }
 
 
-## How
+## What
 
-While searching for alternative solutions to this (I like being as free as possible when executing software), I found that since late 2020, they added a [container image support][container_image_support] to AWS lambda.
+While searching for alternative solutions to this (Because reasons), I found that since late 2020, they added a [container image support][container_image_support] to AWS lambda.
 
-![ThereIsAnother][ThereIsAnother]
+![ThereIsAnother][ThereIsAnother]{: .center-image }
 
+Sooooooo, if we want to use glibc, we need to have docker.
+Fine, let's give it a try
+
+### How
+
+First we have to create a simple rust application.
 
 ```bash 
 cargo new test_aws_lambda
@@ -32,10 +38,13 @@ cargo add tokio
 cargo add aws_lambda_events
 ```
 
+Let's change the `src/main.rs` a bit.
+Basically we will just return everything that is sent to us.
+
 ```rust
+use aws_lambda_events::event::sns::SnsEvent;
 use lambda_runtime::Context;
 use lambda_runtime::{handler_fn, Error};
-use aws_lambda_events::event::sns::SnsEvent;
 
 #[tokio::main]
 pub async fn main() -> Result<(), Error> {
@@ -45,10 +54,24 @@ pub async fn main() -> Result<(), Error> {
     Ok(())
 }
 
-async fn handler(sns_event: SnsEvent, _context: Context) -> Result<(), Error> {
-    println!("Ping");
-    Ok(())
+async fn handler(sns_event: SnsEvent, _context: Context) -> Result<SnsEvent, Error> {
+    println!("Handler");
+    Ok(sns_event)
 }
+```
+
+Now comes the build part, we will use docker to build the release.
+We will need a custom ENTRYPOINT for aws to be able to understand the lambda.
+Here is the `entry.sh` you'll need:
+
+```bash
+#!/bin/sh
+set -x
+if [ -z "${AWS_LAMBDA_RUNTIME_API}" ]; then
+	  exec /usr/bin/aws-lambda-rie "$@"
+  else
+	    exec "$@"
+fi 
 ```
 
 ```Docker
@@ -66,27 +89,35 @@ RUN chmod 755 /entry.sh
 ENTRYPOINT [ "/entry.sh" ]
 
 COPY --from=build /test_aws_lambda/target/release/test_aws_lambda /test_aws_lambda
-# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
 CMD [ "/test_aws_lambda" ]
 ```
 
-`docker build -t aws-lambda-test .`
+Now we have to build it: `docker build -t aws-lambda-test .`
 
-test locally
+Run it: `docker run --rm -p 9000:8080 aws-lambda-test`
 
-`docker run --rm -p 9000:8080 aws-lambda-test`
-`curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{ "Records": [] }'`
+And test it: `curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{ "Records": [] }'`
 
+It should respond `{"Records":[]}`
 
-Create ECR repository `ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test`
+### Deploy on AWS
 
-tag and push
+You need to have a docker registry (ECR) in the same account as your lambda.
+
+First, create an ECR repository `ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test`
+
+You can then tag and push your local image in this repository:
+
 ```bash 
 docker tag aws-lambda-test ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
 docker push ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
 ```
 
-Create the lambda and select container image and VOILA
+Create the lambda, use the container image, and go to the test section.
+
+![AwsTest][AwsTest]{: .center-image }
+
+And voilà, you now have a rust container running as an aws lambda!
 
 [musl]: https://musl.libc.org/
 [aws_rust_lambda_runtime]: https://github.com/awslabs/aws-lambda-rust-runtime
@@ -95,4 +126,5 @@ Create the lambda and select container image and VOILA
 [dont_static_link_glibc_2]: https://lwn.net/Articles/117972/
 [ThisIsTheWay]: /images/posts/rust_aws_lambda/this_is_the_way.jpg
 [ThereIsAnother]: /images/posts/rust_aws_lambda/there_is_another.jpg
+[AwsTest]: /images/posts/rust_aws_lambda/aws_test.png
 [container_image_support]: https://aws.amazon.com/blogs/aws/new-for-aws-lambda-container-image-support/
