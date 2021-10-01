@@ -2,7 +2,7 @@
 layout: post
 title: "Rust AWS lambda with glibc"
 categories: [software, aws]
-date: 2021-09-24
+date: 2021-10-01
 tags: [rust, software, aws]
 ---
 
