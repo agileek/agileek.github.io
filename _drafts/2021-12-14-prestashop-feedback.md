@@ -10,7 +10,7 @@ Sur ce blog post, je m'éloigne des sentiers battus pour découvrir un domaine q
 
 ## Contexte
 
-Ma compagne s'est lancée dans [une activité][lespetitsbibis] où elle crée des produits du quotidien, cousus-main, avec du matériel issu de resourceries ou de fins de rouleaux.
+Ma compagne s'est lancée dans [une activité][lespetitsbibis] où elle crée des produits du quotidien, cousus-main, avec du matériel issu de ressourceries ou de fins de rouleaux.
 Ses enjeux/envies sont multiples : 
 - Trouver une activité à temps partiel pour pouvoir conjuguer vie de famille et professionnelle
 - Réduire nos déchets[^dechets]
@@ -43,7 +43,7 @@ Bref, après de moultes péripéties, on s'est lancé sur du prestashop.
 En vrai, ça a été très vite, image docker lancée, configurée sur un MySQL, rien à dire, en quelques minutes il y'a un site qui tourne et avec lequel on peut jouer.
 La prise en main n'est pas forcément simple pour qui n'est pas familier avec tout le jargon et l'agencement de la plateforme, mais une fois qu'on a trouvé ses marques, ça passe.
 
-Le systême de thèmes et ce qui m'a donné le plus de fil à retordre, notamment pour pouvoir itérer rapidement sur les changements css.
+Le systême de thèmes est ce qui m'a donné le plus de fil à retordre, notamment pour pouvoir itérer rapidement sur les changements css.
 Au début, j'étais obligé de recréer tout le zip du thème, de supprimer le thème existant pour le re-charger, perdre toutes les configurations, c'était hyper frustrant.
 Jusqu'au moment où j'ai commencé à directement mettre le fichier css au bon endroit dans le path du serveur, et que j'ai désactivé le cache (attention à la prod)
 À partir de là c'était plutôt simple, bien que long.
