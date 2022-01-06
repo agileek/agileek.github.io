@@ -16,7 +16,7 @@ Take a deep breath, we are going to fix this.
 
 ## Steps
 
-Get a live USB key, I usually have an ubuntu somewhere, if you don't grab it, and put it on you usb key.
+Get a live USB key, I usually have an ubuntu somewhere, if you don't, grab one, and put it on you usb key.
 
 #### Live USB
 
@@ -36,19 +36,20 @@ And voilà!
 
 #### Down the rabbit hole
 
-https://unix.stackexchange.com/questions/72592/chroot-in-to-reinstall-grub2-reinstall-mnt-is-empty
-
 Once you have booted on your usb key, you should be able to access your "real" filesystem in order to repair the bootloader.
 
 Basically, we are going to mount the arborescence of your "real" machine on a subfolder of the current running linux, and chroot[^chroot] into it.
 
-That's where it will differ depdending on your setup. You could have partition encryption activated and needs to unlock it first. You could have a dual boot with windows (my case) that will complicate stuff.
+That's where it will differ depending on your setup:
+- You could have encrypted your disk
+- You could have a dual boot with windows (my case)
 
 So let's create a folder first: `sudo mkdir /mnt/fedora`
 
-Then we will mount our root filesystem into it: `sudo mount /dev/mapper/fedora-root /mnt/fedora`
+Then we will mount our *root* filesystem into it: `sudo mount /dev/mapper/fedora-root /mnt/fedora`
 
-Usually, you should have something under `/mnt/fedora/boot`. If you don't you have a boot partition and you should mount it `sudo mount /dev/nvme0n1p4 /mnt/fedora/boot`
+Usually, you should have something under `/mnt/fedora/boot`.
+If you don't you have a boot partition,  you should mount it `sudo mount /dev/nvme0n1p4 /mnt/fedora/boot`
 
 Since I have a dual boot, I have a dedicated efi partition at the begining of my disk, that I need to mount too: `sudo mount /dev/nvme0n1p1 /mnt/fedora/boot/efi`
 
@@ -73,3 +74,4 @@ Reboot without the usb key, it should work now.
 
 [dmesg]: /images/posts/repair-grub/dmesg_output.png
 [^chroot]: For **ch**ange **root**, we will jail our process in the filesystem you just mounted
+[source]: https://unix.stackexchange.com/questions/72592/chroot-in-to-reinstall-grub2-reinstall-mnt-is-empty
