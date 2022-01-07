@@ -2,7 +2,7 @@
 layout: post
 title: "Repair your grub"
 categories: [software, terminal]
-date: 2021-12-24
+date: 2022-01-07
 tags: [software, grub, terminal, fedora]
 ---
 
