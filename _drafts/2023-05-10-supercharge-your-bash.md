@@ -6,85 +6,73 @@ date: 2023-05-10
 tags: [software, terminal, bash]
 ---
 
-## Why
+## Why I'm Always Trying to Improve My Terminal Workflow
 
-I've been using terminal/tmux/bash for a few years now and I'm still trying to improve my workflow with it.
-I am a freelancer and I work on multiple heterogeneous projects at the same time, so I like to unify my workflow.
-My laptop setup is entirely automated with ansible, and I have one "role" by projet.
+I have been using terminal/tmux/bash for several years now, constantly striving to enhance my workflow. As a freelancer, I often juggle multiple heterogeneous projects simultaneously, which motivates me to streamline my approach. I have automated my laptop setup entirely using Ansible, assigning a unique "role" to each project.
 
-In each of these roles, I have a bashrc that I used to source [globally][use_bashrc_directory]
+Within each role, I had a bashrc file that I used to [source globally][use_bashrc_directory].
 
-My main issue is: I cannot reuse the same alias for my projects, so I ended up prefixing everything (for example, working on [Camino][camino], when I wanted to create a PR, I had an alias camino_pr). 
-This has some drawbacks, the most obvious one being the alias camino_pr is available everywhere, but is usable only on certain directories.
+However, a major challenge I face is the inability to reuse the same alias across different projects. Consequently, I resorted to prefixing everything. For instance, when working on Camino, I had to create an alias called "camino_pr" for generating pull requests. This approach has its drawbacks, such as the alias "camino_pr" being available everywhere but only usable in certain directories.
 
-So, I looked for a way to load some of my .bashrc files depending on my current working directory.
+Therefore, I explored various solutions to load specific .bashrc files based on my current working directory. Here are some existing options I found:
 
+* [Direnv][direnv]: It allows loading environment variables only.
+* [Ondir][ondir]: This tool relies on a single ~/.ondirrc file, making it difficult to manage with multiple heterogeneous projects.
+* [ZSH Autoenv][zsh-autoenv]: Unfortunately, it is designed exclusively for zsh users.
+* [Smartcd][smartcd]: This tool aligns with my requirements, but I prefer a more bash-based approach.
 
-## Existing stuff
+## Hacking CD to Achieve My Goal
 
-- [Direnv][direnv]
-  - Only load environment variables
-- [Ondir][ondir]
-  - All in one ~/.ondirrc file, difficult to manage with multiple heterogeneous projects
-- [ZSH Autoenv][zsh-autoenv]
-  - Only for zsh unfortunately
-- [Smartcd][smartcd]
-  - That's what I want basically, but with a more full bash approach
+My requirement is simple: I want to automatically source one or more files when I enter a directory.
 
-#### Hacking CD
+One potential solution is to hook the cd command, so that every time I use `cd` it executes a bash function.
 
-My need is simple: I want to source one or more files when I enter a directory.
-
-One solution is to hook the `cd` command, each time you type `cd`, it'll execute a bash function.
-
-
-For example, this bash function:
+For example, consider the following bash function:
 
 ```bash
-function cd () {
+function cd() {
   builtin cd "$@"
   echo "Moving to $(pwd)"
 }
 ```
 
-will print the new path everytime I move to another directory.
+This function will print the new path every time I switch to a different directory.
 
-In the end what I want is to source every `.my_bash_file` I encounter along my current path.
+In the end, what I aim for is to source any `.my_bash_file` encountered along my current path.
 
-I ended up with this:
+After some experimentation, I arrived at the following implementation:
 
 ```bash
-function cd () {
+
+function cd() {
   builtin cd "$@"
-  local x=`pwd`
+  local x=$(pwd)
   local bash_files_to_source=()
+
   while [ "$x" != "/" ]; do
-    if [ -f "${x}/.my_bash_file" ]
-    then
+    if [ -f "${x}/.my_bash_file" ]; then
         bash_files_to_source+=("${x}/.my_bash_file")
     fi
-    x=`dirname "$x"`
+    x=$(dirname "$x")
   done
 
-  local current_index=$(( ${#bash_files_to_source[@]} -1 ))
-  while [[ current_index -gt -1 ]]
-  do
-      local bash_file_to_source="${bash_files_to_source[$current_index]}"
-      echo "Sourcing ${bash_file_to_source}"
-      source "${bash_file_to_source}"
-      (( current_index-- ))
+  local current_index=$(( ${#bash_files_to_source[@]} - 1 ))
+  while [[ current_index -gt -1 ]]; do
+    local bash_file_to_source="${bash_files_to_source[$current_index]}"
+    echo "Sourcing ${bash_file_to_source}"
+    source "${bash_file_to_source}"
+    ((current_index--))
   done
 }
 ```
 
-I put this in my .bashrc (with a `cd .` at the end to activate this when I open a new tmux pane for example)
+I added this code to my `.bashrc`, along with a `cd .` command at the end to activate it when I open a new tmux pane, for example.
 
+## Enhanced Usage
 
-## Usage
+This approach provides significant flexibility. Now, I have a consistent pr command available in every project I work on. Sometimes, it is aliased to gh pr create, other times it might be a custom Python command or any other tool used by the team I collaborate with.
 
-It's quite powerful, now I know I always have a `pr` command available in every project I work with, sometimes it will be aliased to `gh pr create`, sometimes it's a custom python command, or whatever the team I'm working with is using.
-
-I'm even able now to automatically fetch secrets from my keepassxc instance when I enter some folders, so almost all my secrets are not physiscally on my machine anymore (that will probably be another blog post, where we will talk about secret service integration)
+Moreover, I have even automated the retrieval of secrets from my keepassxc instance when entering specific folders. As a result, most of my secrets are no longer stored physically on my machine. (I will likely write another blog post to discuss secret service integration in detail.)
 
 ## TODO
 
