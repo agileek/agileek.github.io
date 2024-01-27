@@ -9,7 +9,11 @@ tags: [software, law, adage]
 ## Adages in IT
 
 Surely one of the most famous "law" in IT is moore's law. But as you read and learn about computer science, you realise that a lot of people have stated differents "laws", "adages".
-This article will try to regroup them all.
+
+
+> One Article to rule them all, One Article to find them,
+  One Article to bring them all, and in the internet bind them
+
 
 ### Moore's law
 
