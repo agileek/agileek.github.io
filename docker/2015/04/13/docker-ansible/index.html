@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Poste de dev avec docker et ansible</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/docker/2015/04/13/docker-ansible/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Poste de dev avec docker et ansible" />
+    <meta property="twitter:description" content="Vous avez un projet où il faut 3 jours d’installation acharnée en suivant un wiki obsolète pour réussir à faire un premier commit ? Vous n’osez plus mettre à jour votre poste depuis 2006 de peur de ne plus pouvoir..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Vous avez un projet où il faut 3 jours d’installation acharnée en suivant un wiki obsolète pour réussir à faire un premier commit ? Vous n’osez plus mettre à jour votre poste depuis 2006 de peur de ne plus pouvoir..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Poste de dev avec docker et ansible</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-13">Apr 13, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p><img src="/images/posts/docker-ansible/meme_post_fait_pour_vous.jpg" alt="meme" class="float_image" />
+Vous avez un projet où il faut 3 jours d’installation acharnée en suivant un wiki obsolète pour réussir à faire un premier commit ?</p>
+
+<p>Vous n’osez plus mettre à jour votre poste depuis 2006 de peur de ne plus pouvoir travailler ?</p>
+
+<p>Vous en avez marre d’oublier de mettre à jour le wiki chaque fois qu’il faut installer quelque chose de nouveau pour votre projet ?</p>
+
+<p>Ce post est fait pour vous !</p>
+
+<h2 id="idée-originale">Idée originale</h2>
+
+<p>A mes débuts chez Orange Business Services (en fait, c’était CVF, puis MBS, puis OBS et maintenant OAB…), je suis tombé dans une super équipe avec laquelle j’ai appris énormément de choses. Je travaillais sur une partie écrite en Erlang et j’avais été impressionné car en quelques minutes, j’avais un environnement de travail de base prêt à l’emploi, léger et entièrement customisable.</p>
+
+<p>C’était à base de <a href="http://fr.wikipedia.org/wiki/Chroot">chroot</a> (Ils ont écrit 2 articles à ce sujet, le premier sur la <a href="http://www.barreverte.fr/creer-un-chroot-part-1-un-linux-de-base/">création d’une chroot</a> et le deuxième sur la <a href="http://www.barreverte.fr/creer-un-chroot-part-2-se-connecter/">connexion à cette chroot</a>), ça fonctionnait très bien, je m’en suis servi sur bon nombre de projets, en le faisant évoluer.</p>
+
+<p>Au début nous packagions la chroot en tgz pour la partager mais chaque fois qu’il y avait une modification il fallait tout repackager/redistribuer. On a changé d’approche en construisant une chroot minimale très stable, customisée directement sur le poste du developpeur avec puppet.</p>
+
+<p>Puis l’approche de puppet n’étant pas satisfaisante<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, nous sommes passés à Ansible.</p>
+
+<p>Puis la chroot nous a posé pas mal de soucis, notamment sur les changements de version d’Ubuntu (ok, on pourrait utiliser debian), donc on est passé sur docker (il faut dire aussi que, comme docker c’est plus hype, chez mon client les développeurs étaient plus intéressés pour tester docker).</p>
+
+<p>Comme vous pouvez le voir, ça a pas mal évolué, jusqu’à arriver à ce que je vais vous présenter maintenant.</p>
+
+<h2 id="le-principe-de-docker-ansible">Le principe de docker-ansible</h2>
+
+<ul>
+  <li>Utilise ansible pour construire une image docker custom
+    <ul>
+      <li>On joue avec les uid/gid d’un user pour permettre le lancement d’applis graphiques dans docker</li>
+      <li>On monte ‘/usr/bin/docker’ et ‘/var/run/docker.sock’ pour accéder à docker depuis le container</li>
+    </ul>
+  </li>
+  <li>Une fois l’image buildée, on la lance avec ansible
+    <ul>
+      <li>On monte par défaut tout <code class="language-plaintext highlighter-rouge">/home/developer</code> (c’est l’utilisateur dans le docker), ce qui permet de tout persister sur son poste et de pouvoir réinitialiser docker sans perdre de données</li>
+    </ul>
+  </li>
+  <li>Pour finir, on customise cette instance avec ansible</li>
+</ul>
+
+<h3 id="utilisation">Utilisation</h3>
+
+<ol>
+  <li>Forker <a href="https://github.com/agileek/docker-ansible">github.com/agileek/docker-ansible</a></li>
+  <li>Copier vars_example.yml vers vars.yml
+    <ul>
+      <li>Customiser vars.yml (vous pouvez même surcharger les variables dans <code class="language-plaintext highlighter-rouge">ansible/default_*.yml</code> à cet endroit)</li>
+    </ul>
+  </li>
+  <li>lancer <code class="language-plaintext highlighter-rouge">./launch.sh path_to_save_docker_home_folder</code></li>
+  <li>lancer <code class="language-plaintext highlighter-rouge">./enter.sh</code> pour rentrer dans le docker</li>
+</ol>
+
+<p>Résultat attendu :</p>
+
+<p>Vous êtes dans le container, dans le home de l’utilisateur developer, qui est sudoer et ne possède pas de mot de passe. Vous avez accès à votre docker parent (donc vous pouvez tuer votre propre docker, attention ;)). Tout ce que vous écrivez dans /home/developer se retrouve dans path_to_save_docker_home_folder avec les mêmes droits que votre utilisateur linux.</p>
+
+<h3 id="mise-à-jour-de-limage-docker">Mise à jour de l’image docker</h3>
+
+<ol>
+  <li>Modifier <code class="language-plaintext highlighter-rouge">ansible/customize_docker_container.yml</code>
+    <ul>
+      <li>Par exemple, vous pouvez rajouter <code class="language-plaintext highlighter-rouge">meld</code> pour tester qu’une application graphique fonctionne bien</li>
+    </ul>
+  </li>
+  <li>Relancer <code class="language-plaintext highlighter-rouge">./launch.sh path_to_save_docker_home_folder</code></li>
+  <li>Vérifier que ce que vous avez fait est effectif dans le container docker.</li>
+</ol>
+
+<h3 id="cycle-de-vie">Cycle de vie</h3>
+
+<p>Nous, nous avons, par projet, un repo git docker-ansible, qui contient tout un tas d’utilitaires (bash, git-prompt, serveur mysql avec bases et droits, serveur neo4j, l’IDE, des alias pour se connecter aux machines, alias git …) que chacun est libre de faire évoluer par un simple commit git. Il suffit pour récupérer les modifications de faire un git pull, puis de relancer le launch.sh (ça ne tue pas l’instance docker, donc c’est peu risqué, on peut continuer à travailler).</p>
+
+<h3 id="tips">Tips</h3>
+
+<p>La bonne approche, pour moi, est de ne pas figer le poste de développement à travers des process lourds, ou une sur-automatisation du poste. Par exemple dans le .bashrc il y a une partie qui essaie de sourcer <code class="language-plaintext highlighter-rouge">~/.bash_perso</code> et ce <code class="language-plaintext highlighter-rouge">bash_perso</code> n’est pas managé par ansible, ce qui permet à tout un chacun de personnaliser son poste. C’est quelque chose qu’il faut garder à l’esprit si on ne veut pas se retrouver avec quelque chose de très lourd à maintenir.</p>
+
+<p>Chez mon client actuel, au début nous clonions tous les projets git avec ansible, c’était très pratique mais très lourd, maintenant nous avons convenu d’un certain nombre de projets de bases, les autres sont clonés ‘à la mano’. Ça permet de ne pas se retrouver perdu quand on va binomer sur le poste du collègue. Après, testez, refactorez, expérimentez, allez-y, c’est vraiment fait pour ça et je pense que c’est vraiment pour ça que ça plait. Au final on est quand même capable de REFACTORER son poste de dev !</p>
+
+<h3 id="futur">Futur</h3>
+
+<p>Je voulais à la base mettre tous mes dotfiles directement dans ce projet, mais je me rends compte qu’il est plus intéressant de faire une version minimale et de laisser les membres de l’équipe apporter au fur et à mesure les outils qui leur font gagner du temps, permettant ainsi d’arriver à un poste de travail vraiment commun.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>c’est un avis très personnel, que je pourrais argumenter si besoin <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

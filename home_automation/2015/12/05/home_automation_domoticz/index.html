@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Raspberry Pi, RFXCom and Domoticz</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/home_automation/2015/12/05/home_automation_domoticz/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Raspberry Pi, RFXCom and Domoticz" />
+    <meta property="twitter:description" content="This begins a serie of home automation articles. First step I recommend to start with something easy. I tried a remote controllable wall socket a few years ago, and it really works very well. I use it to control 4..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="domoticz,docker,raspberryPi" />
+    <meta itemprop="description" content="This begins a serie of home automation articles. First step I recommend to start with something easy. I tried a remote controllable wall socket a few years ago, and it really works very well. I use it to control 4..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Raspberry Pi, RFXCom and Domoticz</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-12-05">Dec 5, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p>This begins a serie of home automation articles.</p>
+
+<h2 id="first-step">First step</h2>
+<p><img src="/images/posts/home_automation/yc-4000s.jpg" alt="phenix" class="float_image" />
+I recommend to start with something easy.</p>
+
+<p>I tried a remote controllable wall socket a few years ago, and it really works very well. I use it to control 4 lights area in my living room.</p>
+
+<p><strong><em>Now it’s time to take it to the next level!</em></strong></p>
+
+<h2 id="choose-wisely">Choose wisely</h2>
+
+<p>There are 2 main wireless protocols to communicate with your devices, 433.92 MHz and Z-wave.</p>
+
+<p>433.92 MHz is just the communication frequency, and every constructor implements its own protocol.</p>
+
+<p>There are a lot of devices you can find using 433.92 MHz, but if you want to control everything, you’ll need something generic.</p>
+
+<p>Here comes the <a href="http://www.rfxcom.com/en_GB">rfxcom</a>.</p>
+
+<blockquote>
+  <p>In the world of domotics you can order your equipment from a wide range of suppliers.</p>
+</blockquote>
+
+<p>It’s a usb device that receives and sends signals via 433.92 MHz.</p>
+
+<p>With that tool I needed a “home brain”, something that could control various stuff.</p>
+
+<p>After some digging (and advices from <a href="https://twitter.com/florianchauveau">Florian Chauveau</a>), I decided to use <a href="https://domoticz.com/">domoticz</a>.</p>
+
+<h2 id="glue-it-all-together">Glue it all together</h2>
+
+<h3 id="docker-on-raspberry-pi">Docker on raspberry pi</h3>
+
+<p><img src="/images/posts/home_automation/raspberry_pi_logo.svg" alt="raspberrypi" class="float_image" /></p>
+
+<p>I recommend to look at <a href="https://github.com/fchauveau/rpi-domoticz-docker">https://github.com/fchauveau/rpi-domoticz-docker</a>, everything is explained:</p>
+
+<ul>
+  <li>Setup an image on your sdcard with docker 32bits installed</li>
+  <li>Build the rpi-domoticz-docker image on your raspberry (optional if you pull it from the registry)</li>
+</ul>
+
+<h3 id="recipe">Recipe</h3>
+<p>Here is what I did</p>
+
+<ul>
+  <li>Download a docker ready image for your sdcard at <a href="http://blog.hypriot.com/downloads/">http://blog.hypriot.com/downloads/</a></li>
+  <li>Copy the image to the sdcard
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">sudo dd if=hypriot-rpi-20151103-224349.img of=/dev/mmcblk0 bs=1M</code></li>
+    </ul>
+  </li>
+  <li>Start your raspberry</li>
+  <li>Plug in the rfxcom</li>
+  <li>Connect to it via ssh (root/hypriot)</li>
+  <li>Get the latest rpi-domoticz-docker
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">docker pull agileek/rpi-domoticz-docker</code></li>
+    </ul>
+  </li>
+  <li>Launch it
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">docker run --device=/dev/ttyUSB0 -p 8080:8080 -d agileek/rpi-domoticz-docker</code>
+        <ul>
+          <li>Backup <code class="language-plaintext highlighter-rouge">-v /root/domoticz.db:/root/domoticz/domoticz.db</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Connect to domoticz http://mydomoticzserveraddress:8080</li>
+</ul>
+
+<p>Don’t forget to add the rfxcom to the hardware list and enjoy!</p>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

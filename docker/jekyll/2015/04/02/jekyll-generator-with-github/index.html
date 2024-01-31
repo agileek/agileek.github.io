@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Jekyll : ajouter des catégories à vos menus</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/docker/jekyll/2015/04/02/jekyll-generator-with-github/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Jekyll : ajouter des catégories à vos menus" />
+    <meta property="twitter:description" content="Jekyll Comme il y’a énormément de posts sur ce blog, j’ai eu envie de pouvoir lister les posts par catégories. Je me suis dis que c’était relativement facile, et au final j’y ai passé un moment avant de réussir à..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Jekyll Comme il y’a énormément de posts sur ce blog, j’ai eu envie de pouvoir lister les posts par catégories. Je me suis dis que c’était relativement facile, et au final j’y ai passé un moment avant de réussir à..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Jekyll : ajouter des catégories à vos menus</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-02">Apr 2, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="jekyll">Jekyll</h2>
+
+<p>Comme il y’a <strong><em>énormément</em></strong> de posts sur ce blog, j’ai eu envie de pouvoir lister les posts par catégories.</p>
+
+<p>Je me suis dis que c’était relativement facile, et au final j’y ai passé un moment avant de réussir à le faire fonctionner complètement avec githup pages.</p>
+
+<p>J’ai trouvé des resources un peu partout mais rien qui expliquait de bout en bout la manipulation, d’où le post.</p>
+
+<h3 id="le-générateur">Le générateur</h3>
+
+<p>Jekyll sert statiquement les pages, il n’y a donc pas la possibilité de récupérer les paramètres de l’url pour s’en servir.</p>
+
+<p>Par exemple, j’aurais aimé que <code class="language-plaintext highlighter-rouge">http://agileek.github.io/?category=docker</code> fonctionne.</p>
+
+<p>Ce n’est pas possible de le faire autrement que par javascript (ce qui implique de charger tous les posts côté client), ce que je ne trouve pas optimal.</p>
+
+<p>Si vous voulez le faire, jetez un oeil au <a href="https://github.com/danielsiwiec/danielsiwiec.github.io/commit/cf04dd322f5ffe2251ca6e3733d2707c2eaec7d4">commit</a> de <a href="https://github.com/danielsiwiec/">@danielsiwiec</a></p>
+
+<h4 id="côté-serveur">Côté serveur</h4>
+
+<p>Je me suis attaqué aux plugins de jekyll, plus précisément aux <a href="http://jekyllrb.com/docs/plugins/#generators">generators</a>.</p>
+
+<p>Je n’ai rien touché au code du générateur de catégories qui est dans la doc de jekyll:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Jekyll</span>
+
+  <span class="k">class</span> <span class="nc">CategoryPage</span> <span class="o">&lt;</span> <span class="no">Page</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">dir</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+      <span class="vi">@site</span> <span class="o">=</span> <span class="n">site</span>
+      <span class="vi">@base</span> <span class="o">=</span> <span class="n">base</span>
+      <span class="vi">@dir</span> <span class="o">=</span> <span class="n">dir</span>
+      <span class="vi">@name</span> <span class="o">=</span> <span class="s1">'index.html'</span>
+
+      <span class="nb">self</span><span class="p">.</span><span class="nf">process</span><span class="p">(</span><span class="vi">@name</span><span class="p">)</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nf">read_yaml</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s1">'_layouts'</span><span class="p">),</span> <span class="s1">'category_index.html'</span><span class="p">)</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nf">data</span><span class="p">[</span><span class="s1">'category'</span><span class="p">]</span> <span class="o">=</span> <span class="n">category</span>
+
+      <span class="n">category_title_prefix</span> <span class="o">=</span> <span class="n">site</span><span class="p">.</span><span class="nf">config</span><span class="p">[</span><span class="s1">'category_title_prefix'</span><span class="p">]</span> <span class="o">||</span> <span class="s1">'Category: '</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nf">data</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">category_title_prefix</span><span class="si">}#{</span><span class="n">category</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">class</span> <span class="nc">CategoryPageGenerator</span> <span class="o">&lt;</span> <span class="no">Generator</span>
+    <span class="n">safe</span> <span class="kp">true</span>
+
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">site</span><span class="p">.</span><span class="nf">layouts</span><span class="p">.</span><span class="nf">key?</span> <span class="s1">'category_index'</span>
+        <span class="n">dir</span> <span class="o">=</span> <span class="n">site</span><span class="p">.</span><span class="nf">config</span><span class="p">[</span><span class="s1">'category_dir'</span><span class="p">]</span> <span class="o">||</span> <span class="s1">'categories'</span>
+        <span class="n">site</span><span class="p">.</span><span class="nf">categories</span><span class="p">.</span><span class="nf">each_key</span> <span class="k">do</span> <span class="o">|</span><span class="n">category</span><span class="o">|</span>
+          <span class="n">site</span><span class="p">.</span><span class="nf">pages</span> <span class="o">&lt;&lt;</span> <span class="no">CategoryPage</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="nf">source</span><span class="p">,</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span> <span class="n">category</span><span class="p">),</span> <span class="n">category</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Par contre ce qu’ils n’expliquent pas (ou pas bien), c’est qu’il faut un fichier de template pour pouvoir générer toutes les pages de catégories.</p>
+
+<p>Voici le <a href="https://github.com/agileek/agileek.github.io/commit/14d1c8ffb3863fd5746cb28daefa5aee3f1bf99f">commit</a>, qui contient également la partie template web (le <code class="language-plaintext highlighter-rouge">category_index.html</code>).</p>
+
+<p>Et voilà, ça fonctionne parfaitement sur <strong><em>mon poste</em></strong>.</p>
+
+<h3 id="et-docker-dans-tout-ça">Et docker dans tout ça</h3>
+
+<p>Vous l’avez peut-être remarqué, mais il y’a le tag docker sur ce post, si vous vous demandez pourquoi, voilà la raison :</p>
+
+<p>Github ne permet pas d’exécuter les plugins jekyll (il le lance avec <code class="language-plaintext highlighter-rouge">--safe</code>) donc ce qui fonctionnait <strong><em>sur mon poste</em></strong> ne fonctionnait pas en ligne.</p>
+
+<p>Il me faut donc générer statiquement le blog et le commiter sur master “à la mano”.</p>
+
+<p>Comme je me sers déjà de docker pour <a href="http://agileek.github.io/docker/jekyll/2014/07/23/jekyll-and-docker/">tester mon site</a>, autant m’en servir pour le builder.</p>
+
+<p>Je me suis inspiré de <a href="http://nicoespeon.com/en/2013/04/building-a-multinlingual-jekyll-blog/">cet article</a>, surtout de son <a href="https://github.com/nicoespeon/nicoespeon.github.io/blob/develop/Makefile">makefile</a>, pour faire le <a href="https://github.com/agileek/agileek.github.io/blob/develop/Makefile">mien</a> :</p>
+
+<figure class="highlight"><pre><code class="language-make" data-lang="make"><span class="nv">JEKYLL</span> <span class="o">=</span> docker run <span class="nt">--rm</span> <span class="nt">-v</span> <span class="s2">"</span><span class="p">$(</span><span class="s2">shell pwd</span><span class="p">)</span><span class="s2">:/src"</span> <span class="nt">-p</span> 4000:4000 grahamc/jekyll
+<span class="nv">RUNNER</span> <span class="o">=</span> <span class="sb">`</span><span class="nb">whoami</span><span class="sb">`</span>
+<span class="nv">COMMIT</span> <span class="o">=</span> <span class="sb">`</span>git rev-parse <span class="nt">--short</span> HEAD<span class="sb">`</span>
+
+<span class="nl">test</span><span class="o">:</span>
+  <span class="err">@${JEKYLL}</span> <span class="err">serve</span> <span class="err">--watch</span> <span class="err">-H</span> <span class="err">0.0.0.0</span> <span class="err">--drafts</span>
+
+<span class="nl">deploy</span><span class="o">:</span>
+  <span class="err">@echo</span> <span class="s2">"Building site"</span>
+  <span class="err">@${JEKYLL}</span> <span class="err">build</span>
+  <span class="err">@git</span> <span class="err">checkout</span> <span class="err">master</span>
+  <span class="err">@sudo</span> <span class="err">chown</span> <span class="err">-R</span> <span class="err">${RUNNER}.</span> <span class="err">_site</span> <span class="err">&amp;&amp;</span> <span class="err">sudo</span> <span class="err">cp</span> <span class="err">-r</span> <span class="err">_site/*</span> <span class="err">.</span> <span class="err">&amp;&amp;</span> <span class="err">sudo</span> <span class="err">rm</span> <span class="err">-rf</span> <span class="err">_*/</span>
+  <span class="err">@git</span> <span class="err">add</span> <span class="err">--all</span> <span class="err">.</span> <span class="err">&amp;&amp;</span> <span class="err">git</span> <span class="err">commit</span> <span class="err">-m</span> <span class="s2">"Jekyll deployment from commit ${COMMIT}"</span>
+  <span class="err">@echo</span> <span class="s2">"You can now push master"</span>
+  <span class="err">@echo</span> <span class="s2">"Once everything is valid, git checkout develop &amp;&amp; sudo git clean -f -d"</span>
+  <span class="err">@python</span> <span class="err">-m</span> <span class="err">SimpleHTTPServer</span> <span class="err">4000</span></code></pre></figure>
+
+<p>Maintenant, je n’ai même plus besoin de me souvenir de la commande jekyll à taper, un simple <code class="language-plaintext highlighter-rouge">make test</code> suffit.</p>
+
+<p>Quand je suis satisfait du résultat, un <code class="language-plaintext highlighter-rouge">make deploy</code> suivi d’un <code class="language-plaintext highlighter-rouge">git push</code> de <code class="language-plaintext highlighter-rouge">master</code> et c’est en ligne.</p>
+
+<p>Du coup je me suis amusé à rajouter un <a href="http://agileek.github.io/archives/index.html">generateur d’archives</a> qui me classe les articles par années. Inutile, donc indispensable. Si ça vous intéresse, le commit est <a href="https://github.com/agileek/agileek.github.io/commit/5f60f98cac273ee53dc4b458a06ba9e668f054b7">là</a></p>
+
+<h3 id="edit-2015-04-03">Edit 2015-04-03</h3>
+<blockquote>
+  <p>Jean-Philippe m’a expliqué qu’il n’y avait pas besoin de générateur pour les archives, ce qui est beaucoup plus simple et plus propre.</p>
+</blockquote>
+
+<blockquote>
+  <p>Voici la <a href="https://github.com/barreverte/barreverte.github.io/blob/master/archive.html">page en question</a>. Je vous conseille de faire un tour sur leur <a href="http://www.barreverte.fr/">blog</a>, c’est fait par des anciens collègues que j’apprécie énormément.</p>
+</blockquote>
+
+<h2 id="résultat">Résultat</h2>
+
+<p>Maintenant, les images à droites des posts sur la page principale sont cliquables!!!!</p>
+
+<p>C’est pas magnifique ça? Non? Mince alors.</p>
+
+<h4 id="ps-">PS :</h4>
+<ul>
+  <li>Petit précision, ça peut fonctionner avec les ‘tags’ bien sûr</li>
+</ul>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

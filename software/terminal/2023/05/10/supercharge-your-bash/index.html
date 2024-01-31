@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Contextualize your bash</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/software/terminal/2023/05/10/supercharge-your-bash/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Contextualize your bash" />
+    <meta property="twitter:description" content="Why I’m Always Trying to Improve My Terminal Workflow I have been using terminal/tmux/bash for several years now, constantly striving to enhance my workflow. As a freelancer, I often juggle multiple heterogeneous projects simultaneously, which motivates me to streamline my..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="software,terminal,bash" />
+    <meta itemprop="description" content="Why I’m Always Trying to Improve My Terminal Workflow I have been using terminal/tmux/bash for several years now, constantly striving to enhance my workflow. As a freelancer, I often juggle multiple heterogeneous projects simultaneously, which motivates me to streamline my..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Contextualize your bash</h1>
+        <time class="meta" itemprop="datePublished" datetime="2023-05-10">May 10, 2023</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="why-im-always-trying-to-improve-my-terminal-workflow">Why I’m Always Trying to Improve My Terminal Workflow</h2>
+
+<p>I have been using terminal/tmux/bash for several years now, constantly striving to enhance my workflow. As a freelancer, I often juggle multiple heterogeneous projects simultaneously, which motivates me to streamline my approach. I have automated my laptop setup entirely using Ansible, assigning a unique “role” to each project.</p>
+
+<p>Within each role, I had a bashrc file that I used to <a href="https://waxzce.medium.com/use-bashrc-d-directory-instead-of-bloated-bashrc-50204d5389ff">source globally</a>.</p>
+
+<p>However, a major challenge I face is the inability to reuse the same alias across different projects. Consequently, I resorted to prefixing everything. For instance, when working on Camino, I had to create an alias called “camino_pr” for generating pull requests. This approach has its drawbacks, such as the alias “camino_pr” being available everywhere but only usable in certain directories.</p>
+
+<p>Therefore, I explored various solutions to load specific .bashrc files based on my current working directory. Here are some existing options I found:</p>
+
+<ul>
+  <li><a href="https://direnv.net/">Direnv</a>: It allows loading environment variables only.</li>
+  <li><a href="https://github.com/alecthomas/ondir">Ondir</a>: This tool relies on a single ~/.ondirrc file, making it difficult to manage with multiple heterogeneous projects.</li>
+  <li><a href="https://github.com/Tarrasch/zsh-autoenv">ZSH Autoenv</a>: Unfortunately, it is designed exclusively for zsh users.</li>
+  <li><a href="https://github.com/cxreg/smartcd">Smartcd</a>: This tool aligns with my requirements, but I prefer a more bash-based approach.</li>
+</ul>
+
+<h2 id="hacking-cd-to-achieve-my-goal">Hacking CD to Achieve My Goal</h2>
+
+<p>My requirement is simple: I want to automatically source one or more files when I enter a directory.</p>
+
+<p>One potential solution is to hook the cd command, so that every time I use <code class="language-plaintext highlighter-rouge">cd</code> it executes a bash function.</p>
+
+<p>For example, consider the following bash function:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function </span><span class="nb">cd</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nb">builtin cd</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+  <span class="nb">echo</span> <span class="s2">"Moving to </span><span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span><span class="s2">"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This function will print the new path every time I switch to a different directory.</p>
+
+<p>In the end, what I aim for is to source any <code class="language-plaintext highlighter-rouge">.my_bash_file</code> encountered along my current path.</p>
+
+<p>After some experimentation, I arrived at the following implementation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">function </span><span class="nb">cd</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nb">builtin cd</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+  <span class="nb">local </span><span class="nv">x</span><span class="o">=</span><span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>
+  <span class="nb">local </span><span class="nv">bash_files_to_source</span><span class="o">=()</span>
+
+  <span class="k">while</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$x</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"/"</span> <span class="o">]</span><span class="p">;</span> <span class="k">do
+    if</span> <span class="o">[</span> <span class="nt">-f</span> <span class="s2">"</span><span class="k">${</span><span class="nv">x</span><span class="k">}</span><span class="s2">/.my_bash_file"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span>bash_files_to_source+<span class="o">=(</span><span class="s2">"</span><span class="k">${</span><span class="nv">x</span><span class="k">}</span><span class="s2">/.my_bash_file"</span><span class="o">)</span>
+    <span class="k">fi
+    </span><span class="nv">x</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$x</span><span class="s2">"</span><span class="si">)</span>
+  <span class="k">done
+
+  </span><span class="nb">local </span><span class="nv">current_index</span><span class="o">=</span><span class="k">$((</span> <span class="k">${#</span><span class="nv">bash_files_to_source</span><span class="p">[@]</span><span class="k">}</span> <span class="o">-</span> <span class="m">1</span> <span class="k">))</span>
+  <span class="k">while</span> <span class="o">[[</span> current_index <span class="nt">-gt</span> <span class="nt">-1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">local </span><span class="nv">bash_file_to_source</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">bash_files_to_source</span><span class="p">[</span><span class="nv">$current_index</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"Sourcing </span><span class="k">${</span><span class="nv">bash_file_to_source</span><span class="k">}</span><span class="s2">"</span>
+    <span class="nb">source</span> <span class="s2">"</span><span class="k">${</span><span class="nv">bash_file_to_source</span><span class="k">}</span><span class="s2">"</span>
+    <span class="o">((</span>current_index--<span class="o">))</span>
+  <span class="k">done</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>I added this code to my <code class="language-plaintext highlighter-rouge">.bashrc</code>, along with a <code class="language-plaintext highlighter-rouge">cd .</code> command at the end to activate it when I open a new tmux pane, for example.</p>
+
+<h2 id="enhanced-usage">Enhanced Usage</h2>
+
+<p>This approach provides significant flexibility. Now, I have a consistent pr command available in every project I work on. Sometimes, it is aliased to gh pr create, other times it might be a custom Python command or any other tool used by the team I collaborate with.</p>
+
+<p>Moreover, I have even automated the retrieval of secrets from my keepassxc instance when entering specific folders. As a result, most of my secrets are no longer stored physically on my machine. (I will likely write another blog post to discuss secret service integration in detail.)</p>
+
+<h2 id="todo">TODO</h2>
+
+<ul>
+  <li>Unsource stuff when I move out</li>
+  <li>Secure what I can source or not?</li>
+</ul>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

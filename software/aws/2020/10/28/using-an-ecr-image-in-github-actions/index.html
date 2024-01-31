@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Using an AWS ECR image as a Github Action container</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/software/aws/2020/10/28/using-an-ecr-image-in-github-actions/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Using an AWS ECR image as a Github Action container" />
+    <meta property="twitter:description" content="Moving from Docker Hub to ECR Pubstack, my current client decided to migrate all its docker images to ECR. With the recent announcement about rate limiting on Docker Hub, maybe we will not be the only ones moving away. For..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="software,aws,cloud" />
+    <meta itemprop="description" content="Moving from Docker Hub to ECR Pubstack, my current client decided to migrate all its docker images to ECR. With the recent announcement about rate limiting on Docker Hub, maybe we will not be the only ones moving away. For..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Using an AWS ECR image as a Github Action container</h1>
+        <time class="meta" itemprop="datePublished" datetime="2020-10-28">Oct 28, 2020</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="moving-from-docker-hub-to-ecr">Moving from Docker Hub to ECR</h2>
+
+<p><a href="https://pubstack.io/">Pubstack</a>, my current client decided to migrate all its docker images to <a href="https://aws.amazon.com/ecr/">ECR</a>.</p>
+
+<p>With the recent <a href="https://www.docker.com/pricing/resource-consumption-updates">announcement</a> about rate limiting on Docker Hub, maybe we will not be the only ones moving away.</p>
+
+<p>For our <strong>CI/CD</strong> pipelines we use both <a href="https://circleci.com/">CircleCI</a> and <a href="https://github.com/features/actions">GitHub Actions</a>.</p>
+
+<p>Using an <strong>ECR</strong> image is a really simple task in <strong>CircleCI</strong>, it consists of adding the <code class="language-plaintext highlighter-rouge">aws_auth</code> to the image configuration.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">docker</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">image</span><span class="pi">:</span> <span class="s">ACCOUNT.dkr.ecr.REGION.amazonaws.com/IMAGE:VERSION</span>
+      <span class="na">aws_auth</span><span class="pi">:</span>
+        <span class="na">aws_access_key_id</span><span class="pi">:</span> <span class="s">$AWS_ACCESS_KEY_ID</span>
+        <span class="na">aws_secret_access_key</span><span class="pi">:</span> <span class="s">$AWS_SECRET_ACCESS_KEY</span>
+</code></pre></div></div>
+
+<p>On the other hand, using <strong>ECR</strong> images in <strong>GitHub Actions</strong> was a bit more tricky.</p>
+
+<p>The problem is, you could only use images from private registries in job and service containers since <a href="https://github.blog/changelog/2020-09-24-github-actions-private-registry-support-for-job-and-service-containers/">late september</a>, and they only did the “credentials” implementation.
+It means something like this is expected:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">test</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">container</span><span class="pi">:</span>
+      <span class="na">image</span><span class="pi">:</span> <span class="s">ACCOUNT.dkr.ecr.REGION.amazonaws.com/IMAGE:VERSION</span>
+      <span class="na">credentials</span><span class="pi">:</span>
+        <span class="na">username</span><span class="pi">:</span> <span class="s">AWS</span>
+        <span class="na">password</span><span class="pi">:</span> <span class="s">${{ secrets.ECR_PASSWORD }}</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">echo "inside an ecr container"</span>
+</code></pre></div></div>
+
+<p>With aws, you can get a password with <code class="language-plaintext highlighter-rouge">aws ecr get-login-password</code>, and it is valid 12 hours.</p>
+
+<p>You can manually set the GitGub secret “ECR_PASSWORD” every 12 hours, but that’s not really convenient.</p>
+
+<p>After a little digging, I found an <a href="https://github.community/t/github-actions-new-pulling-from-private-docker-repositories/16089/28">answer</a> on a GitHub community thread explaining what seems like a good solution.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
+
+<p>Basically what we will do is:</p>
+
+<ol>
+  <li>Retrieve <strong>ECR</strong> password from aws</li>
+  <li>Store it as a <strong>GitHub</strong> secret name <code class="language-plaintext highlighter-rouge">ECR_PASSWORD</code></li>
+</ol>
+
+<p>All that inside a <strong>GitHub</strong> action scheduled to run every 6 hours.</p>
+
+<p>It was not really as simple as I first thought, so here is all I had to do.
+I hope it can help you.</p>
+
+<p>First, I created some aws credentials (ie. a couple <code class="language-plaintext highlighter-rouge">aws_access_key_id</code> and <code class="language-plaintext highlighter-rouge">aws_secret_access_key</code> with enough right to pull from ECR)
+I put them as secrets inside the <strong>GitHub</strong> project, let’s call them <code class="language-plaintext highlighter-rouge">AWS_ACCESS_KEY_ID</code> and <code class="language-plaintext highlighter-rouge">AWS_SECRET_ACCESS_KEY</code>.
+Then I generated a personal access token (the “provided by default” <code class="language-plaintext highlighter-rouge">GITHUB_TOKEN</code> doest not have sufficient rights), let’s call it <code class="language-plaintext highlighter-rouge">GH_API_ACCESS_TOKEN</code>.</p>
+
+<p>The complete <strong>GitHub</strong> workflow:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">ecr-login</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="c1"># Every 6 hours, the password validity is 12 hours</span>
+  <span class="na">schedule</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span>  <span class="s1">'</span><span class="s">0</span><span class="nv"> </span><span class="s">*/6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">login</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">AWS cli install action</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">chrislennon/action-aws-cli@1.1</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">retrieve ecr password and store as secret</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">pip3 install -r .github/requirements.txt</span>
+          <span class="s">python3 .github/ecr_password_updater.py</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">AWS_ACCESS_KEY_ID</span><span class="pi">:</span> <span class="s">${{ secrets.AWS_ACCESS_KEY_ID }}</span>
+          <span class="na">AWS_SECRET_ACCESS_KEY</span><span class="pi">:</span> <span class="s">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span>
+          <span class="na">AWS_DEFAULT_REGION</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
+          <span class="na">GH_API_ACCESS_TOKEN</span><span class="pi">:</span> <span class="s">${{ secrets.GH_API_ACCESS_TOKEN }}</span>
+  <span class="c1"># This 'test' job is usefull for fast debugging</span>
+  <span class="na">test</span><span class="pi">:</span>
+    <span class="na">needs</span><span class="pi">:</span> <span class="s">login</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">container</span><span class="pi">:</span>
+      <span class="na">image</span><span class="pi">:</span> <span class="s">ACCOUNT.dkr.ecr.REGION.amazonaws.com/IMAGE:VERSION</span>
+      <span class="na">credentials</span><span class="pi">:</span>
+        <span class="na">username</span><span class="pi">:</span> <span class="s">AWS</span>
+        <span class="c1"># Here is the password retrieved as a secret that is set by the `login` job</span>
+        <span class="na">password</span><span class="pi">:</span> <span class="s">${{ secrets.ECR_PASSWORD }}</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">echo "Inside a container pulled from ECR \o/"</span>
+</code></pre></div></div>
+
+<p>The python file <code class="language-plaintext highlighter-rouge">ecr_password_updater.py</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># From https://github.community/t/github-actions-new-pulling-from-private-docker-repositories/16089/28
+# The goal is to retrieve the ecr password every 6 hours and put it as a secret
+</span><span class="kn">from</span> <span class="n">base64</span> <span class="kn">import</span> <span class="n">b64encode</span><span class="p">,</span> <span class="n">b64decode</span>
+<span class="kn">from</span> <span class="n">nacl</span> <span class="kn">import</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">public</span>
+<span class="kn">import</span> <span class="n">requests</span>
+<span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">json</span>
+<span class="kn">import</span> <span class="n">boto3</span>
+
+
+<span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">raw_public_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">secret_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="s">"""Encrypt a Unicode string using the public key."""</span>
+    <span class="n">public_key</span> <span class="o">=</span> <span class="n">public</span><span class="p">.</span><span class="nc">PublicKey</span><span class="p">(</span><span class="n">raw_public_key</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s">"utf-8"</span><span class="p">),</span> <span class="n">encoding</span><span class="p">.</span><span class="nc">Base64Encoder</span><span class="p">())</span>
+    <span class="n">sealed_box</span> <span class="o">=</span> <span class="n">public</span><span class="p">.</span><span class="nc">SealedBox</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+    <span class="n">encrypted</span> <span class="o">=</span> <span class="n">sealed_box</span><span class="p">.</span><span class="nf">encrypt</span><span class="p">(</span><span class="n">secret_value</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s">"utf-8"</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nf">b64encode</span><span class="p">(</span><span class="n">encrypted</span><span class="p">).</span><span class="nf">decode</span><span class="p">(</span><span class="s">"utf-8"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_ecr_password</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="s">"""Retrieve ECR password, it comes b64 encoded, in the format user:password
+       From https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecr.html#ECR.Client.get_authorization_token
+    """</span>
+    <span class="n">ecr</span> <span class="o">=</span> <span class="n">boto3</span><span class="p">.</span><span class="nf">client</span><span class="p">(</span><span class="s">'ecr'</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">ecr</span><span class="p">.</span><span class="nf">get_authorization_token</span><span class="p">()</span>
+    <span class="n">encoded_login_password</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s">'authorizationData'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'authorizationToken'</span><span class="p">]</span>
+
+    <span class="n">decoded_login_password</span> <span class="o">=</span> <span class="nf">b64decode</span><span class="p">(</span><span class="n">encoded_login_password</span><span class="p">).</span><span class="nf">decode</span><span class="p">(</span><span class="s">'UTF-8'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decoded_login_password</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s">':'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+
+    <span class="n">get_public_key</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s">'https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/public-key'</span><span class="p">,</span>
+                                  <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/vnd.github.v3+json'</span><span class="p">,</span>
+                                           <span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'token '</span> <span class="o">+</span> <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'GH_API_ACCESS_TOKEN'</span><span class="p">]})</span>
+    <span class="k">if</span> <span class="n">get_public_key</span><span class="p">.</span><span class="n">ok</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">'could not retrieve public key'</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">get_public_key</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">get_public_key_response</span> <span class="o">=</span> <span class="n">get_public_key</span><span class="p">.</span><span class="nf">json</span><span class="p">()</span>
+    <span class="n">public_key_value</span> <span class="o">=</span> <span class="n">get_public_key_response</span><span class="p">[</span><span class="s">'key'</span><span class="p">]</span>
+    <span class="n">public_key_id</span> <span class="o">=</span> <span class="n">get_public_key_response</span><span class="p">[</span><span class="s">'key_id'</span><span class="p">]</span>
+
+    <span class="n">password</span> <span class="o">=</span> <span class="nf">get_ecr_password</span><span class="p">()</span>
+    <span class="n">encrypted_password</span> <span class="o">=</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">public_key_value</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="n">update_password</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="nf">put</span><span class="p">(</span><span class="s">'https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/ECR_PASSWORD'</span><span class="p">,</span>
+                                   <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/vnd.github.v3+json'</span><span class="p">,</span>
+                                            <span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'token '</span> <span class="o">+</span> <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'GH_API_ACCESS_TOKEN'</span><span class="p">]},</span>
+                                   <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="p">.</span><span class="nf">dumps</span><span class="p">({</span><span class="s">'encrypted_value'</span><span class="p">:</span> <span class="n">encrypted_password</span><span class="p">,</span> <span class="s">'key_id'</span><span class="p">:</span> <span class="n">public_key_id</span><span class="p">,</span>
+                                                    <span class="s">'visibility'</span><span class="p">:</span> <span class="s">'all'</span><span class="p">}))</span>
+    <span class="k">if</span> <span class="n">update_password</span><span class="p">.</span><span class="n">ok</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">'could not update password'</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">update_password</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>The dependencies used by the python code:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pynacl==1.4.0
+requests==2.25.1
+boto3==1.17.107
+</code></pre></div></div>
+
+<p>I first started with a simple bash script, but it became quite complex<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>, so I switched to python.</p>
+
+<p>Enjoy!</p>
+
+<h3 id="edit-2021-07-09">Edit 2021-07-09</h3>
+
+<p>Thanks to Alex Pavlenko, I switched from using the aws cli to boto3. Python all the way!</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>ok, maybe not good, but at least it works <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>you need to encrypt the password, and you need the public key id of the repository when you put the encrypted secret. I often start with bash, if it’s simple enough I keep it, if not I switch to python. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Docker Tips #2: Limit the layers</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/docker/2015/04/11/docker-layers/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Docker Tips #2: Limit the layers" />
+    <meta property="twitter:description" content="Scenario I want to transfer efficiently my images to the production machines. Given My Dockerfile with android sdk ADD http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz /opt/android-sdk.tgz RUN tar xzf /opt/android-sdk.tgz -C /opt/ RUN rm -f /opt/android-sdk.tgz built with docker build -t docker_layers . When I..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Scenario I want to transfer efficiently my images to the production machines. Given My Dockerfile with android sdk ADD http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz /opt/android-sdk.tgz RUN tar xzf /opt/android-sdk.tgz -C /opt/ RUN rm -f /opt/android-sdk.tgz built with docker build -t docker_layers . When I..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Docker Tips #2: Limit the layers</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-11">Apr 11, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="scenario">Scenario</h2>
+
+<p>I want to transfer <strong><em>efficiently</em></strong> my images to the production machines.</p>
+
+<h3 id="given">Given</h3>
+<p>My Dockerfile with android sdk</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">ADD</span><span class="s"> http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz /opt/android-sdk.tgz</span>
+<span class="k">RUN </span><span class="nb">tar </span>xzf /opt/android-sdk.tgz <span class="nt">-C</span> /opt/
+<span class="k">RUN </span><span class="nb">rm</span> <span class="nt">-f</span> /opt/android-sdk.tgz</code></pre></figure>
+
+<p>built with <code class="language-plaintext highlighter-rouge">docker build -t docker_layers .</code></p>
+
+<h3 id="when">When</h3>
+<p>I want to push it to the registry</p>
+
+<h3 id="then">Then</h3>
+
+<p>It will push 3 layers:</p>
+
+<ul>
+  <li>the first is the android tgz pushed into /opt</li>
+  <li>the second is the <strong><em>extracted</em></strong> sdk into the /opt directory</li>
+  <li>the last one is the deletion of the tgz</li>
+</ul>
+
+<p>This is really not optimal, the first and third layer are useless. Worst, they use space on your filesystems, on your network when you pull/push, …</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>It is a good practice to merge common operations into one single docker command.</p>
+
+<p>For this example it would be:</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">RUN </span><span class="nb">cd</span> /opt <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    wget <span class="nt">--output-document</span><span class="o">=</span>android-sdk.tgz <span class="nt">--quiet</span> http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    <span class="nb">tar </span>xzf android-sdk.tgz <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    <span class="nb">rm</span> <span class="nt">-f</span> android-sdk.tgz</code></pre></figure>
+
+<p>In that way you only have one layer commited, and it contains only the needed android sdk extracted.</p>
+
+<h3 id="caveats">Caveats</h3>
+
+<p>There is one drawback with this particular approach: You lose the capacities of the <code class="language-plaintext highlighter-rouge">ADD</code> syntax.</p>
+
+<p>If you build the first Dockerfile, you will notice that each time the tgz is downloaded. Docker then verifies that the file hasn’t changed and if not, uses the cached image.</p>
+
+<p>That means that if the tgz changes, there will be a new build, whereas with the one-line approach, it will not, because docker will just verify that the command hasn’t changed, not the content downloaded by the wget.</p>
+
+<h2 id="templates">Templates</h2>
+
+<p>The general approach is :</p>
+
+<ul>
+  <li>Prepare what you want to do</li>
+  <li>Do it</li>
+  <li>Clean everything that is not necessary</li>
+</ul>
+
+<p>The example with the android sdk works for all archives that must be extracted.</p>
+
+<p>Below are templates from our experience that we think doesn’t alter readability while reducing the layers and the size of the docker image.</p>
+
+<h3 id="apt">APT</h3>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span>  <span class="se">\
+</span>    apt-get <span class="nb">install</span> <span class="nt">-y</span> whatever <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    apt-get clean <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    apt-get autoclean <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span> /tmp/<span class="k">*</span> /var/tmp/<span class="k">*</span></code></pre></figure>
+
+<h3 id="yum">Yum</h3>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">RUN </span>yum <span class="nt">-y</span> update <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    yum <span class="nt">-y</span> <span class="nb">install </span>whatever <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    yum clean all</code></pre></figure>
+
+<h3 id="an-other-very-important-thing-is-to-keep-your-dockerfile-readable">An other <strong><em>very</em></strong> important thing is to keep your Dockerfile <strong><em>readable</em></strong></h3>
+
+<p>This example is, in my opinion, a bad one.</p>
+
+<noscript><pre>ENV PHANTOM_JS_TAG 2.0.0
+
+RUN \
+  echo &quot;deb http://ppa.launchpad.net/git-core/ppa/ubuntu $(lsb_release -cs) main&quot; \
+    | tee /etc/apt/sources.list.d/git.list &amp;&amp; \
+  DEBIAN_FRONTEND=noniteractive \
+    apt-key adv --keyserver hkp://hkps.pool.sks-keyservers.net --recv-keys E1DF1F24 &amp;&amp; \
+  apt-get update &amp;&amp; \
+  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y --no-install-recommends install git &amp;&amp; \
+  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install \
+      libfontconfig1 \
+      libjpeg8 \
+      libicu52 \
+  &amp;&amp; \
+  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install \
+      build-essential \
+      g++ flex bison gperf ruby perl python \
+      libsqlite3-dev libfontconfig1-dev libicu-dev \
+      libfreetype6 libssl-dev libpng-dev libjpeg-dev \
+# Note: It is recommend also to install ttf-mscorefonts-installer package.
+# (http://phantomjs.org/build.html)
+#      ttf-mscorefonts-installer \
+  &amp;&amp; \
+  git clone https://github.com/ariya/phantomjs.git /tmp/phantomjs &amp;&amp; \
+  cd /tmp/phantomjs &amp;&amp; \
+  git checkout ${PHANTOM_JS_TAG} &amp;&amp; \
+  ./build.sh --confirm &amp;&amp; \
+  mv bin/phantomjs /usr/local/bin &amp;&amp; \
+  rm -rf /tmp/phantomjs \
+  &amp;&amp; \
+  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y purge \
+      build-essential \
+      g++ flex bison gperf ruby perl python \
+      libsqlite3-dev libfontconfig1-dev libicu-dev \
+      libfreetype6 libssl-dev libpng-dev libjpeg-dev \
+  &amp;&amp; \
+  DEBIAN_FRONTEND=noninteractive \
+    apt-get autoremove --purge -y &amp;&amp; \
+  apt-get clean &amp;&amp; \
+  rm -rf /var/lib/apt/lists/*</pre></noscript>
+<script src="https://gist.github.com/MichaelBitard/7bd7bc71385326ab3238.js?file=Dockerfile"> </script>
+
+<blockquote>
+  <p>Yes, it’s only one docker RUN command</p>
+</blockquote>
+
+<h4 id="ps">PS</h4>
+
+<ul>
+  <li>If you know other tips to reduce the number of layers without losing readability, feel free to post a comment, I’ll gladly add them here.</li>
+</ul>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

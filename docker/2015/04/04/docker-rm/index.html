@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Docker Tips #1: Beware the 'rm'</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/docker/2015/04/04/docker-rm/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Docker Tips #1: Beware the 'rm'" />
+    <meta property="twitter:description" content="This begins a serie of docker tips. Scenario I want to remove a container from my host Given My very simple Dockerfile FROM phusion/baseimage:0.9.16 RUN echo useless command VOLUME ["/data"] built with docker build -t test . Given A container..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="This begins a serie of docker tips. Scenario I want to remove a container from my host Given My very simple Dockerfile FROM phusion/baseimage:0.9.16 RUN echo useless command VOLUME ["/data"] built with docker build -t test . Given A container..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Docker Tips #1: Beware the 'rm'</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-04">Apr 4, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p>This begins a serie of docker tips.</p>
+
+<h2 id="scenario">Scenario</h2>
+
+<p>I want to remove a container from my host</p>
+
+<h3 id="given">Given</h3>
+<p>My very simple Dockerfile</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> phusion/baseimage:0.9.16</span>
+<span class="k">RUN </span><span class="nb">echo </span>useless <span class="nb">command</span>
+<span class="k">VOLUME</span><span class="s"> ["/data"]</span></code></pre></figure>
+
+<p>built with <code class="language-plaintext highlighter-rouge">docker build -t test .</code></p>
+
+<h3 id="given-1">Given</h3>
+<p>A container based on this image started with</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">--name</span> test_container <span class="nt">-ti</span> <span class="nb">test</span> /bin/dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/data/agileek_test.file <span class="nv">count</span><span class="o">=</span>102400 <span class="nv">bs</span><span class="o">=</span>1024</code></pre></figure>
+
+<h3 id="when">When</h3>
+<p>I remove it: <code class="language-plaintext highlighter-rouge">docker rm test_container</code></p>
+
+<h3 id="then">Then</h3>
+<p>I expect to have everything <strong><em>deleted</em></strong>, right? <strong><em>Wrong</em></strong></p>
+
+<h2 id="explanations">Explanations</h2>
+
+<p>If you look at <code class="language-plaintext highlighter-rouge">/var/lib/docker/vfs/dir/</code> you will have something like that</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/var/lib/docker/vfs/dir
+├── 1fe7caeb0d0d70e199e529fc006713d79078dceff821bf4f9d0a9c52b7c16b63
+├── 6dd51767e69d10859f605795d93fe1d0b2a3b8113ed05fffc2e7941f2d5546d3
+│   └── agileek_test.file
+├── 72ba5f35eb914871fab207d174c90668cf15979fa42a9e1a175febf257efba26</code></pre></figure>
+
+<p>As you can see, the agileek_test.file is still here, without attached container, like a ghost folder on your system.</p>
+
+<h3 id="the-volume-command">The Volume command</h3>
+<p>The fact that I specified <code class="language-plaintext highlighter-rouge">VOLUME ["/data"]</code> in my Dockerfile tells docker to treat this folder differently.</p>
+
+<p>Almost every time when you use the VOLUME command, later when you run it, you mount this volume (on the host, or linked to another container) with <code class="language-plaintext highlighter-rouge">-v</code></p>
+
+<p>But when you forgot to do this, docker automatically creates a folder in a Virtual File System (on ubuntu, /var/lib/docker/vfs) and doesn’t delete it, even when you remove your container.</p>
+
+<p>You can see with <code class="language-plaintext highlighter-rouge">docker inspect test_container</code> which folder has been created</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="nl">"Volumes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+	</span><span class="nl">"/data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/var/lib/docker/vfs/dir/6dd51767e69d10859f605795d93fe1d0b2a3b8113ed05fffc2e7941f2d5546d3"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>but once you delete it, you’ve lost the information and this folder is “lost”</p>
+
+<h3 id="what-can-i-do-">What can I do ?</h3>
+
+<p>The best practice is of course to always mount the folder that you declared with VOLUME in your Dockerfile.</p>
+
+<p>The other good practice is to <strong><em>Read The Manual</em></strong> (Of course, I didn’t do it) because:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>docker <span class="nb">rm</span> <span class="nt">--help</span>
+
+Usage: docker <span class="nb">rm</span> <span class="o">[</span>OPTIONS] CONTAINER <span class="o">[</span>CONTAINER...]
+
+Remove one or more containers
+
+  <span class="nt">-f</span>, <span class="nt">--force</span><span class="o">=</span><span class="nb">false      </span>Force the removal of a running container <span class="o">(</span>uses SIGKILL<span class="o">)</span>
+  <span class="nt">--help</span><span class="o">=</span><span class="nb">false           </span>Print usage
+  <span class="nt">-l</span>, <span class="nt">--link</span><span class="o">=</span><span class="nb">false       </span>Remove the specified <span class="nb">link </span>and not the underlying container
+  <span class="nt">-v</span>, <span class="nt">--volumes</span><span class="o">=</span><span class="nb">false    </span>Remove the volumes associated with the container</code></pre></figure>
+
+<p>there is a <strong><em>-v</em></strong> option that Remove the volumes associated with the container</p>
+
+<p>I really wished I found this before our server went full.</p>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

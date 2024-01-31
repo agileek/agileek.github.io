@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Maven 3.3.1: La mort du pom.xml</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/java/2015/04/03/maven-polyglot/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Maven 3.3.1: La mort du pom.xml" />
+    <meta property="twitter:description" content="Maven Haaaa, maven, le seul, l’unique. On l’a tous détesté pour plein de raisons, que ce soit : son fonctionnement ‘convention over configuration’ sa lenteur sa capacité à télécharger la terre entière son cycle de vie limité. Sans oublier sa..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Maven Haaaa, maven, le seul, l’unique. On l’a tous détesté pour plein de raisons, que ce soit : son fonctionnement ‘convention over configuration’ sa lenteur sa capacité à télécharger la terre entière son cycle de vie limité. Sans oublier sa..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Maven 3.3.1: La mort du pom.xml</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-03">Apr 3, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p><img src="/images/posts/maven/maven_logo.png" alt="Maven" class="float_image" /></p>
+
+<h2 id="maven">Maven</h2>
+
+<p>Haaaa, maven, le seul, l’unique. On l’a tous détesté pour plein de raisons, que ce soit :</p>
+
+<ul>
+  <li>son fonctionnement ‘convention over configuration’</li>
+  <li>sa lenteur</li>
+  <li>sa capacité à télécharger la terre entière</li>
+  <li>son cycle de vie limité.</li>
+</ul>
+
+<p>Sans oublier sa syntaxe ultra verbeuse en <strong><em>XML</em></strong>.</p>
+
+<h3 id="le-constat">Le constat</h3>
+
+<p>Petit rappel qui pique les yeux : voici comment déclarer <strong><em>UNE</em></strong> dépendance dans son pom :</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>net.code-story<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>http<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2.83<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<p>Ça fait quand même <strong><em>6</em></strong> lignes pour <strong><em>1</em></strong> dépendance, soyons réalistes, c’est juste ignoble…</p>
+
+<h3 id="polyglot">Polyglot</h3>
+<p>Annoncé il y’a très longtemps (j’en ai entendu parler en 2012, il y avait quelques articles prometteurs), maven-polyglot avait pour but de rajouter le support de plusieurs langages dans les pom. Ça a été complètement abandonné et toutes les resources ont <a href="http://stackoverflow.com/questions/11170057/what-happened-to-maven-polyglot">disparues du net</a>.</p>
+
+<p>C’est récemment revenu au goût du jour avec Maven 3.3.1 (17 mars 2015) et l’arrivée du “Core Extension Mechanism” amélioré. Maintenant, pour modifier le coeur de maven (ok, je simplifie), il “suffit” de rajouter à la base de son projet maven <code class="language-plaintext highlighter-rouge">.mvn/extensions.xml</code></p>
+
+<h3 id="concrètement-ça-ressemble-à-quoi-">Concrètement, ça ressemble à quoi ?</h3>
+
+<p>À ça :</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;extensions&gt;</span>
+  <span class="nt">&lt;extension&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>io.takari.polyglot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>polyglot-yaml<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.1.7<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/extension&gt;</span>
+<span class="nt">&lt;/extensions&gt;</span></code></pre></figure>
+
+<blockquote>
+  <p>Vous remarquerez que pour le moment on s’est pas trop débarrassé du XML, on en a même rajouté…</p>
+</blockquote>
+
+<h3 id="il-sest-passé-quoi-">Il s’est passé quoi ?</h3>
+<p>Concrètement, vous venez de rajouter le support de lecture des pom.yml et pom.yaml. <strong><em>C’est pas énorme ça ?</em></strong></p>
+
+<p>Ensuite, Vous pouvez convertir votre <code class="language-plaintext highlighter-rouge">pom.xml</code> grâce à un plugin via cette commande :</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"> <span class="n">mvn</span> <span class="n">io</span><span class="o">.</span><span class="na">takari</span><span class="o">.</span><span class="na">polyglot</span><span class="o">:</span><span class="n">polyglot</span><span class="o">-</span><span class="n">translate</span><span class="o">-</span><span class="nl">plugin:</span><span class="n">translate</span> <span class="o">-</span><span class="nc">Dinput</span><span class="o">=</span><span class="n">pom</span><span class="o">.</span><span class="na">xml</span> <span class="o">-</span><span class="nc">Doutput</span><span class="o">=</span><span class="n">pom</span><span class="o">.</span><span class="na">yml</span></code></pre></figure>
+
+<p>Et voilà, vous pouvez vous débarrasser du pom.xml et lancer <code class="language-plaintext highlighter-rouge">mvn clean install</code>. Vérifier que tout fonctionne comme avant quand même, on ne sait jamais.</p>
+
+<p>Pour le plaisir des yeux, voici la même dépendance en yaml</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="pi">-</span> <span class="pi">{</span><span class="nv">groupId</span><span class="pi">:</span> <span class="nv">net.code-story</span><span class="pi">,</span> <span class="nv">artifactId</span><span class="pi">:</span> <span class="nv">http</span><span class="pi">,</span> <span class="nv">version</span><span class="pi">:</span> <span class="nv">2.9.1</span><span class="pi">}</span></code></pre></figure>
+
+<p>Je trouve ça infiniment plus lisible. (Ok, c’est one-line, mais franchement, c’est lisible, essayez de mettre le xml sur une ligne, pour la blague).</p>
+
+<h3 id="cest-tout--cest-bon-on-peut-supprimer-nos-pomxml-">C’est tout ? C’est bon on peut supprimer nos pom.xml ?</h3>
+
+<p>Malheureusement non, car si maven s’en sort très bien, ce n’est pas le cas (encore) des IDE.</p>
+
+<p>Donc pour le moment si vous tenez absolument à vous débarrasser des pom.xml, vous pouvez faire en sorte de transformer votre pom.yml en pom.xml avec le même plugin. Ça duplique les fichiers, c’est moche, mais ça fonctionne.</p>
+
+<p>Si vous êtes un peu patient, vous pouvez attendre que votre IDE favori implémente le support du polyglot en natif.</p>
+
+<h4 id="intellij">Intellij</h4>
+<p>Pour avoir le support sous IntelliJ, n’hésitez pas à allez voter là : <a href="https://youtrack.jetbrains.com/issue/IDEA-138776">IDEA-138776</a></p>
+
+<h4 id="ps">PS</h4>
+
+<ul>
+  <li>Je vous ai parlé que de yaml, mais il existe déjà plein d’autres langages
+    <ul>
+      <li>atom</li>
+      <li>groovy</li>
+      <li>ruby</li>
+      <li>scala</li>
+    </ul>
+  </li>
+  <li>En ruby par exemple il y’a la possibilité d’appeler du code ruby directement dans le pom.rb. Je trouve ça vraiment pas propre, à voir à l’usage.</li>
+  <li>N’hésitez pas à aller voir les <a href="https://github.com/takari/polyglot-maven-examples">différents exemples</a></li>
+  <li>Un de nos pom faisait 205 lignes, il en fait maintenant 74, en étant plus lisible<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></li>
+</ul>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>C’est mon opinion personnelle à moi, vous avez le droit de préférer le xml <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

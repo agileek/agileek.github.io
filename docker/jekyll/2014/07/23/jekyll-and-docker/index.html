@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Jekyll quickstart with docker</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/docker/jekyll/2014/07/23/jekyll-and-docker/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Jekyll quickstart with docker" />
+    <meta property="twitter:description" content="This is my first blog post! It’s been quite some time that I wanted to start it but I never had the energy to do it. After a quick search on blog engines, I decided to give a try to..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="This is my first blog post! It’s been quite some time that I wanted to start it but I never had the energy to do it. After a quick search on blog engines, I decided to give a try to..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Jekyll quickstart with docker</h1>
+        <time class="meta" itemprop="datePublished" datetime="2014-07-23">Jul 23, 2014</time>
+        
+        <span class="meta">, edited on </span>
+        <time class="meta" itemprop="dateModified" datetime="2015-11-08">Nov 8, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p><img src="/images/posts/2014-07-23/jekyll.png" alt="Jekyll" class="float_image" /></p>
+
+<p>This is my first blog post!</p>
+
+<p>It’s been quite some time that I wanted to start it but I never had the energy to do it.</p>
+
+<p>After a quick search on blog engines, I decided to give a try to <a href="http://jekyllrb.com">Jekyll</a>, since it is integrated with github pages and is very simple to use.
+I followed their tutorial and Bam!</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>gem <span class="nb">install </span>jekyll
+Building native extensions.  This could take a <span class="k">while</span>...
+ERROR:  Error installing jekyll:
+	ERROR: Failed to build gem native extension.
+
+        /usr/bin/ruby1.9.1 extconf.rb
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in <span class="sb">`</span>require<span class="s1">': cannot load such file -- mkmf (LoadError)
+	from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'</span>
+	from extconf.rb:1:in <span class="sb">`</span>&lt;main&gt;<span class="s1">'
+
+
+Gem files will remain installed in /var/lib/gems/1.9.1/gems/fast-stemmer-1.0.2 for inspection.
+Results logged to /var/lib/gems/1.9.1/gems/fast-stemmer-1.0.2/ext/gem_make.out</span></code></pre></figure>
+
+<p>It didn’t work on my computer… and since i’m a lazy person, I get tired really fast when things don’t work like expected.</p>
+
+<p>On the other side I’m a huge <a href="https://www.docker.com/">Docker</a> fan, so I looked for a dockerized jekyll and I found this one: <a href="https://registry.hub.docker.com/u/grahamc/jekyll/">Jekyll with docker</a>.</p>
+
+<p>In 3 steps, this blog was on:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Added alias to use 'jekyll' command easily</span>
+<span class="nv">$ </span><span class="nb">echo alias </span><span class="nv">jekyll</span><span class="o">=</span><span class="se">\'</span><span class="nb">sudo </span>docker run <span class="nt">--rm</span> <span class="nt">-v</span> <span class="se">\"\$</span>PWD:/src<span class="se">\"</span> <span class="nt">-p</span> 4000:4000 grahamc/jekyll<span class="se">\'</span> <span class="o">&gt;&gt;</span> ~/.bash_aliases
+<span class="c"># Create a blog in 'blog' directory</span>
+<span class="nv">$ </span>jekyll new blog
+<span class="nv">$ </span><span class="nb">cd </span>blog
+<span class="c"># Serve the blog on http://localhost:4000 and automatically reload on file changes</span>
+<span class="nv">$ </span>jekyll serve <span class="nt">--watch</span></code></pre></figure>
+
+<p>This was painless for me, as someone else already had a jekyll correctly installed and working in a docker environment.</p>
+
+<p>Thanks <a href="http://grahamc.com/">Graham Christensen</a>!</p>
+
+<h2 id="update-2015-11-08">Update 2015-11-08</h2>
+<p>I now use the official docker image, and I made a Makefile that you can reuse :</p>
+
+<noscript><pre>JEKYLL = docker run -ti --rm -v &quot;$(shell pwd):/srv/jekyll&quot; -p 4000:4000 jekyll/jekyll:pages
+RUNNER = `whoami`
+COMMIT = `git rev-parse --short HEAD`
+
+test:
+        @${JEKYLL} jekyll serve --watch -H 0.0.0.0 --drafts
+
+deploy:
+        @echo &quot;Building site&quot;
+        @${JEKYLL} jekyll build
+        @git checkout master
+        @sudo chown -R ${RUNNER}. _site &amp;&amp; sudo cp -r _site/* . &amp;&amp; sudo rm -rf _*/
+        @git add --all . &amp;&amp; git commit -m &quot;Jekyll deployment from commit ${COMMIT}&quot;
+        @echo &quot;You can now push master&quot;
+        @echo &quot;Once everything is valid, git checkout develop &amp;&amp; sudo git clean -f -d&quot;
+        @python -m SimpleHTTPServer 4000</pre></noscript>
+<script src="https://gist.github.com/MichaelBitard/88d922d0615bcf78b720.js?file=jekyll.Makefile"> </script>
+
+<p>There are 2 commands:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">test</code> will serve on port 4000 with drafts enabled</li>
+  <li><code class="language-plaintext highlighter-rouge">deploy</code> will build everything, commit it on master for gh-pages, waiting for you to push</li>
+</ul>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

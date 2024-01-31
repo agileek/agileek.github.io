@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Repair your grub</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/software/terminal/2022/01/07/repair-grub/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Repair your grub" />
+    <meta property="twitter:description" content="Context Sometimes, when you upgrade your linux distribution, some stuff gets a little bit messed up. And sometimes, it get more messed up. When weird stuff happens to your bootloader, everything you think you knew suddenly disappear, you don’t have..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="software,grub,terminal,fedora" />
+    <meta itemprop="description" content="Context Sometimes, when you upgrade your linux distribution, some stuff gets a little bit messed up. And sometimes, it get more messed up. When weird stuff happens to your bootloader, everything you think you knew suddenly disappear, you don’t have..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Repair your grub</h1>
+        <time class="meta" itemprop="datePublished" datetime="2022-01-07">Jan 7, 2022</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="context">Context</h2>
+
+<p>Sometimes, when you upgrade your linux distribution, some stuff gets a little bit messed up. 
+And sometimes, it get more messed up.
+When weird stuff happens to your bootloader, everything you think you knew suddenly disappear, you don’t have access to internet, nothing work anymore, and usually you are in a hurry to use your computer.
+Take a deep breath, we are going to fix this.</p>
+
+<h2 id="steps">Steps</h2>
+
+<p>Get a live USB key, I usually have an ubuntu somewhere, if you don’t, grab one, and put it on you usb key.</p>
+
+<h4 id="live-usb">Live USB</h4>
+
+<p>first, type <code class="language-plaintext highlighter-rouge">dmesg -w</code> in your terminal then plug in the usb.</p>
+
+<p>You should see something like that:
+<img src="/images/posts/repair-grub/dmesg_output.png" alt="dmesg" class="center-image" /></p>
+
+<p>In my case, that means my usb key is on sd<strong>a</strong></p>
+
+<div class="alert">
+    <strong>Warning!</strong> Be really careful, you could lose data
+</div>
+
+<p>Now download the linux distribution <code class="language-plaintext highlighter-rouge">curl https://releases.ubuntu.com/20.04.3/ubuntu-20.04.3-desktop-amd64.iso</code>, then copy it on your usb key:
+<code class="language-plaintext highlighter-rouge">sudo dd if=./ubuntu-20.04.3-desktop-amd64.iso of=/dev/sda bs=4M status=progress</code></p>
+
+<p>And voilà!</p>
+
+<h4 id="down-the-rabbit-hole">Down the rabbit hole</h4>
+
+<p>Once you have booted on your usb key, you should be able to access your “real” filesystem in order to repair the bootloader.</p>
+
+<p>Basically, we are going to mount the arborescence of your “real” machine on a subfolder of the current running linux, and chroot<sup id="fnref:chroot" role="doc-noteref"><a href="#fn:chroot" class="footnote" rel="footnote">1</a></sup> into it.</p>
+
+<p>That’s where it will differ depending on your setup:</p>
+<ul>
+  <li>You could have encrypted your disk</li>
+  <li>You could have a dual boot with windows (my case)</li>
+</ul>
+
+<p>So let’s create a folder first: <code class="language-plaintext highlighter-rouge">sudo mkdir /mnt/fedora</code></p>
+
+<p>Then we will mount our <em>root</em> filesystem into it: <code class="language-plaintext highlighter-rouge">sudo mount /dev/mapper/fedora-root /mnt/fedora</code></p>
+
+<p>Usually, you should have something under <code class="language-plaintext highlighter-rouge">/mnt/fedora/boot</code>.
+If you don’t you have a boot partition,  you should mount it <code class="language-plaintext highlighter-rouge">sudo mount /dev/nvme0n1p4 /mnt/fedora/boot</code></p>
+
+<p>Since I have a dual boot, I have a dedicated efi partition at the begining of my disk, that I need to mount too: <code class="language-plaintext highlighter-rouge">sudo mount /dev/nvme0n1p1 /mnt/fedora/boot/efi</code></p>
+
+<p>Now we are going to mount a bunch of stuff from our live distribution, to be able to run commands once we are in the jail.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /mnt/fedora
+<span class="nb">sudo </span>mount <span class="nt">-o</span> <span class="nb">bind</span> /dev dev
+<span class="nb">sudo </span>mount <span class="nt">-o</span> <span class="nb">bind</span> /proc proc
+<span class="nb">sudo </span>mount <span class="nt">-o</span> <span class="nb">bind</span> /sys sys
+<span class="nb">sudo </span>mount <span class="nt">-t</span> tmpfs tmpfs tmp</code></pre></figure>
+
+<h4 id="okey-lets-go">Okey let’s go!</h4>
+
+<p>Let’s go into the chroot: <code class="language-plaintext highlighter-rouge">sudo chroot /mnt/fedora</code></p>
+<div class="alert">
+    <strong>Warning!</strong> Backup your /boot/efi/EFI/fedora/grub.cfg
+</div>
+
+<p>Regenerate a new grub: <code class="language-plaintext highlighter-rouge">grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg</code></p>
+
+<p>Reboot without the usb key, it should work now.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:chroot" role="doc-endnote">
+      <p>For <strong>ch</strong>ange <strong>root</strong>, we will jail our process in the filesystem you just mounted <a href="#fnref:chroot" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>
