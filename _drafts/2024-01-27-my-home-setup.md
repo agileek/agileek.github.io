@@ -11,7 +11,7 @@ This article will be a work in progress for as long as I play with home automati
 ## Context
 
 I have been geeking aroung my home for a few years now.
-I have learned a lot. And still have a lot to learn...
+I have learned a lot, and still have a lot to learn...
 I have been frustrated by the state of the industry around open standards, interconnectivity and such.
 
 
@@ -19,12 +19,12 @@ I have been frustrated by the state of the industry around open standards, inter
 
 I want everything to work in my house even if my home automation system is down. 
 Every wall socket must work, every switch must work, no surprises.
-I want the most stuff wired
+I want as much offline stuff as possible, wired if possible.
 
 
 ## What I don't want
 
-I don't want something speaking to the internet (everything should work localy)
+I don't want proprietary lightbulb/wallplug,... connected to internet
 I want as less WiFi as possible
 
 
@@ -48,7 +48,7 @@ I want as less WiFi as possible
 * KLF200
 
 
-#### Controlling the lights
+#### Control the lights
 
 For "simple" switchs, I use [Sonoff zbmini][zbmini]. It's easy, you can hide them behind the wall switch, the ceiling lamp. They release the [L2][L2] version where you don't need a neutral anymore
 
@@ -68,7 +68,7 @@ The first one is controling the hvac system I have in my office ( it is located 
 My second need is controlling the home heating system. Right now I have an Atlantic air-to-water HVAC and it works really well. But since it is some IO-home control stuff, it's kind of difficult to plug it to a home automation system (that is, without spending a few hundred € for a proprietary sh*t connected to my WiFi). And of course, the KLF200, which an IO homecontrol box, does not work with the heating systems. Noooo, you have to buy a whole new box just for that. I have heard of some project working on a somfy hack taht could allow us to get rid of this IO homecontrol monopoly.
 
 
-#### Controlling the shutters
+#### Control the shutters
 
 I had no choice, with our veranda came some roller shutter by Somfy.
 And worse of it, Somfy IO. 
@@ -93,7 +93,16 @@ I tried a [motion sensor][snzb-03], it seems to work well, but I don't really ha
 
 #### Garden
 
-I'm afraid of messing with the water system, so I haven't done anything yet, but still have some DIY ideas.
+I'm afraid of messing with the water system, so I haven't done anything yet, except some automatic garden lights, but still have some DIY ideas.
+
+
+#### Zigbee
+
+With zigbee2mqtt I discovered that we can link two components together, so they can work autonomously. 
+For example I have a [motion sensor][snzb-03] that can be paired with [a smart switch][zbmini]. 
+That works really great, and the good part is, if your box is down, it still works, they are full autonomous. Unfortunately, a lot of zigbee sensors does not expose the right commands and you can't do that with everything. 
+
+The [Wireless Door/Window Sensor][snzb-04] does not expose the right command so it's impossible to directly pair them with something else, and you have to do a home assistant automation if you want to link them with something else.
 
 [zbmini]: https://sonoff.tech/product/diy-smart-switches/zbmini/
 [L2]: https://sonoff.tech/product/diy-smart-switches/zbmini-l2/
