@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Software</title>
+        <description>Yet another blog on software stuff</description>
+        <link>https://agileek.github.io/</link>
+        <atom:link href="https://agileek.github.io/feed.xml" rel="self" type="application/rss+xml" />
+        <pubDate>Fri, 20 Dec 2024 09:22:29 +0000</pubDate>
+        <lastBuildDate>Fri, 20 Dec 2024 09:22:29 +0000</lastBuildDate>
+        <generator>Jekyll v4.3.2</generator>
+        
+        <item>
+            <title>My home setup</title>
+            <description>&lt;p&gt;This article will be a work in progress for as long as I play with home automation stuff&lt;/p&gt;
+
+&lt;h2 id=&quot;context&quot;&gt;Context&lt;/h2&gt;
+
+&lt;p&gt;I have been geeking aroung my home for a few years now.&lt;br /&gt;
+I have learned a lot, and still have a lot to learn…&lt;br /&gt;
+I have been frustrated by the state of the industry around open standards, interconnectivity and such.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-want&quot;&gt;What I want&lt;/h2&gt;
+
+&lt;p&gt;I want everything to work in my house even if my home automation system is down.&lt;br /&gt;
+Every wall socket must work, every switch must work, no surprises.&lt;br /&gt;
+I want as much offline stuff as possible, wired if possible.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-dont-want&quot;&gt;What I don’t want&lt;/h2&gt;
+
+&lt;p&gt;I don’t want proprietary lightbulb/wallplug… connected to the internet.&lt;br /&gt;
+I want as less WiFi as possible.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-have&quot;&gt;What I have&lt;/h2&gt;
+
+&lt;h3 id=&quot;software&quot;&gt;Software&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Home assistant&lt;/li&gt;
+  &lt;li&gt;Zigbee2MQTT&lt;/li&gt;
+  &lt;li&gt;Adguard home&lt;/li&gt;
+  &lt;li&gt;ESPHome&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;hardware&quot;&gt;Hardware&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Rpi 3&lt;/li&gt;
+  &lt;li&gt;Intel NUC&lt;/li&gt;
+  &lt;li&gt;RazBerry&lt;/li&gt;
+  &lt;li&gt;Sonoff Zigbee USB Dongle USB&lt;/li&gt;
+  &lt;li&gt;RFXCom&lt;/li&gt;
+  &lt;li&gt;KLF200&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;control-the-lights&quot;&gt;Control the lights&lt;/h4&gt;
+
+&lt;p&gt;For “simple” switchs, I use &lt;a href=&quot;https://sonoff.tech/product/diy-smart-switches/zbmini/&quot;&gt;Sonoff zbmini&lt;/a&gt;.&lt;br /&gt;
+It’s easy, you can hide them behind the wall switch, the ceiling lamp.&lt;br /&gt;
+They release the &lt;a href=&quot;https://sonoff.tech/product/diy-smart-switches/zbmini-l2/&quot;&gt;L2&lt;/a&gt; version where you don’t need a neutral anymore.&lt;/p&gt;
+
+&lt;p&gt;For dimmers, I have some zwave devices, because I couldn’t find the zigbee equivalent yet.&lt;br /&gt;
+I use the &lt;a href=&quot;https://manuals.fibaro.com/dimmer-2/&quot;&gt;Fibaro FGD212&lt;/a&gt; and they work really well.&lt;br /&gt;
+They have a neat hack, where you can trigger custom stuff on triple click (they call it scene activation).&lt;br /&gt;
+I shutdown all my ground floor by triple clicking my living room’s wall switch.&lt;/p&gt;
+
+&lt;p&gt;For “smart plugs”, I used these &lt;a href=&quot;https://sonoff.tech/product-document/diy-smart-switches-doc/basiczbr3-doc/&quot;&gt;sonoff smart switches&lt;/a&gt; but now I’m rather happy with the &lt;a href=&quot;https://sonoff.tech/product/s26r2zb/&quot;&gt;S26R2ZB&lt;/a&gt;, the only missing thing is the device consumption.&lt;/p&gt;
+
+&lt;h4 id=&quot;control-the-heating&quot;&gt;Control the heating&lt;/h4&gt;
+
+&lt;p&gt;I have 2 different needs.&lt;/p&gt;
+
+&lt;p&gt;The first one is controling the hvac system I have in my office ( it is located outside the house, in the garage, and is not part of the home heating system).&lt;br /&gt;
+Before the HVAC system I had a simple electric radiator and it was easy to control through home assistant, that way I could heat it before having to work.&lt;br /&gt;
+Now I have a Toshiba RAS-B05E2KVG-E and it’s quite difficult to interact with it without the official remote, so I setup a little esp32 with an IR transmitter and it seems to work.&lt;br /&gt;
+I still have to play with it before talking more about it.&lt;/p&gt;
+
+&lt;p&gt;My second need is controlling the home heating system.&lt;br /&gt;
+Right now I have an Atlantic air-to-water HVAC and it works really well.&lt;br /&gt;
+But since it is some IO-home control stuff, it’s kind of difficult to plug it to a home automation system (that is, without spending a few hundred € for a proprietary sh*t connected to my WiFi).&lt;br /&gt;
+And of course, the KLF200, which an IO homecontrol box, does not work with the heating systems.&lt;br /&gt;
+Noooo, you have to buy a whole new box just for that.&lt;br /&gt;
+I have heard of some project working on a somfy hack that could allow us to get rid of this IO homecontrol monopoly.&lt;/p&gt;
+
+&lt;h4 id=&quot;control-the-shutters&quot;&gt;Control the shutters&lt;/h4&gt;
+
+&lt;p&gt;I had no choice, with our veranda came some roller shutter by Somfy.
+And worse of it, Somfy IO.&lt;br /&gt;
+They have their shitty home-control protocol and everything is really expensive, not really easy to interconnect, so if you can, avoid them.&lt;br /&gt;
+My first solution was to solder a remote control I bought on EBay, and it worked great. Not having the states of my shutters really bothered me, though, so in the end I stopped using this.&lt;br /&gt;
+I waited for some “Black friday sale” and bought a KLF200.
+It works quite well and, of course, it’s been discontinued by velux so it’s difficult to find them anymore…&lt;/p&gt;
+
+&lt;h4 id=&quot;sensors&quot;&gt;Sensors&lt;/h4&gt;
+
+&lt;p&gt;I have two different wireless technology for the sensors.&lt;br /&gt;
+I started with the 433.92Mhz.&lt;br /&gt;
+They are cheap, resistant (I have one of them in my freezer, the triggers alarms in case the temperature rises too much, it works really well), and are quite resilient, and, if your sensor is in range of your receiver, it will work really well (I even receive my neighbours sensors…)&lt;/p&gt;
+
+&lt;p&gt;Now that I have a correct zigbee network, I have some &lt;a href=&quot;https://sonoff.tech/product/gateway-and-sensors/snzb-02/&quot;&gt;temperature/humidity&lt;/a&gt; sensors and I’m quite happy with them.\ Even though I don’t like having the CR2032 battery.&lt;/p&gt;
+
+&lt;p&gt;I also played with &lt;a href=&quot;https://sonoff.tech/product/gateway-and-sensors/snzb-04/&quot;&gt;Wireless Door/Window Sensor&lt;/a&gt; but I find them quite unreliable, and I won’t rely on them to build a home alarm system.&lt;/p&gt;
+
+&lt;p&gt;I tried a &lt;a href=&quot;https://sonoff.tech/product/gateway-and-sensors/snzb-03/&quot;&gt;motion sensor&lt;/a&gt;, it seems to work well, but I don’t really have a scenario to use them.&lt;br /&gt;
+I tried pairing them with a light to automatically switch a light when motion is detected but I find it really slow to detect/light, so, in stairs for example it’s not really practical.&lt;br /&gt;
+I’ll try it outdoor to light the garage door at nigth, maybe it’ll be more useful.&lt;/p&gt;
+
+&lt;h4 id=&quot;garden&quot;&gt;Garden&lt;/h4&gt;
+
+&lt;p&gt;I’m afraid of messing with the water system, so I haven’t done anything yet, except some automatic garden lights, but still have some DIY ideas.&lt;/p&gt;
+
+&lt;h4 id=&quot;zigbee&quot;&gt;Zigbee&lt;/h4&gt;
+
+&lt;p&gt;With zigbee2mqtt I discovered that we can link two components together, so they can work autonomously.&lt;br /&gt;
+For example I have a &lt;a href=&quot;https://sonoff.tech/product/gateway-and-sensors/snzb-03/&quot;&gt;motion sensor&lt;/a&gt; that can be paired with &lt;a href=&quot;https://sonoff.tech/product/diy-smart-switches/zbmini/&quot;&gt;a smart switch&lt;/a&gt;.&lt;br /&gt;
+That works really great, and the good part is, if your box is down, it still works, they are full autonomous.&lt;br /&gt;
+Unfortunately, a lot of zigbee sensors does not expose the right commands and you can’t do that with everything.&lt;/p&gt;
+
+&lt;p&gt;For example the &lt;a href=&quot;https://sonoff.tech/product/gateway-and-sensors/snzb-04/&quot;&gt;Wireless Door/Window Sensor&lt;/a&gt; does not expose the right command so it’s impossible to directly pair them with something else, and you have to do a home assistant automation if you want to link them with something else.&lt;/p&gt;
+
+</description>
+            <pubDate>Fri, 20 Dec 2024 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/home_automation/software/2024/12/20/my-home-setup/</link>
+            <guid isPermaLink="true">https://agileek.github.io/home_automation/software/2024/12/20/my-home-setup/</guid>
+            
+            <category>software</category>
+            
+            <category>home_automation</category>
+            
+            
+            <category>home_automation</category>
+            
+            <category>software</category>
+            
+        </item>
+        
+        <item>
+            <title>Contextualize your bash</title>
+            <description>&lt;h2 id=&quot;why-im-always-trying-to-improve-my-terminal-workflow&quot;&gt;Why I’m Always Trying to Improve My Terminal Workflow&lt;/h2&gt;
+
+&lt;p&gt;I have been using terminal/tmux/bash for several years now, constantly striving to enhance my workflow. As a freelancer, I often juggle multiple heterogeneous projects simultaneously, which motivates me to streamline my approach. I have automated my laptop setup entirely using Ansible, assigning a unique “role” to each project.&lt;/p&gt;
+
+&lt;p&gt;Within each role, I had a bashrc file that I used to &lt;a href=&quot;https://waxzce.medium.com/use-bashrc-d-directory-instead-of-bloated-bashrc-50204d5389ff&quot;&gt;source globally&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, a major challenge I face is the inability to reuse the same alias across different projects. Consequently, I resorted to prefixing everything. For instance, when working on Camino, I had to create an alias called “camino_pr” for generating pull requests. This approach has its drawbacks, such as the alias “camino_pr” being available everywhere but only usable in certain directories.&lt;/p&gt;
+
+&lt;p&gt;Therefore, I explored various solutions to load specific .bashrc files based on my current working directory. Here are some existing options I found:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://direnv.net/&quot;&gt;Direnv&lt;/a&gt;: It allows loading environment variables only.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/alecthomas/ondir&quot;&gt;Ondir&lt;/a&gt;: This tool relies on a single ~/.ondirrc file, making it difficult to manage with multiple heterogeneous projects.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Tarrasch/zsh-autoenv&quot;&gt;ZSH Autoenv&lt;/a&gt;: Unfortunately, it is designed exclusively for zsh users.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cxreg/smartcd&quot;&gt;Smartcd&lt;/a&gt;: This tool aligns with my requirements, but I prefer a more bash-based approach.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;hacking-cd-to-achieve-my-goal&quot;&gt;Hacking CD to Achieve My Goal&lt;/h2&gt;
+
+&lt;p&gt;My requirement is simple: I want to automatically source one or more files when I enter a directory.&lt;/p&gt;
+
+&lt;p&gt;One potential solution is to hook the cd command, so that every time I use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cd&lt;/code&gt; it executes a bash function.&lt;/p&gt;
+
+&lt;p&gt;For example, consider the following bash function:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;builtin cd&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Moving to &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This function will print the new path every time I switch to a different directory.&lt;/p&gt;
+
+&lt;p&gt;In the end, what I aim for is to source any &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.my_bash_file&lt;/code&gt; encountered along my current path.&lt;/p&gt;
+
+&lt;p&gt;After some experimentation, I arrived at the following implementation:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;builtin cd&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bash_files_to_source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=()&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$x&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+    if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.my_bash_file&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+        &lt;/span&gt;bash_files_to_source+&lt;span class=&quot;o&quot;&gt;=(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.my_bash_file&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fi
+    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dirname&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$x&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;done
+
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;current_index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$((&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bash_files_to_source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[@]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; current_index &lt;span class=&quot;nt&quot;&gt;-gt&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bash_file_to_source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bash_files_to_source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$current_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Sourcing &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bash_file_to_source&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bash_file_to_source&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;current_index--&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I added this code to my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bashrc&lt;/code&gt;, along with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cd .&lt;/code&gt; command at the end to activate it when I open a new tmux pane, for example.&lt;/p&gt;
+
+&lt;h2 id=&quot;enhanced-usage&quot;&gt;Enhanced Usage&lt;/h2&gt;
+
+&lt;p&gt;This approach provides significant flexibility. Now, I have a consistent pr command available in every project I work on. Sometimes, it is aliased to gh pr create, other times it might be a custom Python command or any other tool used by the team I collaborate with.&lt;/p&gt;
+
+&lt;p&gt;Moreover, I have even automated the retrieval of secrets from my keepassxc instance when entering specific folders. As a result, most of my secrets are no longer stored physically on my machine. (I will likely write another blog post to discuss secret service integration in detail.)&lt;/p&gt;
+
+&lt;h2 id=&quot;todo&quot;&gt;TODO&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Unsource stuff when I move out&lt;/li&gt;
+  &lt;li&gt;Secure what I can source or not?&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+            <pubDate>Wed, 10 May 2023 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/software/terminal/2023/05/10/supercharge-your-bash/</link>
+            <guid isPermaLink="true">https://agileek.github.io/software/terminal/2023/05/10/supercharge-your-bash/</guid>
+            
+            <category>software</category>
+            
+            <category>terminal</category>
+            
+            <category>bash</category>
+            
+            
+            <category>software</category>
+            
+            <category>terminal</category>
+            
+        </item>
+        
+        <item>
+            <title>Repair your grub</title>
+            <description>&lt;h2 id=&quot;context&quot;&gt;Context&lt;/h2&gt;
+
+&lt;p&gt;Sometimes, when you upgrade your linux distribution, some stuff gets a little bit messed up. 
+And sometimes, it get more messed up.
+When weird stuff happens to your bootloader, everything you think you knew suddenly disappear, you don’t have access to internet, nothing work anymore, and usually you are in a hurry to use your computer.
+Take a deep breath, we are going to fix this.&lt;/p&gt;
+
+&lt;h2 id=&quot;steps&quot;&gt;Steps&lt;/h2&gt;
+
+&lt;p&gt;Get a live USB key, I usually have an ubuntu somewhere, if you don’t, grab one, and put it on you usb key.&lt;/p&gt;
+
+&lt;h4 id=&quot;live-usb&quot;&gt;Live USB&lt;/h4&gt;
+
+&lt;p&gt;first, type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dmesg -w&lt;/code&gt; in your terminal then plug in the usb.&lt;/p&gt;
+
+&lt;p&gt;You should see something like that:
+&lt;img src=&quot;/images/posts/repair-grub/dmesg_output.png&quot; alt=&quot;dmesg&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In my case, that means my usb key is on sd&lt;strong&gt;a&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;alert&quot;&gt;
+    &lt;strong&gt;Warning!&lt;/strong&gt; Be really careful, you could lose data
+&lt;/div&gt;
+
+&lt;p&gt;Now download the linux distribution &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl https://releases.ubuntu.com/20.04.3/ubuntu-20.04.3-desktop-amd64.iso&lt;/code&gt;, then copy it on your usb key:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo dd if=./ubuntu-20.04.3-desktop-amd64.iso of=/dev/sda bs=4M status=progress&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And voilà!&lt;/p&gt;
+
+&lt;h4 id=&quot;down-the-rabbit-hole&quot;&gt;Down the rabbit hole&lt;/h4&gt;
+
+&lt;p&gt;Once you have booted on your usb key, you should be able to access your “real” filesystem in order to repair the bootloader.&lt;/p&gt;
+
+&lt;p&gt;Basically, we are going to mount the arborescence of your “real” machine on a subfolder of the current running linux, and chroot&lt;sup id=&quot;fnref:chroot&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:chroot&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; into it.&lt;/p&gt;
+
+&lt;p&gt;That’s where it will differ depending on your setup:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;You could have encrypted your disk&lt;/li&gt;
+  &lt;li&gt;You could have a dual boot with windows (my case)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So let’s create a folder first: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo mkdir /mnt/fedora&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Then we will mount our &lt;em&gt;root&lt;/em&gt; filesystem into it: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo mount /dev/mapper/fedora-root /mnt/fedora&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Usually, you should have something under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/mnt/fedora/boot&lt;/code&gt;.
+If you don’t you have a boot partition,  you should mount it &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo mount /dev/nvme0n1p4 /mnt/fedora/boot&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Since I have a dual boot, I have a dedicated efi partition at the begining of my disk, that I need to mount too: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo mount /dev/nvme0n1p1 /mnt/fedora/boot/efi&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we are going to mount a bunch of stuff from our live distribution, to be able to run commands once we are in the jail.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /mnt/fedora
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mount &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; /dev dev
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mount &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; /proc proc
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mount &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bind&lt;/span&gt; /sys sys
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mount &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; tmpfs tmpfs tmp&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;okey-lets-go&quot;&gt;Okey let’s go!&lt;/h4&gt;
+
+&lt;p&gt;Let’s go into the chroot: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo chroot /mnt/fedora&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;alert&quot;&gt;
+    &lt;strong&gt;Warning!&lt;/strong&gt; Backup your /boot/efi/EFI/fedora/grub.cfg
+&lt;/div&gt;
+
+&lt;p&gt;Regenerate a new grub: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Reboot without the usb key, it should work now.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:chroot&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;For &lt;strong&gt;ch&lt;/strong&gt;ange &lt;strong&gt;root&lt;/strong&gt;, we will jail our process in the filesystem you just mounted &lt;a href=&quot;#fnref:chroot&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+            <pubDate>Fri, 07 Jan 2022 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/software/terminal/2022/01/07/repair-grub/</link>
+            <guid isPermaLink="true">https://agileek.github.io/software/terminal/2022/01/07/repair-grub/</guid>
+            
+            <category>software</category>
+            
+            <category>grub</category>
+            
+            <category>terminal</category>
+            
+            <category>fedora</category>
+            
+            
+            <category>software</category>
+            
+            <category>terminal</category>
+            
+        </item>
+        
+        <item>
+            <title>Retour d'expérience Prestashop</title>
+            <description>&lt;p&gt;Sur ce blog post, je m’éloigne des sentiers battus pour découvrir un domaine que je ne connais pas trop : La vente en ligne.&lt;/p&gt;
+
+&lt;h2 id=&quot;contexte&quot;&gt;Contexte&lt;/h2&gt;
+
+&lt;p&gt;Ma compagne s’est lancée dans &lt;a href=&quot;https://lespetitsbibis.fr&quot;&gt;une activité&lt;/a&gt; où elle crée des produits du quotidien, cousus-main, avec du matériel issu de ressourceries ou de fins de rouleaux.
+Ses enjeux/envies sont multiples :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Trouver une activité à temps partiel pour pouvoir conjuguer vie de famille et professionnelle&lt;/li&gt;
+  &lt;li&gt;Réduire nos déchets&lt;sup id=&quot;fnref:dechets&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:dechets&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+  &lt;li&gt;Gagner de l’argent&lt;sup id=&quot;fnref:argent&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:argent&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+  &lt;li&gt;Essayer quelque chose de nouveau&lt;/li&gt;
+  &lt;li&gt;Faire quelque chose d’utile&lt;sup id=&quot;fnref:utile&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:utile&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;état-des-lieux&quot;&gt;État des lieux&lt;/h2&gt;
+
+&lt;p&gt;Pour pouvoir vendre, il y’a plusieurs façons de faire :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;En ligne&lt;/li&gt;
+  &lt;li&gt;En boutique&lt;/li&gt;
+  &lt;li&gt;Dans des marchés (de créateurs, de plein vents, de noël, …)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Comme on est sur un blog plutôt technique, on va se concentrer sur la partie “En ligne”.&lt;/p&gt;
+
+&lt;p&gt;La partie “En ligne” se divise en 2 catégories, utiliser un service tiers (etsy, …) ou faire sa propre boutique.
+Ma femme ayant la chance de connaitre une personne technique dans son entourage (hey, mais c’est moi!) on est parti sur la boutique en ligne hostée soi-même (tant qu’à faire)&lt;/p&gt;
+
+&lt;h2 id=&quot;le-choix-des-boutiques-en-ligne&quot;&gt;Le choix des boutiques en ligne&lt;/h2&gt;
+
+&lt;p&gt;Alors là c’est le chaos, y’a des solutions à peu près partout, du wordpress avec le plugin “shop”, à des CMS possédant les bonnes extensions, à des solutions plus ou moins payantes (shopify, wix, …)&lt;/p&gt;
+
+&lt;p&gt;Comme on part sur de la “petite” activité, les solutions hostées coûtent vite assez cher (alors qu’une journée de développeur logiciel, surtout quand c’est son mari, ça coûte pas grand chose !)&lt;/p&gt;
+
+&lt;p&gt;Bref, après de moultes péripéties, on s’est lancé sur du prestashop.&lt;/p&gt;
+
+&lt;h2 id=&quot;la-mise-en-place&quot;&gt;La mise en place&lt;/h2&gt;
+
+&lt;p&gt;En vrai, ça a été très vite, image docker lancée, configurée sur un MySQL, rien à dire, en quelques minutes il y’a un site qui tourne et avec lequel on peut jouer.
+La prise en main n’est pas forcément simple pour qui n’est pas familier avec tout le jargon et l’agencement de la plateforme, mais une fois qu’on a trouvé ses marques, ça passe.&lt;/p&gt;
+
+&lt;p&gt;Le systême de thèmes est ce qui m’a donné le plus de fil à retordre, notamment pour pouvoir itérer rapidement sur les changements css.
+Au début, j’étais obligé de recréer tout le zip du thème, de supprimer le thème existant pour le re-charger, perdre toutes les configurations, c’était hyper frustrant.
+Jusqu’au moment où j’ai commencé à directement mettre le fichier css au bon endroit dans le path du serveur, et que j’ai désactivé le cache (attention à la prod)
+À partir de là c’était plutôt simple, bien que long.&lt;/p&gt;
+
+&lt;h3 id=&quot;les-outils&quot;&gt;Les outils&lt;/h3&gt;
+
+&lt;p&gt;Pas mal de manipulation d’images avec Gimp, et quelques scripts, notamment pour éviter les bordures sur les images des catégories.&lt;/p&gt;
+
+&lt;p&gt;Si je veux avoir une image de 141x180, ça se passe en deux étapes :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;réduire la hauteur de l’image en 141&lt;/li&gt;
+  &lt;li&gt;supprimer tout ce qui est trop long&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Il faut que l’image de base soit à peu près dans ce ratio là déjà, sinon on va croper et ça va ressembler à rien au final&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;convert original_image.jpg &lt;span class=&quot;nt&quot;&gt;-resize&lt;/span&gt; 141x reduced_image.jpg
+convert reduced_image.jpg &lt;span class=&quot;nt&quot;&gt;-crop&lt;/span&gt; 141x180 final_image.jpg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;les-craintes&quot;&gt;Les craintes&lt;/h3&gt;
+
+&lt;p&gt;Ma plus grosse crainte est liée à l’hébergement et la maintenance de l’outil, les différents tests que j’ai pu faire pour restaurer les différents backups s’avère assez complexe.
+Il n’y a qu’à voir le nombre de plugins de &lt;a href=&quot;https://addons.prestashop.com/en/search?search_query=backup&quot;&gt;backup/restore&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Comme ça reste une petite boutique, ce n’est pas vraiment critique, il n’y a pas de SLA à proprement parlé !&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:dechets&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Le gaspillage textile est &lt;a href=&quot;https://multimedia.ademe.fr/infographies/infographie-mode-qqf/&quot;&gt;impressionnant&lt;/a&gt; &lt;a href=&quot;#fnref:dechets&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:argent&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;On y travaille &lt;a href=&quot;#fnref:argent&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:utile&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Les produits confectionnés sont utilisés par nous-même &lt;a href=&quot;#fnref:utile&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+            <pubDate>Sat, 18 Dec 2021 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/artisanat/2021/12/18/prestashop-feedback/</link>
+            <guid isPermaLink="true">https://agileek.github.io/artisanat/2021/12/18/prestashop-feedback/</guid>
+            
+            <category>france</category>
+            
+            <category>artisanat</category>
+            
+            <category>toulouse</category>
+            
+            
+            <category>artisanat</category>
+            
+        </item>
+        
+        <item>
+            <title>Rust AWS lambda with glibc</title>
+            <description>&lt;h2 id=&quot;why&quot;&gt;Why&lt;/h2&gt;
+
+&lt;p&gt;AWS has announced supporting rust for the lambda, but does not provide an official runtime for it. You have to provide your own, and the &lt;a href=&quot;https://github.com/awslabs/aws-lambda-rust-runtime&quot;&gt;official&lt;/a&gt; way is through building a target where you can statically link a libc implementation: &lt;a href=&quot;https://musl.libc.org/&quot;&gt;musl&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;While it appears you could &lt;a href=&quot;https://users.rust-lang.org/t/statically-link-executable-with-glibc/32648&quot;&gt;statically link the glibc&lt;/a&gt;, it is not advised. (see &lt;a href=&quot;https://stackoverflow.com/questions/3430400/linux-static-linking-is-dead&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;https://lwn.net/Articles/117972/&quot;&gt;here&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;So for AWS:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rust_aws_lambda/this_is_the_way.jpg&quot; alt=&quot;ThisIsTheWay&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;what&quot;&gt;What&lt;/h2&gt;
+
+&lt;p&gt;While searching for alternative solutions to this (Because reasons), I found that since late 2020, they added a &lt;a href=&quot;https://aws.amazon.com/blogs/aws/new-for-aws-lambda-container-image-support/&quot;&gt;container image support&lt;/a&gt; to AWS lambda.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rust_aws_lambda/there_is_another.jpg&quot; alt=&quot;ThereIsAnother&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sooooooo, if we want to use glibc, we need to have docker.
+Fine, let’s give it a try&lt;/p&gt;
+
+&lt;h3 id=&quot;how&quot;&gt;How&lt;/h3&gt;
+
+&lt;p&gt;First we have to create a simple rust application.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cargo new test_aws_lambda
+cargo add lambda_runtime
+cargo add tokio
+cargo add aws_lambda_events
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s change the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;src/main.rs&lt;/code&gt; a bit.
+Basically we will just return everything that is sent to us.&lt;/p&gt;
+
+&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;aws_lambda_events&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nn&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SnsEvent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;lambda_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;lambda_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handler_fn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;#[tokio::main]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;pub&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handler_fn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nn&quot;&gt;lambda_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;.await&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;Ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(())&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sns_event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SnsEvent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SnsEvent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;println!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Handler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;Ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sns_event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now comes the build part, we will use docker to build the release.
+We will need a custom ENTRYPOINT for aws to be able to understand the lambda.
+Here is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;entry.sh&lt;/code&gt; you’ll need:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;AWS_LAMBDA_RUNTIME_API&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+	  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; /usr/bin/aws-lambda-rie &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;else
+	    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Docker&quot;&gt;FROM rust:buster as build
+
+COPY test_aws_lambda /test_aws_lambda
+RUN cd test_aws_lambda &amp;amp;&amp;amp; cargo build --release
+
+FROM debian:buster
+
+ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/1.1/aws-lambda-rie /usr/bin/aws-lambda-rie
+RUN chmod 755 /usr/bin/aws-lambda-rie
+COPY entry.sh /
+RUN chmod 755 /entry.sh
+ENTRYPOINT [ &quot;/entry.sh&quot; ]
+
+COPY --from=build /test_aws_lambda/target/release/test_aws_lambda /test_aws_lambda
+CMD [ &quot;/test_aws_lambda&quot; ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we have to build it: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker build -t aws-lambda-test .&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Run it: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker run --rm -p 9000:8080 aws-lambda-test&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And test it: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl -XPOST &quot;http://localhost:9000/2015-03-31/functions/function/invocations&quot; -d '{ &quot;Records&quot;: [] }'&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;It should respond &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{&quot;Records&quot;:[]}&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;deploy-on-aws&quot;&gt;Deploy on AWS&lt;/h3&gt;
+
+&lt;p&gt;You need to have a docker registry (ECR) in the same account as your lambda.&lt;/p&gt;
+
+&lt;p&gt;First, create an ECR repository &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;You can then tag and push your local image in this repository:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker tag aws-lambda-test ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
+docker push ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create the lambda, use the container image, and go to the test section.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/rust_aws_lambda/aws_test.png&quot; alt=&quot;AwsTest&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And voilà, you now have a rust container running as an aws lambda!&lt;/p&gt;
+
+</description>
+            <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/software/aws/2021/10/01/rust-aws-lambda-with-glibc/</link>
+            <guid isPermaLink="true">https://agileek.github.io/software/aws/2021/10/01/rust-aws-lambda-with-glibc/</guid>
+            
+            <category>rust</category>
+            
+            <category>software</category>
+            
+            <category>aws</category>
+            
+            
+            <category>software</category>
+            
+            <category>aws</category>
+            
+        </item>
+        
+        <item>
+            <title>Never miss a google meet with systemd</title>
+            <description>&lt;p&gt;I don’t like to be late at meetings, and I relied heavily on my coworkers to warn me about a meeting starting.&lt;/p&gt;
+
+&lt;p&gt;Now, I’m working in a fully remote company, and I can’t rely on my coworkers, because they can only message me, and I don’t look at slack/emails all day.&lt;/p&gt;
+
+&lt;p&gt;So I came up with 1 little script (and 2 systemd units) to automatically launch my meeting 1-2 minutes before it actually starts.&lt;/p&gt;
+
+&lt;p&gt;The script relies on &lt;a href=&quot;https://github.com/insanum/gcalcli&quot;&gt;gcalcli&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;it checks the next meeting I accepted&lt;/li&gt;
+  &lt;li&gt;it retrieves the Google Meet URL&lt;/li&gt;
+  &lt;li&gt;it launches a new Google Chrome windows.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.local/bin/auto-google-meet&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-eufo&lt;/span&gt; pipefail
+
+&lt;span class=&quot;nv&quot;&gt;EMAIL_ADDRESS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'your@email.com'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;BACKUP_FILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;.previous-meetup
+&lt;span class=&quot;nb&quot;&gt;touch&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BACKUP_FILE&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;PREVIOUS_MEETUP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BACKUP_FILE&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;NEW_MEETUP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;gcalcli &lt;span class=&quot;nt&quot;&gt;--calendar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;EMAIL_ADDRESS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; agenda &lt;span class=&quot;nt&quot;&gt;--details&lt;/span&gt; url &lt;span class=&quot;nt&quot;&gt;--tsv&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--nodeclined&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;date&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;+1 minutes&quot;&lt;/span&gt; +&lt;span class=&quot;s2&quot;&gt;&quot;%Y-%m-%dT%H:%M&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;date&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;+3 minutes&quot;&lt;/span&gt; +&lt;span class=&quot;s2&quot;&gt;&quot;%Y-%m-%dT%H:%M&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;cut&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f6&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$NEW_MEETUP&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PREVIOUS_MEETUP&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$NEW_MEETUP&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DISPLAY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;:0
+    &lt;span class=&quot;nb&quot;&gt;nohup &lt;/span&gt;google-chrome &lt;span class=&quot;nt&quot;&gt;--new-window&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NEW_MEETUP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &amp;amp;
+  &lt;span class=&quot;k&quot;&gt;fi
+fi
+
+&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NEW_MEETUP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BACKUP_FILE&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The next step is to have one systemd user service:
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.config/systemd/user/auto-google-meet.service&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Unit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;google&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;meet&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;PartOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graphical&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;target&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forking&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Install&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;target&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;and a systemd timer:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.config/systemd/user/auto-google-meet.timer&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Timer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;OnUnitActiveSec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Unit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auto&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;google&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;meet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;service&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Install&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;target&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Don’t forget to enable the timer and the service:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl --user enable auto-google-meet.timer
+systemctl --user enable auto-google-meet.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and voilà! you’ll never miss a google meet now.&lt;/p&gt;
+
+</description>
+            <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/software/terminal/2021/03/18/automatic_google_meet_connection/</link>
+            <guid isPermaLink="true">https://agileek.github.io/software/terminal/2021/03/18/automatic_google_meet_connection/</guid>
+            
+            <category>software</category>
+            
+            <category>terminal</category>
+            
+            <category>systemd</category>
+            
+            
+            <category>software</category>
+            
+            <category>terminal</category>
+            
+        </item>
+        
+        <item>
+            <title>Using an AWS ECR image as a Github Action container</title>
+            <description>&lt;h2 id=&quot;moving-from-docker-hub-to-ecr&quot;&gt;Moving from Docker Hub to ECR&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://pubstack.io/&quot;&gt;Pubstack&lt;/a&gt;, my current client decided to migrate all its docker images to &lt;a href=&quot;https://aws.amazon.com/ecr/&quot;&gt;ECR&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;With the recent &lt;a href=&quot;https://www.docker.com/pricing/resource-consumption-updates&quot;&gt;announcement&lt;/a&gt; about rate limiting on Docker Hub, maybe we will not be the only ones moving away.&lt;/p&gt;
+
+&lt;p&gt;For our &lt;strong&gt;CI/CD&lt;/strong&gt; pipelines we use both &lt;a href=&quot;https://circleci.com/&quot;&gt;CircleCI&lt;/a&gt; and &lt;a href=&quot;https://github.com/features/actions&quot;&gt;GitHub Actions&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Using an &lt;strong&gt;ECR&lt;/strong&gt; image is a really simple task in &lt;strong&gt;CircleCI&lt;/strong&gt;, it consists of adding the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_auth&lt;/code&gt; to the image configuration.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;na&quot;&gt;docker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ACCOUNT.dkr.ecr.REGION.amazonaws.com/IMAGE:VERSION&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;aws_auth&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;aws_access_key_id&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$AWS_ACCESS_KEY_ID&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;aws_secret_access_key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$AWS_SECRET_ACCESS_KEY&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;On the other hand, using &lt;strong&gt;ECR&lt;/strong&gt; images in &lt;strong&gt;GitHub Actions&lt;/strong&gt; was a bit more tricky.&lt;/p&gt;
+
+&lt;p&gt;The problem is, you could only use images from private registries in job and service containers since &lt;a href=&quot;https://github.blog/changelog/2020-09-24-github-actions-private-registry-support-for-job-and-service-containers/&quot;&gt;late september&lt;/a&gt;, and they only did the “credentials” implementation.
+It means something like this is expected:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ACCOUNT.dkr.ecr.REGION.amazonaws.com/IMAGE:VERSION&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;credentials&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;AWS&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.ECR_PASSWORD }}&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo &quot;inside an ecr container&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With aws, you can get a password with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws ecr get-login-password&lt;/code&gt;, and it is valid 12 hours.&lt;/p&gt;
+
+&lt;p&gt;You can manually set the GitGub secret “ECR_PASSWORD” every 12 hours, but that’s not really convenient.&lt;/p&gt;
+
+&lt;p&gt;After a little digging, I found an &lt;a href=&quot;https://github.community/t/github-actions-new-pulling-from-private-docker-repositories/16089/28&quot;&gt;answer&lt;/a&gt; on a GitHub community thread explaining what seems like a good solution.&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Basically what we will do is:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Retrieve &lt;strong&gt;ECR&lt;/strong&gt; password from aws&lt;/li&gt;
+  &lt;li&gt;Store it as a &lt;strong&gt;GitHub&lt;/strong&gt; secret name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ECR_PASSWORD&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;All that inside a &lt;strong&gt;GitHub&lt;/strong&gt; action scheduled to run every 6 hours.&lt;/p&gt;
+
+&lt;p&gt;It was not really as simple as I first thought, so here is all I had to do.
+I hope it can help you.&lt;/p&gt;
+
+&lt;p&gt;First, I created some aws credentials (ie. a couple &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_access_key_id&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aws_secret_access_key&lt;/code&gt; with enough right to pull from ECR)
+I put them as secrets inside the &lt;strong&gt;GitHub&lt;/strong&gt; project, let’s call them &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS_ACCESS_KEY_ID&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS_SECRET_ACCESS_KEY&lt;/code&gt;.
+Then I generated a personal access token (the “provided by default” &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GITHUB_TOKEN&lt;/code&gt; doest not have sufficient rights), let’s call it &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GH_API_ACCESS_TOKEN&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The complete &lt;strong&gt;GitHub&lt;/strong&gt; workflow:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ecr-login&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# Every 6 hours, the password validity is 12 hours&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*/6&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Checkout&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;AWS cli install action&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;chrislennon/action-aws-cli@1.1&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;retrieve ecr password and store as secret&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;pip3 install -r .github/requirements.txt&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;python3 .github/ecr_password_updater.py&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;AWS_ACCESS_KEY_ID&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.AWS_ACCESS_KEY_ID }}&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;AWS_SECRET_ACCESS_KEY&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.AWS_SECRET_ACCESS_KEY }}&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;AWS_DEFAULT_REGION&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;AWS_REGION&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;GH_API_ACCESS_TOKEN&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.GH_API_ACCESS_TOKEN }}&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# This 'test' job is usefull for fast debugging&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;needs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;login&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ACCOUNT.dkr.ecr.REGION.amazonaws.com/IMAGE:VERSION&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;credentials&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;AWS&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Here is the password retrieved as a secret that is set by the `login` job&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.ECR_PASSWORD }}&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo &quot;Inside a container pulled from ECR \o/&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The python file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ecr_password_updater.py&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# From https://github.community/t/github-actions-new-pulling-from-private-docker-repositories/16089/28
+# The goal is to retrieve the ecr password every 6 hours and put it as a secret
+&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;base64&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b64encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b64decode&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nacl&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;boto3&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;encrypt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;raw_public_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;secret_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Encrypt a Unicode string using the public key.&quot;&quot;&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;public_key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;PublicKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;raw_public_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Base64Encoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sealed_box&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SealedBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;public_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;encrypted&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sealed_box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encrypt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;secret_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;b64encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encrypted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_ecr_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Retrieve ECR password, it comes b64 encoded, in the format user:password
+       From https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ecr.html#ECR.Client.get_authorization_token
+    &quot;&quot;&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ecr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;boto3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'ecr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ecr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get_authorization_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;encoded_login_password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'authorizationData'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'authorizationToken'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;decoded_login_password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;b64decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encoded_login_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'UTF-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decoded_login_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;':'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'__main__'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;get_public_key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/public-key'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                  &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Accept'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'application/vnd.github.v3+json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                           &lt;span class=&quot;s&quot;&gt;'Authorization'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'token '&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;environ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'GH_API_ACCESS_TOKEN'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]})&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_public_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'could not retrieve public key'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_public_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;get_public_key_response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_public_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;public_key_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_public_key_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'key'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;public_key_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_public_key_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'key_id'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_ecr_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;encrypted_password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;encrypt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;public_key_value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;update_password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'https://api.github.com/repos/ORG/REPOSITORY/actions/secrets/ECR_PASSWORD'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                   &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Accept'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'application/vnd.github.v3+json'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                            &lt;span class=&quot;s&quot;&gt;'Authorization'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'token '&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;environ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'GH_API_ACCESS_TOKEN'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]},&lt;/span&gt;
+                                   &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;dumps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'encrypted_value'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encrypted_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'key_id'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public_key_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                                    &lt;span class=&quot;s&quot;&gt;'visibility'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'all'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'could not update password'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;update_password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The dependencies used by the python code:&lt;/p&gt;
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pynacl==1.4.0
+requests==2.25.1
+boto3==1.17.107
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I first started with a simple bash script, but it became quite complex&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, so I switched to python.&lt;/p&gt;
+
+&lt;p&gt;Enjoy!&lt;/p&gt;
+
+&lt;h3 id=&quot;edit-2021-07-09&quot;&gt;Edit 2021-07-09&lt;/h3&gt;
+
+&lt;p&gt;Thanks to Alex Pavlenko, I switched from using the aws cli to boto3. Python all the way!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;ok, maybe not good, but at least it works &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;you need to encrypt the password, and you need the public key id of the repository when you put the encrypted secret. I often start with bash, if it’s simple enough I keep it, if not I switch to python. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+            <pubDate>Wed, 28 Oct 2020 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/software/aws/2020/10/28/using-an-ecr-image-in-github-actions/</link>
+            <guid isPermaLink="true">https://agileek.github.io/software/aws/2020/10/28/using-an-ecr-image-in-github-actions/</guid>
+            
+            <category>software</category>
+            
+            <category>aws</category>
+            
+            <category>cloud</category>
+            
+            
+            <category>software</category>
+            
+            <category>aws</category>
+            
+        </item>
+        
+        <item>
+            <title>The Twelve-Factor App Checklist</title>
+            <description>&lt;h2 id=&quot;twelve-factor-application&quot;&gt;Twelve-Factor Application&lt;/h2&gt;
+
+&lt;p&gt;If you don’t know about the 12 factor applications, I suggest you &lt;a href=&quot;https://12factor.net/&quot;&gt;read this first.&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The twelve-factor app is a methodology for building software-as-a-service apps&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;During my different missions, I found that these guidelines are wonderful for building and deploying software.&lt;/p&gt;
+
+&lt;p&gt;I eventualy came up with a checklist I use on my clients’ projects in order to assess the team’s maturity level, and track what can be done to improve the application.&lt;/p&gt;
+
+&lt;p&gt;I released it on &lt;a href=&quot;https://github.com/agileek/Twelve-Factor-App-Checklist&quot;&gt;github&lt;/a&gt; and you can find the html version below.&lt;/p&gt;
+
+&lt;iframe style=&quot;border: 1px solid black;&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=&quot;100%&quot; height=&quot;1024&quot; src=&quot;https://htmlpreview.github.io/?https://github.com/agileek/Twelve-Factor-App-Checklist/blob/master/Twelve-Factor-App-Checklist.html&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;This is of course just a scaffolder, I hope you will find it useful.&lt;/p&gt;
+
+</description>
+            <pubDate>Tue, 14 Jul 2020 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/software/2020/07/14/twelve-factor-app-checklist/</link>
+            <guid isPermaLink="true">https://agileek.github.io/software/2020/07/14/twelve-factor-app-checklist/</guid>
+            
+            <category>software</category>
+            
+            <category>12Factor</category>
+            
+            
+            <category>software</category>
+            
+        </item>
+        
+        <item>
+            <title>Going mouseless #1: Git push a new branch</title>
+            <description>&lt;blockquote&gt;
+  &lt;p&gt;TLDR: install thefuck&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;the-right-tool-for-the-right-job&quot;&gt;The Right Tool for the Right Job&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Using the right tool for the right job&lt;/strong&gt; is kind of why I can’t decide myself on using one programming language.&lt;/p&gt;
+
+&lt;p&gt;When it comes to programming, I have the feeling that using the mouse is highly unefficient.&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;It really breaks the flow, you are in the process of writing some code, with both your hands on the keyboard, and all of a sudden you grab the mouse to, I don’t know, launch the tests or click on some website you are testing.
+I don’t like that.&lt;/p&gt;
+
+&lt;p&gt;What I try to do on a daily basis is find &lt;strong&gt;where&lt;/strong&gt; and &lt;strong&gt;when&lt;/strong&gt; my mouse is breaking my flow.&lt;/p&gt;
+
+&lt;p&gt;This (I hope so) will be a series of articles where I take one part of my working flow and try to get rid of the mouse.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Protip&lt;/strong&gt;: Put my mouse on its back so every access to the mouse is a conscious one. Try it, and let me know.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-git-flow&quot;&gt;The git ‘flow’&lt;/h2&gt;
+
+&lt;p&gt;Each time I work on a new task, I start by creating a new branch. 
+Let’s say I work on this article.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git co -b going-mouseless-part-1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;After that I create the file, write some stuff down, the usual…&lt;/p&gt;
+
+&lt;p&gt;When I’m satisfied with my work, I commit&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add mouseless-article-1.md
+git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;meaningful commit message&quot;&lt;/span&gt;
+git push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;and &lt;strong&gt;BAM&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fatal: The current branch going-mouseless-part-1 has no upstream branch.
+To push the current branch and &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;the remote as upstream, use
+
+    git push &lt;span class=&quot;nt&quot;&gt;--set-upstream&lt;/span&gt; origin going-mouseless-part-1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I grab my mouse, select the last line and copy/paste it. At least that’s what I used to do.&lt;/p&gt;
+
+&lt;p&gt;A perfect solution for this use case is &lt;a href=&quot;https://github.com/nvbn/thefuck&quot;&gt;TheFuck&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Magnificent app which corrects your previous console command.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Once installed, instead of grabbing my mouse, I just type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fuck&lt;/code&gt; then enter twice and that’s it!&lt;/p&gt;
+
+&lt;p&gt;Here is a complete demo:&lt;/p&gt;
+
+&lt;asciinema-player src=&quot;/images/posts/mouseless/mouseless_1&quot; cols=&quot;120&quot; rows=&quot;20&quot;&gt;&lt;/asciinema-player&gt;
+
+&lt;p&gt;This tool is a really useful one, it saves me on a daily basis with everything, typos, missing sudo,… plus, it’s pleasant to curse.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;This is only my opinion &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+            <pubDate>Mon, 24 Feb 2020 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/terminal/2020/02/24/getting_rid_of_the_mouse_part_1/</link>
+            <guid isPermaLink="true">https://agileek.github.io/terminal/2020/02/24/getting_rid_of_the_mouse_part_1/</guid>
+            
+            <category>keyboard</category>
+            
+            <category>mouse</category>
+            
+            <category>terminal</category>
+            
+            <category>git</category>
+            
+            
+            <category>terminal</category>
+            
+        </item>
+        
+        <item>
+            <title>Login to AWS ECR using systemd</title>
+            <description>&lt;h2 id=&quot;first-try-without-systemd&quot;&gt;First try without systemd&lt;/h2&gt;
+
+&lt;p&gt;During my previous mission, we used AWS ECR to manage the docker images.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Amazon EC2 Container Registry (ECR) is a fully-managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To be able to store/retrieve docker images, you have to be authenticated.
+AWS CLI provides a command which takes your credentials and generate a token, authenticating the user for 12 hours.&lt;/p&gt;
+
+&lt;p&gt;Our continuous integration servers (ie. Jenkins nodes) needed to access to the ECR so we had to provide an automated mechanism.&lt;/p&gt;
+
+&lt;p&gt;The first idea was to use 2 crons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The first on @reboot, to ensure the machine will be authenticated upon reboot.&lt;/li&gt;
+  &lt;li&gt;The second every 11 hours.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This was not a good idea, sometimes it did not work and it was difficult to know why.
+(In fact, the @reboot only works when using root, which we try to avoid)&lt;/p&gt;
+
+&lt;h2 id=&quot;systemd&quot;&gt;Systemd&lt;/h2&gt;
+
+&lt;p&gt;So we used systemd and:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;it just worked&lt;/li&gt;
+  &lt;li&gt;we can monitor the executions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here is the unit located here: /etc/systemd/system/docker_ecr_login.service&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Unit]
+&lt;span class=&quot;nv&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Docker aws ecr login
+&lt;span class=&quot;nv&quot;&gt;Wants&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;network-online.target
+&lt;span class=&quot;nv&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;network.target network-online.target
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Service]
+&lt;span class=&quot;nv&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;oneshot
+&lt;span class=&quot;nv&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;builder
+&lt;span class=&quot;nv&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/bin/bash &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'$$(/usr/bin/aws ecr get-login --no-include-email)'&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Install]
+&lt;span class=&quot;nv&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;default.target&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Dont forget to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;systemctl daemon-reload&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;systemctl enable docker_ecr_login&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we only use one cron, every 11 hours it launches &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;systemctl start docker_ecr_login&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;investigate&quot;&gt;Investigate&lt;/h3&gt;
+
+&lt;p&gt;Now it’s easier to monitor past executions with:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;journalctl &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; docker_ecr_login
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Logs begin at Fri 2017-05-19, end at Mon 2017-07-10. &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;
+Starting Docker aws ecr login...
+docker_ecr_login.service: Main process exited, &lt;span class=&quot;nv&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;exited, &lt;span class=&quot;nv&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;217/USER
+Failed to start Docker aws ecr login.
+docker_ecr_login.service: Unit entered failed state.
+docker_ecr_login.service: Failed with result &lt;span class=&quot;s1&quot;&gt;'exit-code'&lt;/span&gt;.&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The error status 217/USER means that the user ‘builder’ doesn’t exist on this system.&lt;/p&gt;
+
+&lt;h3 id=&quot;todo&quot;&gt;ToDo&lt;/h3&gt;
+
+&lt;p&gt;We are looking into systemd timers with something like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OnUnitActiveSec=&lt;/code&gt; we should be able to completely get rid of cron and go full systemd.&lt;/p&gt;
+</description>
+            <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
+            <link>https://agileek.github.io/docker/terminal/2019/05/07/automatic_aws_ecr_get_login_with_systemd/</link>
+            <guid isPermaLink="true">https://agileek.github.io/docker/terminal/2019/05/07/automatic_aws_ecr_get_login_with_systemd/</guid>
+            
+            <category>aws</category>
+            
+            <category>ecr</category>
+            
+            <category>docker</category>
+            
+            <category>systemd</category>
+            
+            
+            <category>docker</category>
+            
+            <category>terminal</category>
+            
+        </item>
+        
+    </channel>
+</rss>

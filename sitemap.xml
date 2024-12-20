@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+    <url>
+      <loc>https://agileek.github.io/home_automation/software/2024/12/20/my-home-setup/</loc>
+      
+        <lastmod>2024-12-20</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/software/terminal/2023/05/10/supercharge-your-bash/</loc>
+      
+        <lastmod>2023-05-10</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/software/terminal/2022/01/07/repair-grub/</loc>
+      
+        <lastmod>2022-01-07</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/artisanat/2021/12/18/prestashop-feedback/</loc>
+      
+        <lastmod>2021-12-18</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/software/aws/2021/10/01/rust-aws-lambda-with-glibc/</loc>
+      
+        <lastmod>2021-10-01</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/software/terminal/2021/03/18/automatic_google_meet_connection/</loc>
+      
+        <lastmod>2021-03-18</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/software/aws/2020/10/28/using-an-ecr-image-in-github-actions/</loc>
+      
+        <lastmod>2020-10-28</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/software/2020/07/14/twelve-factor-app-checklist/</loc>
+      
+        <lastmod>2020-07-14</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/terminal/2020/02/24/getting_rid_of_the_mouse_part_1/</loc>
+      
+        <lastmod>2020-02-24</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/terminal/2019/05/07/automatic_aws_ecr_get_login_with_systemd/</loc>
+      
+        <lastmod>2019-05-07</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2016/05/19/devoxx_2016_huntly/</loc>
+      
+        <lastmod>2016-05-19</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/2015/12/05/letsencrypt-https/</loc>
+      
+        <lastmod>2015-12-05</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/home_automation/2015/12/05/home_automation_domoticz/</loc>
+      
+        <lastmod>2015-12-05</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/jekyll/2015/11/20/disqus-https-and-http/</loc>
+      
+        <lastmod>2015-11-20</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/2015/04/15/typematrix-dvorak/</loc>
+      
+        <lastmod>2015-04-15</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/terminal/2015/04/14/httpie_and_json/</loc>
+      
+        <lastmod>2015-04-14</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/2015/04/13/docker-ansible/</loc>
+      
+        <lastmod>2015-04-13</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/2015/04/12/docker-cmd/</loc>
+      
+        <lastmod>2015-04-12</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/2015/04/11/docker-layers/</loc>
+      
+        <lastmod>2015-04-11</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2015/04/10/devoxx-france-third-day/</loc>
+      
+        <lastmod>2015-04-10</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2015/04/09/devoxx-france-second-day/</loc>
+      
+        <lastmod>2015-04-09</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2015/04/08/devoxx-jour-1/</loc>
+      
+        <lastmod>2015-04-08</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2015/04/07/before-devoxx-france/</loc>
+      
+        <lastmod>2015-04-07</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2015/04/06/assertJ-3.0.0/</loc>
+      
+        <lastmod>2015-04-06</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/food/2015/04/05/food-moelleux-au-chocolat/</loc>
+      
+        <lastmod>2015-04-05</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/2015/04/04/docker-rm/</loc>
+      
+        <lastmod>2015-04-04</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/java/2015/04/03/maven-polyglot/</loc>
+      
+        <lastmod>2015-04-03</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/jekyll/2015/04/02/jekyll-generator-with-github/</loc>
+      
+        <lastmod>2015-04-02</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/2015/04/01/one-day-one-post/</loc>
+      
+        <lastmod>2015-04-01</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/intellij/java/2015/03/01/intellij-live-template-log/</loc>
+      
+        <lastmod>2015-03-01</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/2014/08/06/docker-cpuset/</loc>
+      
+        <lastmod>2016-01-06</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+    <url>
+      <loc>https://agileek.github.io/docker/jekyll/2014/07/23/jekyll-and-docker/</loc>
+      
+        <lastmod>2015-11-08</lastmod>
+      
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+    </url>
+  
+  
+    
+      <url>
+        <loc>https://agileek.github.io/about/</loc>
+        
+          <lastmod>2015-04-03</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/food/</loc>
+        
+          <lastmod>2015-04-03</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/docker/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/jekyll/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/intellij/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/java/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/food/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/terminal/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/home_automation/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/software/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/aws/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+      <url>
+        <loc>https://agileek.github.io/categories/artisanat/</loc>
+        
+          <lastmod>2024-12-20</lastmod>
+        
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+       </url>
+    
+  
+    
+  
+    
+  
+</urlset>

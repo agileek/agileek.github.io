@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Rust AWS lambda with glibc</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/software/aws/2021/10/01/rust-aws-lambda-with-glibc/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Rust AWS lambda with glibc" />
+    <meta property="twitter:description" content="Why AWS has announced supporting rust for the lambda, but does not provide an official runtime for it. You have to provide your own, and the official way is through building a target where you can statically link a libc..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="rust,software,aws" />
+    <meta itemprop="description" content="Why AWS has announced supporting rust for the lambda, but does not provide an official runtime for it. You have to provide your own, and the official way is through building a target where you can statically link a libc..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Rust AWS lambda with glibc</h1>
+        <time class="meta" itemprop="datePublished" datetime="2021-10-01">Oct 1, 2021</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="why">Why</h2>
+
+<p>AWS has announced supporting rust for the lambda, but does not provide an official runtime for it. You have to provide your own, and the <a href="https://github.com/awslabs/aws-lambda-rust-runtime">official</a> way is through building a target where you can statically link a libc implementation: <a href="https://musl.libc.org/">musl</a>.</p>
+
+<p>While it appears you could <a href="https://users.rust-lang.org/t/statically-link-executable-with-glibc/32648">statically link the glibc</a>, it is not advised. (see <a href="https://stackoverflow.com/questions/3430400/linux-static-linking-is-dead">here</a> and <a href="https://lwn.net/Articles/117972/">here</a>)</p>
+
+<p>So for AWS:</p>
+
+<p><img src="/images/posts/rust_aws_lambda/this_is_the_way.jpg" alt="ThisIsTheWay" class="center-image" /></p>
+
+<h2 id="what">What</h2>
+
+<p>While searching for alternative solutions to this (Because reasons), I found that since late 2020, they added a <a href="https://aws.amazon.com/blogs/aws/new-for-aws-lambda-container-image-support/">container image support</a> to AWS lambda.</p>
+
+<p><img src="/images/posts/rust_aws_lambda/there_is_another.jpg" alt="ThereIsAnother" class="center-image" /></p>
+
+<p>Sooooooo, if we want to use glibc, we need to have docker.
+Fine, let’s give it a try</p>
+
+<h3 id="how">How</h3>
+
+<p>First we have to create a simple rust application.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo new test_aws_lambda
+cargo add lambda_runtime
+cargo add tokio
+cargo add aws_lambda_events
+</code></pre></div></div>
+
+<p>Let’s change the <code class="language-plaintext highlighter-rouge">src/main.rs</code> a bit.
+Basically we will just return everything that is sent to us.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nn">aws_lambda_events</span><span class="p">::</span><span class="nn">event</span><span class="p">::</span><span class="nn">sns</span><span class="p">::</span><span class="n">SnsEvent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">lambda_runtime</span><span class="p">::</span><span class="n">Context</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">lambda_runtime</span><span class="p">::{</span><span class="n">handler_fn</span><span class="p">,</span> <span class="n">Error</span><span class="p">};</span>
+
+<span class="nd">#[tokio::main]</span>
+<span class="k">pub</span> <span class="k">async</span> <span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span> <span class="n">Error</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">func</span> <span class="o">=</span> <span class="nf">handler_fn</span><span class="p">(</span><span class="n">handler</span><span class="p">);</span>
+    <span class="nn">lambda_runtime</span><span class="p">::</span><span class="nf">run</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="k">.await</span><span class="o">?</span><span class="p">;</span>
+
+    <span class="nf">Ok</span><span class="p">(())</span>
+<span class="p">}</span>
+
+<span class="k">async</span> <span class="k">fn</span> <span class="nf">handler</span><span class="p">(</span><span class="n">sns_event</span><span class="p">:</span> <span class="n">SnsEvent</span><span class="p">,</span> <span class="n">_context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="n">SnsEvent</span><span class="p">,</span> <span class="n">Error</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"Handler"</span><span class="p">);</span>
+    <span class="nf">Ok</span><span class="p">(</span><span class="n">sns_event</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now comes the build part, we will use docker to build the release.
+We will need a custom ENTRYPOINT for aws to be able to understand the lambda.
+Here is the <code class="language-plaintext highlighter-rouge">entry.sh</code> you’ll need:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">set</span> <span class="nt">-x</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="k">${</span><span class="nv">AWS_LAMBDA_RUNTIME_API</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+	  </span><span class="nb">exec</span> /usr/bin/aws-lambda-rie <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+  <span class="k">else
+	    </span><span class="nb">exec</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+<span class="k">fi</span> 
+</code></pre></div></div>
+
+<pre><code class="language-Docker">FROM rust:buster as build
+
+COPY test_aws_lambda /test_aws_lambda
+RUN cd test_aws_lambda &amp;&amp; cargo build --release
+
+FROM debian:buster
+
+ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/1.1/aws-lambda-rie /usr/bin/aws-lambda-rie
+RUN chmod 755 /usr/bin/aws-lambda-rie
+COPY entry.sh /
+RUN chmod 755 /entry.sh
+ENTRYPOINT [ "/entry.sh" ]
+
+COPY --from=build /test_aws_lambda/target/release/test_aws_lambda /test_aws_lambda
+CMD [ "/test_aws_lambda" ]
+</code></pre>
+
+<p>Now we have to build it: <code class="language-plaintext highlighter-rouge">docker build -t aws-lambda-test .</code></p>
+
+<p>Run it: <code class="language-plaintext highlighter-rouge">docker run --rm -p 9000:8080 aws-lambda-test</code></p>
+
+<p>And test it: <code class="language-plaintext highlighter-rouge">curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{ "Records": [] }'</code></p>
+
+<p>It should respond <code class="language-plaintext highlighter-rouge">{"Records":[]}</code></p>
+
+<h3 id="deploy-on-aws">Deploy on AWS</h3>
+
+<p>You need to have a docker registry (ECR) in the same account as your lambda.</p>
+
+<p>First, create an ECR repository <code class="language-plaintext highlighter-rouge">ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test</code></p>
+
+<p>You can then tag and push your local image in this repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker tag aws-lambda-test ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
+docker push ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
+</code></pre></div></div>
+
+<p>Create the lambda, use the container image, and go to the test section.</p>
+
+<p><img src="/images/posts/rust_aws_lambda/aws_test.png" alt="AwsTest" class="center-image" /></p>
+
+<p>And voilà, you now have a rust container running as an aws lambda!</p>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

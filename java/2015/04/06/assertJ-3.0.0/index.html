@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AssertJ 3.0.0 for Java 8</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/java/2015/04/06/assertJ-3.0.0/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="AssertJ 3.0.0 for Java 8" />
+    <meta property="twitter:description" content="AssertJ est enfin sorti avec le support de Java8. Je le considère comme le meilleur outil de tests unitaires pour Java. Son approche est la suivante : une assertion doit être lisible par un humain. Pour vous en faire la..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="AssertJ est enfin sorti avec le support de Java8. Je le considère comme le meilleur outil de tests unitaires pour Java. Son approche est la suivante : une assertion doit être lisible par un humain. Pour vous en faire la..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">AssertJ 3.0.0 for Java 8</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-06">Apr 6, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p>AssertJ est enfin sorti avec le support de Java8.</p>
+
+<p>Je le considère comme le meilleur outil de tests unitaires pour Java. Son approche est la suivante : une assertion doit être lisible par un humain.</p>
+
+<p>Pour vous en faire la démonstration, je vais vous montrer plusieurs exemples avec assertJ, en les comparant avec les assertions Junit.</p>
+
+<h2 id="exemples">Exemples</h2>
+
+<h3 id="boolean-check">Boolean check</h3>
+
+<h4 id="junit">Junit</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">assertTrue</span><span class="o">(</span><span class="n">myBooleanValue</span><span class="o">);</span></code></pre></figure>
+
+<h4 id="assertj">AssertJ</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">assertThat</span><span class="o">(</span><span class="n">myBooleanValue</span><span class="o">).</span><span class="na">isTrue</span><span class="o">();</span></code></pre></figure>
+
+<h3 id="list-checks">List checks</h3>
+<p>Supposons cette liste :</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">ImmutableList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">elementList</span> <span class="o">=</span> <span class="nc">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+						<span class="s">"element1"</span><span class="o">,</span> 
+						<span class="s">"element2"</span><span class="o">,</span> 
+						<span class="s">"element3"</span><span class="o">);</span></code></pre></figure>
+
+<p>Si je veux vérifier que les éléments sont bien présents</p>
+
+<h4 id="junit-1">Junit</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">elementList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+<span class="n">assertEquals</span><span class="o">(</span><span class="s">"element1"</span><span class="o">,</span> <span class="n">elementList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+<span class="n">assertEquals</span><span class="o">(</span><span class="s">"element2"</span><span class="o">,</span> <span class="n">elementList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+<span class="n">assertEquals</span><span class="o">(</span><span class="s">"element3"</span><span class="o">,</span> <span class="n">elementList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span></code></pre></figure>
+
+<h4 id="assertj-1">AssertJ</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">assertThat</span><span class="o">(</span><span class="n">elementList</span><span class="o">).</span><span class="na">hasSize</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+<span class="n">assertThat</span><span class="o">(</span><span class="n">elementList</span><span class="o">).</span><span class="na">containsExactly</span><span class="o">(</span><span class="s">"element1"</span><span class="o">,</span> <span class="s">"element2"</span><span class="o">,</span> <span class="s">"element3"</span><span class="o">);</span></code></pre></figure>
+
+<p>Et je ne vous montre que le <code class="language-plaintext highlighter-rouge">containsExactly</code>, il en existe plein d’autres (containsOnly, containsSubsequence, …).</p>
+
+<h2 id="dry--kiss">DRY &amp; KISS</h2>
+
+<p>C’est vraiment ce que j’apprécie dans cette librairie : tout a été pensé pour que l’on ne perde pas de temps dans nos asserts.</p>
+
+<p>Et quand on se retrouve avec des cas tordus<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, il y’a la possibilité de définir vos propres assertions (il y’a même un <a href="http://joel-costigliola.github.io/assertj/assertj-assertions-generator.html">générateur</a> pour ça).</p>
+
+<h2 id="et-java-8-dans-tout-ça-">Et Java 8 dans tout ça ?</h2>
+
+<p>La version 3.0.0 d’AssertJ fonctionne avec Java 8 et apporte son lot de sucre syntaxique.</p>
+
+<p>Vous pouvez jeter un oeil sur la <a href="http://joel-costigliola.github.io/assertj/assertj-core-news.html#assertj-core-3.0.0">release note</a>.</p>
+
+<h3 id="datetime-assertions">Date/Time assertions</h3>
+<p>Regardez les exemples de la release note, il n’y a rien à rajouter, c’est parfait, tout est là.</p>
+
+<h3 id="exceptions">Exceptions</h3>
+
+<h4 id="junit-2">Junit</h4>
+
+<p>Avec Junit, plusieurs choix, soit :</p>
+
+<ul>
+  <li>on catch et on assert (Berk)</li>
+  <li>on marque dans l’annotation @Test que l’on attend une exception (Re-Berk, on ne sait pas si l’exception a été lancée par ce qu’on voulait, ou par du code au dessus)</li>
+  <li>on utilise la Rule ExpectedException</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Rule</span>
+<span class="kd">public</span> <span class="nc">ExpectedException</span> <span class="n">expectedException</span> <span class="o">=</span> <span class="nc">ExpectedException</span><span class="o">.</span><span class="na">none</span><span class="o">();</span>
+<span class="o">...</span>
+
+<span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">shouldThrowExceptionWhenNull</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">expectedException</span><span class="o">.</span><span class="na">expect</span><span class="o">(</span><span class="nc">NullPointerException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">expectedException</span><span class="o">.</span><span class="na">expectMessage</span><span class="o">(</span><span class="s">"Enum is null"</span><span class="o">);</span>
+    <span class="nc">MyEnum</span><span class="o">.</span><span class="na">fromName</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="assertj-3">AssertJ 3</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">shouldThrowExceptionWhenNull</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="nc">Throwable</span> <span class="n">throwable</span> <span class="o">=</span> <span class="n">catchThrowable</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">MyEnum</span><span class="o">.</span><span class="na">fromName</span><span class="o">(</span><span class="kc">null</span><span class="o">));</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">throwable</span><span class="o">).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">NullPointerException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                         <span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="s">"Enum is null"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Maintenant, on est capable de séparer le “When” du “Then”, chose qui n’était avant possible qu’en faisant un try-catch.</p>
+
+<h3 id="optionals">Optionals</h3>
+
+<h4 id="junit-3">Junit</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">shouldAssertOptional</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">optional</span> <span class="o">=</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"optionalTest"</span><span class="o">);</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">optional</span><span class="o">.</span><span class="na">isPresent</span><span class="o">());</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"optionalTest"</span><span class="o">,</span> <span class="n">optional</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="assertj-3-1">AssertJ 3</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">shouldAssertOptional</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">optional</span> <span class="o">=</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"optionalTest"</span><span class="o">);</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">optional</span><span class="o">).</span><span class="na">isPresent</span><span class="o">()</span>
+                        <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"optionalTest"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="approximation-des-primitives">Approximation des primitives</h3>
+
+<p>Je ne suis pas sûr de l’utilité de celle là, d’un côté je pense que si on n’est pas capable de déterminer la sortie exacte d’un test, c’est qu’on a un problème.
+De l’autre, je me dis que ça peut être super, par exemple quand on fait des tests avec des nombres pseudo-aléatoires.</p>
+
+<p>Bref, ça donne ça :</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">assertThat</span><span class="o">(</span><span class="mi">30</span><span class="o">).</span><span class="na">isCloseTo</span><span class="o">(</span><span class="mi">40</span><span class="o">,</span> <span class="n">within</span><span class="o">(</span><span class="mi">10</span><span class="o">));</span></code></pre></figure>
+
+<h3 id="matches">matches</h3>
+
+<p>Celui là peut être super, ou super dangereux.</p>
+
+<p>Voici l’exemple de la release note:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">TolkienCharacter</span> <span class="n">frodo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TolkienCharacter</span><span class="o">(</span><span class="s">"Frodo"</span><span class="o">,</span> <span class="mi">33</span><span class="o">,</span> <span class="no">HOBBIT</span><span class="o">);</span>
+<span class="c1">// actual refers to frodo </span>
+<span class="n">assertThat</span><span class="o">(</span><span class="n">frodo</span><span class="o">).</span><span class="na">matches</span><span class="o">(</span><span class="n">actual</span> <span class="o">-&gt;</span> <span class="n">actual</span><span class="o">.</span><span class="na">age</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="o">&amp;&amp;</span> <span class="n">actual</span><span class="o">.</span><span class="na">getRace</span><span class="o">()</span> <span class="o">==</span> <span class="no">HOBBIT</span><span class="o">);</span></code></pre></figure>
+
+<p>Si on change l’âge de frodo à ‘25’ l’erreur remontée est la suivante :</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">AssertionError</span><span class="o">:</span> 
+<span class="nl">Expecting:</span>
+  <span class="o">&lt;</span><span class="n">eu</span><span class="o">.</span><span class="na">bitard</span><span class="o">.</span><span class="na">AssertJ3Test</span><span class="n">$TolkienCharacter</span><span class="err">@</span><span class="mi">721</span><span class="n">e0f4f</span><span class="o">&gt;</span> <span class="n">to</span> <span class="n">match</span> <span class="n">given</span> <span class="n">predicate</span><span class="o">.</span>
+
+<span class="nc">You</span> <span class="n">can</span> <span class="n">use</span> <span class="err">'</span><span class="n">matches</span><span class="o">(</span><span class="nc">Predicate</span> <span class="n">p</span><span class="o">,</span> <span class="nc">String</span> <span class="n">description</span><span class="o">)</span><span class="err">'</span> <span class="n">to</span> <span class="n">have</span> <span class="n">a</span> <span class="n">better</span> <span class="n">error</span> <span class="n">message</span>
+<span class="nc">For</span> <span class="nl">example:</span>
+  <span class="n">assertThat</span><span class="o">(</span><span class="n">player</span><span class="o">).</span><span class="na">matches</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">p</span><span class="o">.</span><span class="na">isRookie</span><span class="o">(),</span> <span class="s">"is rookie"</span><span class="o">);</span>
+<span class="n">will</span> <span class="n">give</span> <span class="n">an</span> <span class="n">error</span> <span class="n">message</span> <span class="n">looking</span> <span class="nl">like:</span>
+
+<span class="nl">Expecting:</span>
+  <span class="o">&lt;</span><span class="n">player</span><span class="o">&gt;</span>
+<span class="n">to</span> <span class="n">match</span> <span class="err">'</span><span class="n">is</span> <span class="n">rookie</span><span class="err">'</span> <span class="n">predicate</span>
+	<span class="n">at</span> <span class="n">eu</span><span class="o">.</span><span class="na">bitard</span><span class="o">.</span><span class="na">AssertJ3Test</span><span class="o">.</span><span class="na">shouldAssertMatches</span><span class="o">(</span><span class="nc">AssertJ3Test</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">28</span><span class="o">)</span>
+	<span class="o">.....</span></code></pre></figure>
+
+<p>Je sais pas vous, mais moi je préfère ça :</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">ava</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">AssertionError</span><span class="o">:</span> 
+<span class="nl">Expecting:</span>
+ <span class="o">&lt;</span><span class="mi">25</span><span class="o">&gt;</span>
+<span class="n">to</span> <span class="n">be</span> <span class="n">greater</span> <span class="nl">than:</span>
+ <span class="o">&lt;</span><span class="mi">30</span><span class="o">&gt;</span> 
+	<span class="n">at</span> <span class="n">eu</span><span class="o">.</span><span class="na">bitard</span><span class="o">.</span><span class="na">AssertJ3Test</span><span class="o">.</span><span class="na">shouldAssertMatches</span><span class="o">(</span><span class="nc">AssertJ3Test</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">28</span><span class="o">)</span>
+	<span class="o">...</span></code></pre></figure>
+
+<p>Ce qui est donné par les asserts suivant :</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">assertThat</span><span class="o">(</span><span class="n">frodo</span><span class="o">.</span><span class="na">age</span><span class="o">).</span><span class="na">isGreaterThan</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
+<span class="n">assertThat</span><span class="o">(</span><span class="n">frodo</span><span class="o">.</span><span class="na">race</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Race</span><span class="o">.</span><span class="na">HOBBIT</span><span class="o">);</span></code></pre></figure>
+
+<h3 id="bilan">Bilan</h3>
+
+<p>C’est une super bonne nouvelle, surtout pour les dates, les exceptions et les optionals. Pour les autres, je suis plus mitigé, à voir à l’usage.</p>
+
+<p>Et vous, vous en pensez quoi ?</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>C’est peut-être un problème de conception ? <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

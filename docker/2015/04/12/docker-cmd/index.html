@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Docker Tips #3: How to lose data with a bad CMD</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/docker/2015/04/12/docker-cmd/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Docker Tips #3: How to lose data with a bad CMD" />
+    <meta property="twitter:description" content="Scenario I want to be sure I don’t lose data when I stop my container. Given A simple program which add to a list the current time every second (Very critical program) and write the list to a file when..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Scenario I want to be sure I don’t lose data when I stop my container. Given A simple program which add to a list the current time every second (Very critical program) and write the list to a file when..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Docker Tips #3: How to lose data with a bad CMD</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-12">Apr 12, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h2 id="scenario">Scenario</h2>
+
+<p>I want to be sure I don’t lose data when I stop my container.</p>
+
+<h3 id="given">Given</h3>
+<p>A simple program which add to a list the current time every second (Very critical program) and write the list to a file when it exits.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Path</span> <span class="n">parentDirectory</span> <span class="o">=</span> <span class="nc">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"dataFolder"</span><span class="o">);</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Path</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">parentDirectory</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">"data"</span><span class="o">);</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">,</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="nc">Files</span><span class="o">.</span><span class="na">exists</span><span class="o">(</span><span class="n">data</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">Files</span><span class="o">.</span><span class="na">createDirectories</span><span class="o">(</span><span class="n">parentDirectory</span><span class="o">);</span>
+        <span class="nc">Files</span><span class="o">.</span><span class="na">createFile</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">lines</span> <span class="o">=</span> <span class="nc">Files</span><span class="o">.</span><span class="na">readAllLines</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+
+    <span class="nc">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">addShutdownHook</span><span class="o">(</span><span class="k">new</span> <span class="nc">Thread</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">Charset</span> <span class="n">charset</span> <span class="o">=</span> <span class="nc">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"utf-8"</span><span class="o">);</span>
+            <span class="k">try</span> <span class="o">(</span><span class="nc">BufferedWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="nc">Files</span><span class="o">.</span><span class="na">newBufferedWriter</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">charset</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">line</span> <span class="o">:</span> <span class="n">lines</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">line</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">line</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="na">newLine</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"Couldn't save lines"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">lines</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
+        <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>I assume it’s understandable even if you are not familiar with java. If not, let me know and I’ll explain it.</p>
+
+<h3 id="when">When</h3>
+
+<p>I launch it without docker, (<code class="language-plaintext highlighter-rouge">java -jar docker/docker-stop-test-0.1-SNAPSHOT.jar</code>) wait for a few seconds, then kill it (<code class="language-plaintext highlighter-rouge">kill $(ps aux | grep java | grep docker-stop-test-0.1-SNAPSHOT.jar | awk '{print $2}')</code>)</p>
+
+<h3 id="then">Then</h3>
+<p>I check in <code class="language-plaintext highlighter-rouge">dataFolder/data</code> file and I see</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">cat </span>dataFolder/data 
+2015-04-12T08:47:16.873Z
+2015-04-12T08:47:17.927Z
+2015-04-12T08:47:18.928Z
+2015-04-12T09:12:16.469Z
+2015-04-12T09:12:17.521Z</code></pre></figure>
+
+<h3 id="but">But</h3>
+
+<p>If I kill -9 instead, the data file is empty.</p>
+
+<h2 id="lets-move-to-docker-now">Let’s move to docker now</h2>
+
+<h3 id="given-1">Given</h3>
+
+<p>A docker image with the jre and my jar installed</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">ADD</span><span class="s"> docker-stop-test-0.1-SNAPSHOT.jar /</span>
+
+<span class="k">CMD</span><span class="s"> java -jar docker-stop-test-0.1-SNAPSHOT.jar</span></code></pre></figure>
+
+<h3 id="when-1">When</h3>
+
+<p>I launch a container, wait for a few seconds, then STOP (not KILL) it</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>docker run <span class="nt">--name</span> docker-stop-test-bad-container <span class="nt">-v</span> <span class="nv">$PWD</span>/dataFolder-bad-cmd:/dataFolder <span class="nt">-d</span> docker-stop-test-bad
+c08dc515319601d467db02339d3b3a84a03ab99fb4b46811cc5860abf5eea7ec
+<span class="nv">$ </span><span class="nb">sleep </span>5
+<span class="nv">$ </span>docker stop docker-stop-test-bad-container
+docker-stop-test-bad-container</code></pre></figure>
+
+<h3 id="then-1">Then</h3>
+
+<p>I expect to see data in <code class="language-plaintext highlighter-rouge">dataFolder-bad-cmd/data</code> <strong><em>right</em></strong>? <strong><em>Wrong</em></strong>.</p>
+
+<p>There is nothing written in the data file, that means I just lost everything!</p>
+
+<h2 id="explanations">Explanations</h2>
+
+<p>If you look at the CMD command: <code class="language-plaintext highlighter-rouge">CMD java -jar docker-stop-test-0.1-SNAPSHOT.jar</code> everything looks ok.
+But when you run this image and inspect the created container, you will see this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="s2">"Cmd"</span>: <span class="o">[</span>
+            <span class="s2">"/bin/sh"</span>,
+            <span class="s2">"-c"</span>,
+            <span class="s2">"java -jar docker-stop-test-0.1-SNAPSHOT.jar"</span>
+        <span class="o">]</span></code></pre></figure>
+
+<p>Docker wrapped my command within a shell script. So what, that’s not that big a deal right?</p>
+
+<p>In fact, if you look at the docker <a href="https://docs.docker.com/reference/builder/#cmd">documentation</a>, you don’t see anything useful. You have to look at the <a href="https://docs.docker.com/reference/builder/#entrypoint">ENTRYPOINT</a> documentation and dig into it a little to see that:</p>
+
+<blockquote>
+  <p>The shell form prevents any CMD or run command line arguments from being used, but has the disadvantage that your ENTRYPOINT will be started as a subcommand of /bin/sh -c, which does not pass signals. This means that the executable will not be the container’s PID 1 - and will not receive Unix signals - so your executable will not receive a SIGTERM from docker stop <container>.</container></p>
+</blockquote>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Don’t use the most intuitive syntax in the CMD or ENTRYPOINT command, use the exec form. If you replace the CMD command in the dockerfile by this one:</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">CMD</span><span class="s"> ["java", "-jar", "docker-stop-test-0.1-SNAPSHOT.jar"]</span></code></pre></figure>
+
+<p>Then everything works like a charm, the SIGTERM is received and the java application save its list into the data file before exiting.</p>
+
+<h2 id="diy">DIY</h2>
+
+<p>If you want to try it by yourself, everything is on my <a href="https://github.com/agileek/docker-tips/tree/master/cmd">github repository</a>. You have two shell scripts: <code class="language-plaintext highlighter-rouge">docker-build-all.sh</code> and <code class="language-plaintext highlighter-rouge">docker-run-all.sh</code>. The first will build the images with the bad syntax and the good one. The second script will run containers from these images, wait 5 seconds, stop them.</p>
+
+<p>You can then check in <code class="language-plaintext highlighter-rouge">dataFolder-bad-cmd/data</code> and <code class="language-plaintext highlighter-rouge">dataFolder-good-cmd/data</code> to see the differences.</p>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

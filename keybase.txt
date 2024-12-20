@@ -1,0 +1,69 @@
+==================================================================
+https://keybase.io/michaelbitard
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://agileek.github.io
+  * I am michaelbitard (https://keybase.io/michaelbitard) on keybase.
+  * I have a public key with fingerprint ACFE 1F9D 9944 82A2 EC42  424C AECF 28DB 1F8A AE30
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0101758af6a9f9acb044acdc9959c20997355388e1260d9d309c14337c23c95b2de50a",
+            "fingerprint": "acfe1f9d994482a2ec42424caecf28db1f8aae30",
+            "host": "keybase.io",
+            "key_id": "aecf28db1f8aae30",
+            "kid": "0101758af6a9f9acb044acdc9959c20997355388e1260d9d309c14337c23c95b2de50a",
+            "uid": "1eae2d1aa913625f2d0104c50ff26119",
+            "username": "michaelbitard"
+        },
+        "service": {
+            "hostname": "agileek.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1470834657,
+    "expire_in": 157680000,
+    "prev": "a7e366e68ab30c2da901fac99062d2d8e54f2c711d6e19a9e2a5a1261b01ee11",
+    "seqno": 7,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.55
+Comment: https://keybase.io/crypto
+
+yMIrAnicrVJbSFRBGF5rFTOKqOhGVpxuaLacmXOdjYIewoeKQgjJsm3OzH92D+ru
+dvasm4hEGCXeukpFCgWV0A3aHgoiyjSLLCKiC3QVqYeiLMpeeqg5Vm89NvMwzPzf
+9/3f/zF9E8YGCnJu5TeOjDe7KnMGek6kA+VnFw/WS1aC10nheqkKRg+o5pDyIlUO
+l8KSjGRkaCa1dUpsQpklqyplnBGiEYZlQgxF0xTTBIR1mROuyIQhVVEMhhVGNAtz
+0GQqlUi2E4+Cm3SduCdkKbMB2YQToqomphiYisVmFJiNTW4h26QUFFkQY4mUzxDm
+LJqCkJMQb+ISGbX3D/x/9p0elUNAAXNEKUGKjjUbc9FAZZps21hHiPjAFLhxWgMC
+XeOwGIVqy/Goy6WGEkmUah0Gfrr+OH9gNOpUA1SFoo4XS1u/J0u6CS/BEtWiHPO8
+ZCrs0726pI/PgBX5oxSxnDgXiQpGLbgpJxGXwkggmef40kg1ZFNRdc0okWB70nEh
+4vgIzdBNWSy/D9T6FgxQdB10k1qKzDCnREY2FSnJOuaYm6CpNmYGQlwHRCgBTDUq
+IkOWjAAQkvzZtsUTUlh08mhUSKacaJx6aRekhps3NgcDOQWBvNwx/k8LFIyb9Pf/
+zcvkBw4eTy2duXKZ9vVDMDacvFC4oPty8MOWrDn5el7yTmH766K8+MnKx+M1fHfb
+/Fk7Jr3r21paYSg107KdByMvviwZXlv4oPXqk10/Yj+e4/45U8J7gsGJh27fy6s4
+8rm5421IefmxczW0T8v0G4MHyDeSLe17mV+/EEfXtB1rLmtqHXp05cyRo8b03YO9
+6/Csskun8nMHY5mRMYebV8ydW7Yx232x5WPpquchvbG3Y++1rn3n9w/b5z49rmuY
+0bXofsuJ451umQpDPQOzp69/tur7pX1N2adFId7y0Mssnzh2Q4cxVDdQ+75pRdXA
+yELjdPrVm03FDxtLy4t/tj06FF5cMdXY+Qupk0Dz
+=mAF0
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/michaelbitard
+
+==================================================================
+

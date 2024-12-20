@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HTTPie and json: REST in your terminal</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/terminal/2015/04/14/httpie_and_json/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="HTTPie and json: REST in your terminal" />
+    <meta property="twitter:description" content="Je suis, comme Emmanuel Bernard, un taré du terminal. Ce que je trouve génial avec cet outil, c’est qu’on n’arrête jamais de découvrir de nouvelles choses. Je vais vous parler de la combinaison de 2 outils pour jouer avec du..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Je suis, comme Emmanuel Bernard, un taré du terminal. Ce que je trouve génial avec cet outil, c’est qu’on n’arrête jamais de découvrir de nouvelles choses. Je vais vous parler de la combinaison de 2 outils pour jouer avec du..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">HTTPie and json: REST in your terminal</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-04-14">Apr 14, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <p>Je suis, comme <a href="http://agileek.github.io/java/2015/04/08/devoxx-jour-1/#le-tar-du-terminal">Emmanuel Bernard</a>, un taré du terminal. Ce que je trouve génial avec cet outil, c’est qu’on n’arrête jamais de découvrir de nouvelles choses.</p>
+
+<p>Je vais vous parler de la combinaison de 2 outils pour jouer avec du Rest depuis votre terminal :</p>
+
+<ul>
+  <li><a href="http://httpie.org/">HTTPie</a>, qui est un “cURL-like tool for humans”</li>
+  <li><a href="http://trentm.com/json/">json</a> (très mauvais nom), qui est un utilitaire pour travailler sur du json</li>
+</ul>
+
+<p>Pour notre exemple on va jouer avec l’API de github, en essayant d’afficher tous les repos docker de l’organisation <code class="language-plaintext highlighter-rouge">agileek</code>.</p>
+
+<h3 id="installation">Installation</h3>
+
+<p>Sous ubuntu/debian : <code class="language-plaintext highlighter-rouge">sudo apt-get install httpie &amp;&amp; npm install -g json</code></p>
+
+<p>Commençons par récupérer la liste des repos associée à mon organisation.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>http https://api.github.com/orgs/agileek/repos</code></pre></figure>
+
+<p>Nous avons un joli résultat bien formaté …</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="err">HTTP/</span><span class="mf">1.1</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="err">OK</span><span class="w">
+</span><span class="err">Access-Control-Allow-Credentials:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="err">Access-Control-Allow-Origin:</span><span class="w"> </span><span class="err">*</span><span class="w">
+</span><span class="err">...plein</span><span class="w"> </span><span class="err">de</span><span class="w"> </span><span class="err">headers...</span><span class="w">
+</span><span class="err">X-XSS-Protection:</span><span class="w"> </span><span class="mi">1</span><span class="err">;</span><span class="w"> </span><span class="err">mode=block</span><span class="w">
+
+</span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/{archive_format}{/ref}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"assignees_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/assignees{/user}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"blobs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/git/blobs{/sha}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"branches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/branches{/branch}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"clone_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/agileek/agileek.github.io.git"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"collaborators_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/collaborators{/collaborator}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"comments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/comments{/number}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"commits_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/commits{/sha}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"compare_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/compare/{base}...{head}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"contents_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/contents/{+path}"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"contributors_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/contributors"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-07-23T09:51:52Z"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"downloads_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/downloads"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io/events"</span><span class="p">,</span><span class="w"> 
+        </span><span class="nl">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/agileek/agileek.github.io"</span><span class="p">,</span><span class="w">
+        </span><span class="err">....</span><span class="w"> </span><span class="err">trop</span><span class="w"> </span><span class="err">de</span><span class="w"> </span><span class="err">données</span><span class="w"> </span><span class="err">...</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w"> </span></code></pre></figure>
+
+<p>… mais il y a tout simplement trop d’informations. Si je veux trouver tous les repos qui ont un lien avec docker, comment je fais ?</p>
+
+<blockquote>
+  <p>Mes solutions précédentes consistaient en une série de awk, sed…<br /> 
+Vous savez ces choses dont on est fier quand on a un résultat mais quand on revient dessus quelques temps plus tard, on ne comprend plus rien.</p>
+</blockquote>
+
+<p>C’est là qu’intervient json. Pour y voir plus clair, n’affichons que les urls.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>http https://api.github.com/orgs/agileek/repos | json <span class="nt">-a</span> url
+https://api.github.com/repos/agileek/agileek.github.io
+https://api.github.com/repos/agileek/docker
+https://api.github.com/repos/agileek/docker-ansible
+https://api.github.com/repos/agileek/docker-jenkins
+https://api.github.com/repos/agileek/docker-tips</code></pre></figure>
+
+<blockquote>
+  <p>le ‘-a’ indique qu’on descend dans un array</p>
+</blockquote>
+
+<p>Voilà, ça pique moins les yeux quand même. Maintenant ne gardons que les urls qui contiennent docker</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>http https://api.github.com/orgs/agileek/repos | json <span class="nt">-c</span> <span class="s1">'this.url.indexOf("docker") &gt;= 0'</span> <span class="nt">-a</span> url
+https://api.github.com/repos/agileek/docker
+https://api.github.com/repos/agileek/docker-ansible
+https://api.github.com/repos/agileek/docker-jenkins
+https://api.github.com/repos/agileek/docker-tips</code></pre></figure>
+
+<p>Voilà, c’est terminé ! le <code class="language-plaintext highlighter-rouge">-c</code> indique que vous allez écrire du javascript pour retourner un boolean, je me sers du indexOf pour filtrer tout ce qui contient “docker”.</p>
+
+<h3 id="pour-aller-plus-loin">Pour aller plus loin</h3>
+
+<p>Je ne vous ai montré que l’interaction basique entre httpie et json, n’hésitez pas à jouer avec httpie pour faire des <code class="language-plaintext highlighter-rouge">POST</code>, <code class="language-plaintext highlighter-rouge">PUT</code>, <code class="language-plaintext highlighter-rouge">DELETE</code>, c’est vraiment très intuitif, je ne peux déjà plus m’en passer.</p>
+
+<h3 id="ps">PS</h3>
+
+<p>Merci à <a href="http://www.bloggure.info/">Cédric Gatay</a>, des <a href="http://code-troopers.com/">Code Troopers</a> pour m’avoir fait découvrir HTTPie.</p>
+
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>

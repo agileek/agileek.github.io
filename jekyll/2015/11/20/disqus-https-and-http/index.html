@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Forcing https for GitHub Pages and Disqus</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Yet another blog on software stuff">
+    <meta name="google-site-verification" content="EFyUB6skWxpeeWVCFYgbmc_FK_E_Df_G17co5YEEg90" />
+    <link rel="icon" type="image/png" href="/images/home.png" />
+    <link rel="canonical" href="https://agileek.github.io/jekyll/2015/11/20/disqus-https-and-http/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/asciinema-player.css " />
+    <link rel="stylesheet" href=" /css/main.css ">
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mbitard",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+
+    <script>
+      var host = "agileek.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:"))
+          window.location.protocol = "https";
+    </script>
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/"><img alt="home" src="/images/home.png" />Software</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+            
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/food/">Food</a>
+            
+          
+        
+          
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@BitardMichael" />
+    <meta property="twitter:title" content="Forcing https for GitHub Pages and Disqus" />
+    <meta property="twitter:description" content="Observation This blog uses GitHub Pages, which are by default available using both http and https protocols. The comments are powered by Disqus, and it works really well. Almost really well, actually, because something strange appeared using only https. Why..." />
+    <meta property="twitter:image" content="" />
+
+    <meta itemprop="keywords" content="" />
+    <meta itemprop="description" content="Observation This blog uses GitHub Pages, which are by default available using both http and https protocols. The comments are powered by Disqus, and it works really well. Almost really well, actually, because something strange appeared using only https. Why..." />
+
+    <header class="post-header">
+        <h1 itemprop="name">Forcing https for GitHub Pages and Disqus</h1>
+        <time class="meta" itemprop="datePublished" datetime="2015-11-20">Nov 20, 2015</time>
+        
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+        <h3 id="observation">Observation</h3>
+
+<p>This blog uses <a href="https://pages.github.com/">GitHub Pages</a>, which are by default available using both <strong><em>http</em></strong> and <strong><em>https</em></strong> protocols.</p>
+
+<p>The comments are powered by Disqus, and it works really well. Almost really well, actually, because something strange appeared using only <strong><em>https</em></strong>.</p>
+
+<p>Why switching to <strong><em>https</em></strong> only ?</p>
+
+<ul>
+  <li><a href="https://blog.mozilla.org/security/2015/04/30/deprecating-non-secure-http/">Firefox starts to deprecate non secure <strong><em>http</em></strong></a></li>
+  <li><a href="http://googlewebmastercentral.blogspot.fr/2014/08/https-as-ranking-signal.html">Https as a ranking signal on google</a></li>
+  <li><a href="https://letsencrypt.org/2015/10/19/lets-encrypt-is-trusted.html">Let’s Encrypt is trusted!</a><sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></li>
+</ul>
+
+<h3 id="force-https-on-github-pages">Force <strong><em>https</em></strong> on Github Pages</h3>
+
+<p>I found this gist to force the <strong><em>https</em></strong> redirection, simple, efficient.</p>
+
+<noscript><pre>&lt;script&gt;
+var host = &quot;YOURDOMAIN.github.io&quot;;
+if ((host == window.location.host) &amp;&amp; (window.location.protocol != &quot;https:&quot;))
+    window.location.protocol = &quot;https&quot;;
+&lt;/script&gt;</pre></noscript>
+<script src="https://gist.github.com/konklone/9968713.js?file=ssl-redirect.html"> </script>
+
+<p>Then I noticed that some of the comments were gone. As you can see on the animation below, they appeared only when using <strong><em>http</em></strong></p>
+
+<p><img src="/images/posts/jekyll/disqus_http_https.gif" alt="Disqus http vs https" /></p>
+
+<h3 id="migrate-disqus-comments">Migrate Disqus comments</h3>
+
+<p>In fact, Disqus treat <a href="http://agileek.github.io">http://agileek.github.io</a> and <a href="https://agileek.github.io">https://agileek.github.io</a> as 2 differents sites<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>, so if someone post a comment on the <strong><em>http</em></strong> “version” it’s not displayed on the <strong><em>https</em></strong> side.</p>
+
+<p>Luckily, Disqus has some migration tools, and in this case an <strong>“URL mapper”</strong> which can be found in the admin section “https://YOURDISQUSNAME.disqus.com/admin/discussions/migrate/”.</p>
+
+<p>It’s a three steps procedure:</p>
+
+<ol>
+  <li>Download via Disqus admin tool the list of <a href="/images/posts/jekyll/initial_disqus_import.csv">blog posts.</a><sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup></li>
+  <li>Add a second column where “http” is <a href="/images/posts/jekyll/disqus_mapper.csv">replaced by “https”</a></li>
+  <li>Launch the migration</li>
+</ol>
+
+<p>24 hours later, all the comments are available via the <strong><em>https</em></strong> URL, and nobody can comment on the <strong><em>http</em></strong> part thanks to the script above.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Ok, this is not relevant here since I’m using GitHub’s certificates, but Let’s Encrypt is just too huge to not talk about. I will soon write an article about it. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>The “issue” has been reported several times but never corrected, is this a hidden feature? <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>There is a lot of unnecessary links, even my drafts appear here <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <script src="/js/asciinema-player.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'agileek';
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the
+        <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by
+        <span class="logo-disqus">Disqus</span>
+    </a>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p class="text">Yet another blog on software stuff</p>
+    </div>
+  </div>
+</footer>
+
+
+    </body>
+</html>
