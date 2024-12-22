@@ -6,6 +6,7 @@ tags:
 - software
 - 12Factor
 title: The Twelve-Factor App Checklist
+aliases: ['/software/2020/07/14/twelve-factor-app-checklist/']
 ---
 
 ## Twelve-Factor Application

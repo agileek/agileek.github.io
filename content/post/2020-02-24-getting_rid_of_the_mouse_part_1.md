@@ -8,6 +8,7 @@ tags:
 - terminal
 - git
 title: 'Going mouseless #1: Git push a new branch'
+aliases: ['/terminal/2020/02/24/getting_rid_of_the_mouse_part_1/']
 ---
 
 > TLDR: install thefuck

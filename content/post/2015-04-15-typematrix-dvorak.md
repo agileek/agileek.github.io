@@ -2,6 +2,7 @@
 categories: null
 date: "2015-04-15T00:00:00Z"
 title: Changer de mapping, changer de clavier
+aliases: ['/2015/04/15/typematrix-dvorak/']
 ---
 
 Cela fait bientôt 3 ans que j'ai changé de mapping et de clavier, il est temps de faire un petit bilan.
@@ -16,7 +17,7 @@ J'ai finalement choisi le typematrix.
 
 Sujet interminable également, que choisir ? Dvorak, Bépo, Colemak ? Au final j'ai choisi Dvorak, plutôt par élimination.
 
-Premier éliminé : le Bépo car je code en anglais [^1] et je compte coder encore un peu. 
+Premier éliminé : le Bépo car je code en anglais [^1] et je compte coder encore un peu.
 
 Pour Colemak vs Dvorak, beaucoup d'articles très techniques se battent pour dire que leur mapping est n% plus rapide et demande moins de mouvements que l'autre, au final j'ai pris le plus utilisé : Dvorak (et puis, avoir toutes les voyelles du même côté, ça claque[^2]).
 
@@ -31,7 +32,7 @@ Les resources pour apprendre sont nombreuses, certaines sont précises et vous m
 
 Au final après avoir passé plusieurs heures dessus, ça devient vite lassant. Étant joueur de tempérament, j'ai beaucoup apprécié [z-type][ztype], mais mon préféré reste [typeracer][typeracer].
 
-N'hésitez pas à venir me défier sur ce site ! 
+N'hésitez pas à venir me défier sur ce site !
 
 <a href="http://data.typeracer.com/pit/profile?user=bitardo&ref=badge" target="_top"><img src="http://data.typeracer.com/misc/badge?user=bitardo" class="float_image" border="0" alt="TypeRacer.com scorecard for user bitardo"/></a>
 

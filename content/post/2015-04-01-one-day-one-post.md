@@ -1,6 +1,7 @@
 ---
 date: "2015-04-01T00:00:00Z"
 title: One day, one post, one month
+aliases: ['/2015/04/01/one-day-one-post/']
 ---
 
 ## Challenge du mois

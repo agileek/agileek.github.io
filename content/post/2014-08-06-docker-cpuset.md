@@ -4,6 +4,7 @@ date: "2014-08-06T00:00:00Z"
 lastmod: "2016-01-06"
 tags: ["docker"]
 title: Playing with docker and cpuset
+aliases: ['/docker/2014/08/06/docker-cpuset/']
 ---
 
 For my client I need to benchmark a multi-threaded/multi-server solution.

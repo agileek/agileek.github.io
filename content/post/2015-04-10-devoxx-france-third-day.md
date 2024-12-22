@@ -2,6 +2,7 @@
 categories: java
 date: "2015-04-10T00:00:00Z"
 title: 'Devoxx France : jour 3'
+aliases: ['/java/2015/04/10/devoxx-france-third-day/']
 ---
 
 ![Devoxx][devoxxFrance]

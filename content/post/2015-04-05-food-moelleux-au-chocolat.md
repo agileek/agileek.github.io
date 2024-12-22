@@ -5,6 +5,7 @@ tags:
   - dessert
   - food
 title: Moelleux au chocolat
+aliases: ['/food/2015/04/05/food-moelleux-au-chocolat/']
 ---
 
 Comme aujourd'hui c'est la journée mondiale du chocolat (Ha non, en fait c'est ***Pâques***), c'est l'occasion pour moi de commencer une section recettes.

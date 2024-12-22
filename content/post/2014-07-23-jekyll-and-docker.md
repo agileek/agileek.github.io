@@ -4,6 +4,7 @@ date: "2014-07-23T00:00:00Z"
 lastmod: "2015-11-08"
 redirect_from: /jekyll/docker/2014/07/23/jekyll-and-docker/
 title: Jekyll quickstart with docker
+aliases: ['/docker/jekyll/2014/07/23/jekyll-and-docker/']
 ---
 ![Jekyll][jekyllImage]{: .float_image }
 

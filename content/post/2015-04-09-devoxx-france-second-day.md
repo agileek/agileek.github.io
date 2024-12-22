@@ -2,6 +2,7 @@
 categories: java
 date: "2015-04-09T00:00:00Z"
 title: 'Devoxx France : jour 2'
+aliases: ['/java/2015/04/09/devoxx-france-second-day/']
 ---
 
 ![Devoxx][devoxxFrance]{: .float_image }
@@ -36,7 +37,7 @@ La problématique actuelle est la démocratisation des outils informatiques. Les
 
 Cinq phases de contrôle :
 
-* Préhistoire 
+* Préhistoire
 * Phase de mutation
 * Phase de globalisation
 * Phase légale
@@ -100,7 +101,7 @@ Je préfère ne pas vous spoiler cette session, il faut la voir[^2]. Il nous par
 
 ### Constat
 
-Java connait un certain nombre de problèmes, notamment : 
+Java connait un certain nombre de problèmes, notamment :
 
 * Taille
   * Java a continuellement grossi avec le temps (55 MB). Ce n'était pas forcément un problème vu le prix du stockage, c'est en train de le devenir avec l'émergence de l'IoT.

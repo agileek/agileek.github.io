@@ -2,6 +2,7 @@
 categories: docker
 date: "2015-04-13T00:00:00Z"
 title: Poste de dev avec docker et ansible
+aliases: ['/docker/2015/04/13/docker-ansible/']
 ---
 ![meme][meme]{: .float_image }
 Vous avez un projet où il faut 3 jours d'installation acharnée en suivant un wiki obsolète pour réussir à faire un premier commit ?
@@ -44,7 +45,7 @@ Comme vous pouvez le voir, ça a pas mal évolué, jusqu'à arriver à ce que je
 3. lancer ```./launch.sh path_to_save_docker_home_folder```
 4. lancer ```./enter.sh``` pour rentrer dans le docker
 
-Résultat attendu : 
+Résultat attendu :
 
 Vous êtes dans le container, dans le home de l'utilisateur developer, qui est sudoer et ne possède pas de mot de passe. Vous avez accès à votre docker parent (donc vous pouvez tuer votre propre docker, attention ;)). Tout ce que vous écrivez dans /home/developer se retrouve dans path_to_save_docker_home_folder avec les mêmes droits que votre utilisateur linux.
 

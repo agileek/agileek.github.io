@@ -9,6 +9,7 @@ tags:
 - docker
 - systemd
 title: Login to AWS ECR using systemd
+aliases: ['/docker/terminal/2019/05/07/automatic_aws_ecr_get_login_with_systemd/']
 ---
 
 ## First try without systemd

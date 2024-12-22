@@ -8,6 +8,7 @@ tags:
 - raspberryPi
 - Z-wave
 title: Domoticz, RazBerry and Docker
+aliases: ['/home_automation/2015/12/05/home_automation_domoticz/']
 ---
 
 Today I'm going to test a new communication system, the Z-Wave.

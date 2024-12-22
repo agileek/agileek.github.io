@@ -2,6 +2,7 @@
 categories: intellij java
 date: "2015-03-01T00:00:00Z"
 title: Generate log line with Intellij and live templates
+aliases: ['/intellij/java/2015/03/01/intellij-live-template-log/']
 ---
 
 With IntelliJ, one missing feature is the automatic generation of the famous ```private static Logger LOGGER = ...; ```
@@ -13,7 +14,7 @@ And in these fields :
 
 * Abbreviation: log
 * Description: Add log line
-* Template text: 
+* Template text:
 {{< highlight java >}}
 private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger($CLASS_NAME$.class);
 {{< / highlight >}}
@@ -23,7 +24,7 @@ private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger
 * Edit variables: CLASS_NAME Expresion: className()
 
 
-Make sure you have slf4j-api in your classpath, with maven: 
+Make sure you have slf4j-api in your classpath, with maven:
 
 {{< highlight xml >}}
 <dependency>

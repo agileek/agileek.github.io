@@ -2,6 +2,7 @@
 categories: java
 date: "2015-04-03T00:00:00Z"
 title: 'Maven 3.3.1: La mort du pom.xml'
+aliases: ['/java/2015/04/03/maven-polyglot/']
 ---
 ![Maven][mavenLogo]{: .float_image }
 
@@ -18,7 +19,7 @@ Sans oublier sa syntaxe ultra verbeuse en ***XML***.
 
 ### Le constat
 
-Petit rappel qui pique les yeux : voici comment déclarer ***UNE*** dépendance dans son pom : 
+Petit rappel qui pique les yeux : voici comment déclarer ***UNE*** dépendance dans son pom :
 
 {{< highlight xml >}}
 <dependency>
@@ -39,7 +40,7 @@ C'est récemment revenu au goût du jour avec Maven 3.3.1 (17 mars 2015) et l'ar
 
 ### Concrètement, ça ressemble à quoi ?
 
-À ça : 
+À ça :
 
 {{< highlight xml >}}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -57,7 +58,7 @@ C'est récemment revenu au goût du jour avec Maven 3.3.1 (17 mars 2015) et l'ar
 ### Il s'est passé quoi ?
 Concrètement, vous venez de rajouter le support de lecture des pom.yml et pom.yaml. ***C'est pas énorme ça ?***
 
-Ensuite, Vous pouvez convertir votre ```pom.xml``` grâce à un plugin via cette commande : 
+Ensuite, Vous pouvez convertir votre ```pom.xml``` grâce à un plugin via cette commande :
 
 {{< highlight java >}}
  mvn io.takari.polyglot:polyglot-translate-plugin:translate -Dinput=pom.xml -Doutput=pom.yml

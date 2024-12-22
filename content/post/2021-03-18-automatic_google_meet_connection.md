@@ -8,6 +8,7 @@ tags:
 - terminal
 - systemd
 title: Never miss a google meet with systemd
+aliases: ['/software/terminal/2021/03/18/automatic_google_meet_connection/']
 ---
 
 I don't like to be late at meetings, and I relied heavily on my coworkers to warn me about a meeting starting.

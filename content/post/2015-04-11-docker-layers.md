@@ -2,6 +2,7 @@
 categories: docker
 date: "2015-04-11T00:00:00Z"
 title: 'Docker Tips #2: Limit the layers'
+aliases: ['/docker/2015/04/11/docker-layers/']
 ---
 
 ## Scenario
@@ -24,7 +25,7 @@ I want to push it to the registry
 
 ### Then
 
-It will push 3 layers: 
+It will push 3 layers:
 
 * the first is the android tgz pushed into /opt
 * the second is the ***extracted*** sdk into the /opt directory
@@ -57,7 +58,7 @@ That means that if the tgz changes, there will be a new build, whereas with the 
 
 ## Templates
 
-The general approach is : 
+The general approach is :
 
 * Prepare what you want to do
 * Do it
@@ -68,7 +69,7 @@ The example with the android sdk works for all archives that must be extracted.
 
 Below are templates from our experience that we think doesn't alter readability while reducing the layers and the size of the docker image.
 
-### APT 
+### APT
 {{< highlight docker >}}
 RUN apt-get update &&  \
     apt-get install -y whatever && \
@@ -91,7 +92,7 @@ This example is, in my opinion, a bad one.
 
 {% gist MichaelBitard/7bd7bc71385326ab3238 Dockerfile %}
 
-> Yes, it's only one docker RUN command	
+> Yes, it's only one docker RUN command
 
 
 #### PS

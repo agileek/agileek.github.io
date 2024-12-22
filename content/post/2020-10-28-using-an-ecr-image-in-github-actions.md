@@ -8,10 +8,11 @@ tags:
 - aws
 - cloud
 title: Using an AWS ECR image as a Github Action container
+aliases: ['/software/aws/2020/10/28/using-an-ecr-image-in-github-actions/']
 ---
 ## Moving from Docker Hub to ECR
 
-[Pubstack][pubstack], my current client decided to migrate all its docker images to [ECR][ecr]. 
+[Pubstack][pubstack], my current client decided to migrate all its docker images to [ECR][ecr].
 
 With the recent [announcement][docker_rate_limiting] about rate limiting on Docker Hub, maybe we will not be the only ones moving away.
 
@@ -43,7 +44,7 @@ jobs:
         password: ${{ secrets.ECR_PASSWORD }}
     steps:
       - run: echo "inside an ecr container"
-``` 
+```
 
 With aws, you can get a password with `aws ecr get-login-password`, and it is valid 12 hours.
 

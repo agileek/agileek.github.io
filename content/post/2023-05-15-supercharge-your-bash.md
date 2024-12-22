@@ -9,6 +9,7 @@ tags:
 - bash
 title: Contextualize your bash
 summary: Load custom bash aliases when entering directory
+aliases: ['/software/terminal/2023/05/15/supercharge-your-bash/']
 ---
 
 ## Why I'm Always Trying to Improve My Terminal Workflow

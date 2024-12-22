@@ -8,6 +8,7 @@ tags:
 - software
 - aws
 title: Rust AWS lambda with glibc
+aliases: ['/software/aws/2021/10/01/rust-aws-lambda-with-glibc/']
 ---
 
 ## Why
@@ -35,7 +36,7 @@ Fine, let's give it a try
 
 First we have to create a simple rust application.
 
-```bash 
+```bash
 cargo new test_aws_lambda
 cargo add lambda_runtime
 cargo add tokio
@@ -75,7 +76,7 @@ if [ -z "${AWS_LAMBDA_RUNTIME_API}" ]; then
 	  exec /usr/bin/aws-lambda-rie "$@"
   else
 	    exec "$@"
-fi 
+fi
 ```
 
 ```Docker
@@ -112,7 +113,7 @@ First, create an ECR repository `ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-
 
 You can then tag and push your local image in this repository:
 
-```bash 
+```bash
 docker tag aws-lambda-test ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
 docker push ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
 ```

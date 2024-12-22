@@ -2,6 +2,7 @@
 categories: docker jekyll
 date: "2015-04-02T00:00:00Z"
 title: 'Jekyll : ajouter des catégories à vos menus'
+aliases: ['/docker/jekyll/2015/04/02/jekyll-generator-with-github/']
 ---
 
 ## Jekyll

@@ -7,6 +7,7 @@ tags:
 - artisanat
 - toulouse
 title: Retour d'expérience Prestashop
+aliases: ['/artisanat/2021/12/18/prestashop-feedback/']
 ---
 
 Sur ce blog post, je m'éloigne des sentiers battus pour découvrir un domaine que je ne connais pas trop : La vente en ligne.

@@ -10,6 +10,7 @@ tags:
 - fedora
 title: Repair your grub
 summary: On the list of bad computer things that happened to me, this one maybe in the top 3
+aliases: ['/software/terminal/2022/01/07/repair-grub/']
 ---
 
 ## Context

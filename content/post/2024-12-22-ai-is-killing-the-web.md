@@ -1,7 +1,7 @@
 ---
 categories:
 - software
-date: "2024-12-20T00:00:00Z"
+date: "2024-12-22T00:00:00Z"
 draft: true
 tags:
 - software

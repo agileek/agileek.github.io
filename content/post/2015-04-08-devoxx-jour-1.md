@@ -2,6 +2,7 @@
 categories: java
 date: "2015-04-08T00:00:00Z"
 title: 'Devoxx France : Jour 1'
+aliases: ['/java/2015/04/08/devoxx-jour-1/']
 ---
 
 ## Devoxx France
@@ -12,7 +13,7 @@ title: 'Devoxx France : Jour 1'
 
 ### Présentation de Google Cloud Platform par David Gageot et Ludovic Champenois.
 
-J'ai hésité avec "Quand Devops rencontre BigData", mais il est trop tôt pour attaquer violemment avec du spark. 
+J'ai hésité avec "Quand Devops rencontre BigData", mais il est trop tôt pour attaquer violemment avec du spark.
 
 Le but de cette session est de nous présenter une bonne partie de l'infrastructure google cloud au travers du déploiement d'une application de vote de tapis[^1].
 
@@ -136,7 +137,7 @@ afin de contribuer sur un projet de la communauté open source.
 
 À Devoxx le principe est le même que partout : des porteurs de projets présentent leur projet et des groupes se forment pour corriger des issues, ou ajouter des fonctionnalités au projet.
 
-Voici les sujets de cette année : 
+Voici les sujets de cette année :
 
 * AsciiDoctor
 * Golo
@@ -198,7 +199,7 @@ Avec la prise en charge de Java par Oracle, les versions sont ```deprecated``` b
 
 Java 6 devient très très payante et Java 7 devient deprecated ce mois-ci. Il faut donc pouvoir switcher de plus en plus rapidement et avec le moins de surprises (Ou prendre le support oracle et payer pour conserver les anciennes versions).
 
-Les différents conseils : 
+Les différents conseils :
 
 * Utiliser les properties ```maven.compiler.target``` et ```maven.compiler.source``` pour spécifier la version Java
 * Utiliser le maven-enforcer-plugin ```enforceBytecodeVersion``` pour s'assurer que toutes les dépendances sont utilisables par une JRE donnée
@@ -220,7 +221,7 @@ L'idée c'est d'utiliser un JRE récent pour exécuter maven et ses plugins, tou
 
 J'ai fait un petit tour auprès des gens que je connais et qui font devoxx pour savoir quelle avait été leur session préférée, ça me permettra de voir quoi regarder une fois les vidéos sur Parleys.
 
-Dans le désordre nous avons : 
+Dans le désordre nous avons :
 
 * Hackergarten (Celle là ne sera pas sur Parleys)
 * Spring boot
@@ -239,4 +240,4 @@ Dans le désordre nous avons :
 [https://cloud.google.com]: https://cloud.google.com
 
 [^1]: Si vous suivez le compte de David Gageot, vous comprenez mieux pourquoi il demandait qu'on lui envoie des photos de tapis.
-[^2]: J'imagine qu'il y a des porteurs de projet sur Toulouse, 
+[^2]: J'imagine qu'il y a des porteurs de projet sur Toulouse,
