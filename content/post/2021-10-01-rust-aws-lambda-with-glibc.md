@@ -20,14 +20,14 @@ While it appears you could [statically link the glibc][glibc_statically_link], i
 
 So for AWS:
 
-![ThisIsTheWay][ThisIsTheWay]{: .center-image }
+![ThisIsTheWay][ThisIsTheWay]
 
 
 ## What
 
 While searching for alternative solutions to this (Because reasons), I found that since late 2020, they added a [container image support][container_image_support] to AWS lambda.
 
-![ThereIsAnother][ThereIsAnother]{: .center-image }
+![ThereIsAnother][ThereIsAnother]
 
 Sooooooo, if we want to use glibc, we need to have docker.
 Fine, let's give it a try
@@ -120,7 +120,7 @@ docker push ACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/aws-lambda-test
 
 Create the lambda, use the container image, and go to the test section.
 
-![AwsTest][AwsTest]{: .center-image }
+![AwsTest][AwsTest]
 
 And voilà, you now have a rust container running as an aws lambda!
 

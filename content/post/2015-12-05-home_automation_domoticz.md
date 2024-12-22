@@ -12,7 +12,7 @@ This begins a serie of home automation articles.
 
 
 ## First step
-![phenix][phenix]{: .float_image }
+![phenix][phenix]
 I recommend to start with something easy.
 
 I tried a remote controllable wall socket a few years ago, and it really works very well. I use it to control 4 lights area in my living room.
@@ -42,7 +42,7 @@ After some digging (and advices from [Florian Chauveau][nanak]), I decided to us
 
 ### Docker on raspberry pi
 
-![raspberrypi][raspberrypi]{: .float_image }
+![raspberrypi][raspberrypi]
 
 I recommend to look at [https://github.com/fchauveau/rpi-domoticz-docker][rpi-domoticz-docker], everything is explained:
 

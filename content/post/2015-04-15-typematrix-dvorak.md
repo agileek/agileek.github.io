@@ -38,7 +38,7 @@ N'hésitez pas à venir me défier sur ce site !
 
 Ce qui est intéressant surtout c'est de pouvoir suivre notre progression : voici la mienne
 
-![typeracer][typeracer_image]{: .center-image }
+![typeracer][typeracer_image]
 
 
 ## Le typematrix

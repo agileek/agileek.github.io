@@ -6,7 +6,7 @@ title: 'Devoxx France : la préparation'
 
 ## Devoxx France
 
-![Devoxx][devoxxFrance]{: .float_image }
+![Devoxx][devoxxFrance]
 
 Cela fait maintenant 4 ans que devoxx se fait en France.
 
@@ -88,7 +88,7 @@ Pour les survivants, il y'a ensuite les "tools in action" jusqu'à 19h10
 * 18:45-19:15
   * [App Engine Managed VMs et Fluent-http, un mariage heureux][tools_fluent_http]
 
-Les BOF en vrac : 
+Les BOF en vrac :
 
 * [BOF docker][bof_docker]
 * [Comment vivre d'un projet open source][bof_open_source]

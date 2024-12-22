@@ -5,7 +5,7 @@ title: 'Devoxx France : jour 2'
 aliases: ['/java/2015/04/09/devoxx-france-second-day/']
 ---
 
-![Devoxx][devoxxFrance]{: .float_image }
+![Devoxx][devoxxFrance]
 
 ## Keynotes
 

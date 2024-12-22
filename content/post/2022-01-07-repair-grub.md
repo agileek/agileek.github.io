@@ -30,7 +30,7 @@ Get a live USB key, I usually have an ubuntu somewhere, if you don't, grab one, 
 first, type `dmesg -w` in your terminal then plug in the usb.
 
 You should see something like that:
-![dmesg][dmesg]{: .center-image }
+![dmesg][dmesg]
 
 In my case, that means my usb key is on sd**a**
 

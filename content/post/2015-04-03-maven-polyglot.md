@@ -4,7 +4,7 @@ date: "2015-04-03T00:00:00Z"
 title: 'Maven 3.3.1: La mort du pom.xml'
 aliases: ['/java/2015/04/03/maven-polyglot/']
 ---
-![Maven][mavenLogo]{: .float_image }
+![Maven][mavenLogo]
 
 ## Maven
 

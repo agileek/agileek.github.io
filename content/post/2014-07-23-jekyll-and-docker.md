@@ -6,7 +6,7 @@ redirect_from: /jekyll/docker/2014/07/23/jekyll-and-docker/
 title: Jekyll quickstart with docker
 aliases: ['/docker/jekyll/2014/07/23/jekyll-and-docker/']
 ---
-![Jekyll][jekyllImage]{: .float_image }
+![Jekyll][jekyllImage]
 
 This is my first blog post!
 

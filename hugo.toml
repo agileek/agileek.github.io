@@ -42,6 +42,9 @@ appendFilePath = true                                             # to append fi
 [params.footer]
 text = "Yet another blog on software stuff"
 
+[markup.goldmark.renderer]
+  unsafe = true
+
 # FIXME add asciinema
 # FIXME Languages
 # [[module.imports]]

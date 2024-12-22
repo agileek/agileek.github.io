@@ -13,7 +13,7 @@ title: The "perfect" SVG Turtle shell
 
 ## Context
 
-![2D_football][2D_football]{: .float_image}
+![2D_football][2D_football]
 
 My wife is an artisan seamstress and uses the industry's fabric scraps (Something called UpCycling), so she ends up with a lot of small pieces of fabric and search new smart ways to use them.
 
@@ -29,11 +29,11 @@ That's where I can help! (And have an excuse for geeking a little)
 
 What we want is two hexagons, one inside the other, and the biggest hexagon should have a rounded outer line (so, that's not an hexagon right?)
 
-Let's start with two circles ![two_circles][two_circles]{: .small_image}
+Let's start with two circles ![two_circles][two_circles]
 
-Then, draw an hexagon in each ![circles_and_hexagons][circles_and_hexagons]{: .small_image}
+Then, draw an hexagon in each ![circles_and_hexagons][circles_and_hexagons]
 
-Now, we can just remove the small circle, link each hexagon's vertex with each other, and remove the big hexagon and voilà! ![turtle_shell][turtle_shell]{: .small_image}
+Now, we can just remove the small circle, link each hexagon's vertex with each other, and remove the big hexagon and voilà! ![turtle_shell][turtle_shell]
 
 
 #### Some code

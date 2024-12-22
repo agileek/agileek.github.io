@@ -7,7 +7,7 @@ aliases: ['/java/2015/04/08/devoxx-jour-1/']
 
 ## Devoxx France
 
-![Devoxx][devoxxFrance]{: .float_image }
+![Devoxx][devoxxFrance]
 
 ## 09:30-12:30 [Google Cloud Platform][hands_on_GCP]
 

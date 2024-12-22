@@ -4,7 +4,7 @@ date: "2015-04-13T00:00:00Z"
 title: Poste de dev avec docker et ansible
 aliases: ['/docker/2015/04/13/docker-ansible/']
 ---
-![meme][meme]{: .float_image }
+![meme][meme]
 Vous avez un projet où il faut 3 jours d'installation acharnée en suivant un wiki obsolète pour réussir à faire un premier commit ?
 
 Vous n'osez plus mettre à jour votre poste depuis 2006 de peur de ne plus pouvoir travailler ?
