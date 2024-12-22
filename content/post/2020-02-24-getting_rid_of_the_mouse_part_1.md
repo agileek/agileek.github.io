@@ -29,7 +29,7 @@ This (I hope so) will be a series of articles where I take one part of my workin
 
 ## The git 'flow'
 
-Each time I work on a new task, I start by creating a new branch. 
+Each time I work on a new task, I start by creating a new branch.
 Let's say I work on this article.
 
 `git co -b going-mouseless-part-1`
@@ -56,12 +56,11 @@ I grab my mouse, select the last line and copy/paste it. At least that's what I 
 
 A perfect solution for this use case is [TheFuck][thefuck].
 
-> Magnificent app which corrects your previous console command. 
+> Magnificent app which corrects your previous console command.
 
 Once installed, instead of grabbing my mouse, I just type `fuck` then enter twice and that's it!
 
 Here is a complete demo:
-
 <asciinema-player src="/images/posts/mouseless/mouseless_1" cols="120" rows="20"></asciinema-player>
 
 This tool is a really useful one, it saves me on a daily basis with everything, typos, missing sudo,... plus, it's pleasant to curse.

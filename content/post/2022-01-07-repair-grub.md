@@ -9,11 +9,12 @@ tags:
 - terminal
 - fedora
 title: Repair your grub
+summary: On the list of bad computer things that happened to me, this one maybe in the top 3
 ---
 
 ## Context
 
-Sometimes, when you upgrade your linux distribution, some stuff gets a little bit messed up. 
+Sometimes, when you upgrade your linux distribution, some stuff gets a little bit messed up.
 And sometimes, it get more messed up.
 When weird stuff happens to your bootloader, everything you think you knew suddenly disappear, you don't have access to internet, nothing work anymore, and usually you are in a hurry to use your computer.
 Take a deep breath, we are going to fix this.

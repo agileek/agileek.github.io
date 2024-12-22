@@ -2,8 +2,7 @@
 categories: docker
 date: "2014-08-06T00:00:00Z"
 lastmod: "2016-01-06"
-tags:
-  - docker
+tags: ["docker"]
 title: Playing with docker and cpuset
 ---
 

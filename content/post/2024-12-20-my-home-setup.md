@@ -7,6 +7,7 @@ tags:
 - software
 - home_automation
 title: My home setup
+summary: A highly incomplete overview of my home automation setup
 ---
 
 This article will be a work in progress for as long as I play with home automation stuff

@@ -3,53 +3,46 @@ baseURL = "https://agileek.github.io"
 disablePathToLower = true
 languageCode = "en-us"
 title = "Software"
-paginate = 200
 enableRobotsTXT = true
+sectionPagesMenu = 'main'
 
-[languages]
-[languages.en]
-languageName = "English"
-weight = 1
+[pagination]
+pagerSize = 200
 
-[languages.en.menus]
-[[languages.en.menus.main]]
-name = "Archive"
-url = "archives"
-weight = 5
-# [[languages.en.menus.main]]
-# name = "Food"
-# url = "tags/food/"
-# weight = 10
-[[languages.en.menus.main]]
-name = "Tags"
-url = "tags/"
-weight = 10
+[outputs]
+home = ["HTML", "RSS", "JSON"]
 
 [params]
-  env="production" # to enable google analytics, opengraph, twitter-cards and schema.
-  description= "heme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
-  author="Theme PaperMod"
-  # author: ["Me", "You"] # multiple authors
+env = "production"                                 # to enable google analytics, opengraph, twitter-cards and schema.
+description = "Yet another blog on software stuff"
+author = "Michaël Bitard"
 
-  defaultTheme="auto"
-  # disableThemeToggle: true
-  ShowShareButtons=true
-  ShowReadingTime=true
-  disableSpecial1stPost=true
-  displayFullLangName=true
-  ShowPostNavLinks=true
-  ShowBreadCrumbs=false
-  ShowCodeCopyButtons=true
-  ShowRssButtonInSectionTermList=true
-  ShowAllPagesInArchive=true
-  ShowPageNums=true
-  ShowToc=true
-  comments=false
-  images=["images/home.png"]
+defaultTheme = "auto"
+# disableThemeToggle: true
+ShowShareButtons = true
+ShowReadingTime = true
+disableSpecial1stPost = true
+displayFullLangName = false
+ShowPostNavLinks = true
+ShowBreadCrumbs = false
+ShowCodeCopyButtons = true
+ShowRssButtonInSectionTermList = true
+ShowAllPagesInArchive = true
+ShowPageNums = true
+ShowToc = true
+comments = false
+images = ["images/home.png"]
+hideAuthor=true
+# homeInfoParams.Title="PaperMod's Demo"
+# homeInfoParams.Content="👋 Welcome to demo page of Hugo's theme PaperMod!"
+[params.editPost]
+URL = "https://github.com/agileek/agileek.github.io/tree/develop"
+Text = "Suggest Changes"                                          # edit text
+appendFilePath = true                                             # to append file path to Edit link
+[params.footer]
+text = "Yet another blog on software stuff"
 
-  # homeInfoParams.Title="PaperMod's Demo"
-  # homeInfoParams.Content="👋 Welcome to demo page of Hugo's theme PaperMod!"
-  [params.editPost]
-    URL="https://github.com/agileek/agileek.github.io/tree/develop"
-    Text="Suggest Changes" # edit text
-    appendFilePath=true # to append file path to Edit link
+# FIXME add asciinema
+# FIXME Languages
+# [[module.imports]]
+#     path= "https://github.com/hybras/hugo-asciinema"

@@ -8,6 +8,7 @@ tags:
 - terminal
 - bash
 title: Contextualize your bash
+summary: Load custom bash aliases when entering directory
 ---
 
 ## Why I'm Always Trying to Improve My Terminal Workflow
@@ -90,4 +91,3 @@ Moreover, I have even automated the retrieval of secrets from my keepassxc insta
 [smartcd]: https://github.com/cxreg/smartcd
 [use_bashrc_directory]: https://waxzce.medium.com/use-bashrc-d-directory-instead-of-bloated-bashrc-50204d5389ff
 [camino]: https://camino.beta.gouv.fr/
-

@@ -14,7 +14,7 @@ Sur ce blog post, je m'éloigne des sentiers battus pour découvrir un domaine q
 ## Contexte
 
 Ma compagne s'est lancée dans [une activité][lespetitsbibis] où elle crée des produits du quotidien, cousus-main, avec du matériel issu de ressourceries ou de fins de rouleaux.
-Ses enjeux/envies sont multiples : 
+Ses enjeux/envies sont multiples :
 - Trouver une activité à temps partiel pour pouvoir conjuguer vie de famille et professionnelle
 - Réduire nos déchets[^dechets]
 - Gagner de l'argent[^argent]
