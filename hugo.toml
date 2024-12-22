@@ -1,0 +1,55 @@
+theme = 'PaperMod'
+baseURL = "https://agileek.github.io"
+disablePathToLower = true
+languageCode = "en-us"
+title = "Software"
+paginate = 200
+enableRobotsTXT = true
+
+[languages]
+[languages.en]
+languageName = "English"
+weight = 1
+
+[languages.en.menus]
+[[languages.en.menus.main]]
+name = "Archive"
+url = "archives"
+weight = 5
+# [[languages.en.menus.main]]
+# name = "Food"
+# url = "tags/food/"
+# weight = 10
+[[languages.en.menus.main]]
+name = "Tags"
+url = "tags/"
+weight = 10
+
+[params]
+  env="production" # to enable google analytics, opengraph, twitter-cards and schema.
+  description= "heme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
+  author="Theme PaperMod"
+  # author: ["Me", "You"] # multiple authors
+
+  defaultTheme="auto"
+  # disableThemeToggle: true
+  ShowShareButtons=true
+  ShowReadingTime=true
+  disableSpecial1stPost=true
+  displayFullLangName=true
+  ShowPostNavLinks=true
+  ShowBreadCrumbs=false
+  ShowCodeCopyButtons=true
+  ShowRssButtonInSectionTermList=true
+  ShowAllPagesInArchive=true
+  ShowPageNums=true
+  ShowToc=true
+  comments=false
+  images=["images/home.png"]
+
+  # homeInfoParams.Title="PaperMod's Demo"
+  # homeInfoParams.Content="👋 Welcome to demo page of Hugo's theme PaperMod!"
+  [params.editPost]
+    URL="https://github.com/agileek/agileek.github.io/tree/develop"
+    Text="Suggest Changes" # edit text
+    appendFilePath=true # to append file path to Edit link
