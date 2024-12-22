@@ -1,0 +1,22 @@
+# Block AI and LLM bots
+User-agent: AlphaAI
+User-agent: anthropic-ai
+User-agent: Applebot-Extended
+User-agent: Bytespider
+User-agent: CCBot
+User-agent: Claude-Web
+User-agent: ClaudeBot
+User-agent: Diffbot
+User-agent: FacebookBot
+User-agent: Google-Extended
+User-agent: GPTBot
+User-agent: ImagesiftBot
+User-agent: Omgili
+User-agent: OmgiliBot
+User-agent: OpenAI
+Disallow: /
+
+User-agent: *
+Disallow:
+
+Sitemap: https://agileek.github.io/sitemap.xml
