@@ -58,7 +58,7 @@ fn StyledComponent(cx: Scope) -> Element {
 }
 ```
 
-Ok great, now I just have to look into the dioxus_free_css crate !
+Ok great, now I just have to look into the dioxus_free_css crate!
 
 Wait a minute, I cannot find anything about this crate, how strange.\
 After searching into the archives, replacing `_` with `-`, and other shenanigans we do everyday, I had to face the evidence: This crate does **not** exist!\
@@ -74,7 +74,9 @@ Then I found the github repo the website comes from, and in the About section yo
 > Using AI to convert Odin Project into a plan to learn Dioxus
 
 That's it, and I'm pissed.
-I'm pissed this site exists, I'm pissed I have to be even more careful now when browsing the web. I'm pissed that my level of trust has dropped dramaticaly since then. I mean, does this Ryan even exists?
+I'm pissed this site exists, I'm pissed I have to be even more careful now when browsing the web.
+I'm pissed that my level of trust has dropped dramaticaly since then.
+I mean, does this Ryan even exists?
 
 [dioxus]: https://dioxuslabs.com/
 [styled-components]: https://styled-components.com/
