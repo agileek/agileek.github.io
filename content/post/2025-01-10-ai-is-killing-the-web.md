@@ -1,8 +1,7 @@
 ---
 categories:
 - software
-date: "2024-12-22T00:00:00Z"
-draft: true
+date: "2025-01-10T00:00:00Z"
 tags: ["software"]
 title: AI is killing the web
 summary: How AI generated stuff gets crawled by search engine and end up polluting the internet
