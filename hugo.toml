@@ -5,6 +5,7 @@ languageCode = "en-us"
 title = "Software"
 enableRobotsTXT = true
 sectionPagesMenu = 'main'
+summaryLength = 0
 
 [pagination]
 pagerSize = 200
