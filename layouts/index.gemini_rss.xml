@@ -1,0 +1,22 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ .Site.Title }}</title>
+    <description>{{ i18n "description" }}</description>
+    <link>{{ (replace .Permalink "https://" "gemini://") | safeURL }}</link>
+    <atom:link href="{{ .Permalink | safeURL }}feed.xml" rel="self" type="application/rss+xml" />
+    {{- if .IsHome }}
+    {{- $pages := union .RegularPages .Sections }}
+    {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
+    {{- $paginator := .Paginate $pages }}
+    {{- range $paginator.Pages }}
+    <item>
+      <title>{{ .Title | plainify  }}</title>
+      <link>{{ (replace .Permalink "https://" "gemini://") | safeURL }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <guid>{{ (replace .Permalink "https://" "gemini://") | safeURL }}</guid>
+    </item>
+    {{ end }}
+    {{ end }}
+  </channel>
+</rss>

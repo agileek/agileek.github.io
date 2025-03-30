@@ -5,15 +5,17 @@ languageCode = "en-us"
 title = "Software"
 enableRobotsTXT = true
 sectionPagesMenu = 'main'
+summaryLength = 0
 
 [pagination]
 pagerSize = 200
 
 [outputs]
-home = ["HTML", "RSS", "JSON"]
+home = ["HTML", "RSS", "JSON", "GEMINI", "GEMINI_RSS"]
+page = ["HTML", "GEMINI"]
 
 [params]
-env = "production"                                 # to enable google analytics, opengraph, twitter-cards and schema.
+env = "production"
 description = "Yet another blog on software stuff"
 author = "Michaël Bitard"
 
@@ -32,7 +34,7 @@ ShowPageNums = true
 ShowToc = true
 comments = false
 images = ["images/home.png"]
-hideAuthor=true
+hideAuthor = true
 # homeInfoParams.Title="PaperMod's Demo"
 # homeInfoParams.Content="👋 Welcome to demo page of Hugo's theme PaperMod!"
 [params.editPost]
@@ -43,9 +45,28 @@ appendFilePath = true                                             # to append fi
 text = "Yet another blog on software stuff"
 
 [markup.goldmark.renderer]
-  unsafe = true
+unsafe = true
 
 # FIXME add asciinema
 # FIXME Languages
 # [[module.imports]]
 #     path= "https://github.com/hybras/hugo-asciinema"
+[mediaTypes]
+[mediaTypes.'text/gemini']
+delimiter = '.'
+suffixes = ['gmi']
+
+[outputFormats]
+[outputFormats.GEMINI]
+baseName = 'index'
+isHTML = false
+isPlainText = false
+mediaType = 'text/gemini'
+protocol = "gemini://"
+permalinkable = true
+
+[outputFormats.GEMINI_RSS]
+baseName = 'feed'
+isPlainText = false
+mediaType = 'application/rss+xml'
+protocol = "gemini://"
