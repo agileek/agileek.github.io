@@ -11,7 +11,7 @@ summaryLength = 0
 pagerSize = 200
 
 [outputs]
-home = ["HTML", "RSS", "JSON", "GEMINI"]
+home = ["HTML", "RSS", "JSON", "GEMINI", "GEMINI_RSS"]
 page = ["HTML", "GEMINI"]
 
 [params]
@@ -64,3 +64,9 @@ isPlainText = false
 mediaType = 'text/gemini'
 protocol = "gemini://"
 permalinkable = true
+
+[outputFormats.GEMINI_RSS]
+baseName = 'feed'
+isPlainText = false
+mediaType = 'application/rss+xml'
+protocol = "gemini://"
