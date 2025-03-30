@@ -1,9 +1,10 @@
-# {{ .Title }}{{ $scratch := newScratch }}
+# {{ .Title }}
+
+{{- $scratch := newScratch }}
 {{- $content := .RawContent -}}
 {{- $content := $content | replaceRE `#### ` "### " -}}
 {{- $content := $content | replaceRE `\n- (.+?)` "\n* $1" -}}
 {{- $content := $content | replaceRE `\n(\d+). (.+?)` "\n* $2" -}}
-{{- $content := $content | replaceRE `\[\^(.+?)\]:?` "" -}}
 {{- $content := $content | replaceRE `<br/??>` "\n" -}}
 {{- $content := $content | replaceRE `\$` "$" -}}
 {{- $content := $content | replaceRE `<a .*href="(.+?)".*>(.+?)</a>` "[$2]($1)" -}}
@@ -25,11 +26,25 @@
     {{- $scratch.Set "ref" (add $ref 1) }}
 {{- end }}
 {{- $content := $scratch.Get "content" | replaceRE `\[(.+?)\]\((.+?)\) #(\d+)` "$1 [$3]" -}}
-{{- $linksMD := findRESubmatch `\[(.+?)\]\[(.+?)\]` $content }}
-{{- $linksValue := findRESubmatch `\[(.+?)\]:[ ]*(.+)` $content }}
+{{- $linksValue := findRESubmatch `\[([^^:\]]*)\]:[ ]*(.+)` $content }}
+{{- $scratch.Set "content" $content }}
 {{- range $linksValue }}
-{{- $scratch.Set (index . 1) (index . 2) }}
+    {{- $contentInLoop := $scratch.Get "content" }}
+    {{- $scratch.Set (index . 1) (index . 2) }}
+    {{- $contentInLoop := replace $contentInLoop (index . 0) "" -}}
+    {{- $scratch.Set "content" $contentInLoop }}
 {{- end }}
+{{- $imagesMD := findRESubmatch `!\[(.+?)\]\[(.+?)\]` $content }}
+{{- range $imagesMD }}
+    {{- $contentInLoop := $scratch.Get "content" }}
+    {{- $url := (printf "![%s](%s)" (index . 1) ($scratch.Get (index . 2) )) }}
+    {{- $contentInLoop := replace $contentInLoop (index . 0) $url -}}
+    {{- $scratch.Set "content" $contentInLoop }}
+{{- end }}
+{{- $content := $scratch.Get "content" -}}
+{{- $content := $content | replaceRE `\n\n!\[.*\]\((.+?) \"(.+?)\"\)` "\n\n=> $1 Image: $2" -}}
+{{- $content := $content | replaceRE `\n\n!\[.*]\((.+?)\)` "\n\n=> $1 Embedded Image: $1" -}}
+{{- $linksMD := findRESubmatch `\[(.+?)\]\[(.+?)\]` $content }}
 {{- $scratch.Set "content" $content }}
 {{- range $linksMD }}
     {{- $ref := $scratch.Get "ref" }}
@@ -38,9 +53,8 @@
     {{- $contentInLoop := replace $contentInLoop (index . 0) $url -}}
     {{- $scratch.Set "content" $contentInLoop }}
     {{- $scratch.Set "ref" (add $ref 1) }}
-{{ end }}
+{{- end }}
 {{- $content := $scratch.Get "content" -}}
-
 {{ $content | safeHTML }}
 
 ---
