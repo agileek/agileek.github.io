@@ -1,0 +1,64 @@
+# {{ .Title }}{{ $scratch := newScratch }}
+{{- $content := .RawContent -}}
+{{- $content := $content | replaceRE `#### ` "### " -}}
+{{- $content := $content | replaceRE `\n- (.+?)` "\n* $1" -}}
+{{- $content := $content | replaceRE `\n(\d+). (.+?)` "\n* $2" -}}
+{{- $content := $content | replaceRE `\[\^(.+?)\]:?` "" -}}
+{{- $content := $content | replaceRE `<br/??>` "\n" -}}
+{{- $content := $content | replaceRE `\$` "$" -}}
+{{- $content := $content | replaceRE `<a .*href="(.+?)".*>(.+?)</a>` "[$2]($1)" -}}
+{{- $content := $content | replaceRE `\sgemini://(\S*)` " [gemini://$1](gemini://$1)" -}}
+{{- $content := $content | replaceRE `{{ youtube (.+?) >}}` "=> https://www.youtube.com/watch?v=$1 YouTube Video link to $1" -}}
+{{- $content := $content | replaceRE "([^`])<.*?>([^`])" "$1$2" -}}
+{{- $content := $content | replaceRE `\n\n!\[.*\]\((.+?) \"(.+?)\"\)` "\n\n=> $1 Image: $2" -}}
+{{- $content := $content | replaceRE `\n\n!\[.*]\((.+?)\)` "\n\n=> $1 Embedded Image: $1" -}}
+{{- $links := findRE `\n=> ` $content }}{{ $scratch.Set "ref" (add (len $links) 1) }}
+{{- $refs := findRE `\[.+?\]\(.+?\)` $content }}
+{{- $scratch.Set "content" $content }}
+{{- /* Get 'simple links' */}}
+{{- range $refs }}
+    {{- $ref := $scratch.Get "ref" }}
+    {{- $contentInLoop := $scratch.Get "content" }}
+    {{- $url := (printf "%s #%d" . $ref) }}
+    {{- $contentInLoop := replace $contentInLoop . $url -}}
+    {{- $scratch.Set "content" $contentInLoop }}
+    {{- $scratch.Set "ref" (add $ref 1) }}
+{{- end }}
+{{- $content := $scratch.Get "content" | replaceRE `\[(.+?)\]\((.+?)\) #(\d+)` "$1 [$3]" -}}
+{{- $linksMD := findRESubmatch `\[(.+?)\]\[(.+?)\]` $content }}
+{{- $linksValue := findRESubmatch `\[(.+?)\]:[ ]*(.+)` $content }}
+{{- range $linksValue }}
+{{- $scratch.Set (index . 1) (index . 2) }}
+{{- end }}
+{{- $scratch.Set "content" $content }}
+{{- range $linksMD }}
+    {{- $ref := $scratch.Get "ref" }}
+    {{- $contentInLoop := $scratch.Get "content" }}
+    {{- $url := (printf "%s[%d]" (index . 1) $ref) }}
+    {{- $contentInLoop := replace $contentInLoop (index . 0) $url -}}
+    {{- $scratch.Set "content" $contentInLoop }}
+    {{- $scratch.Set "ref" (add $ref 1) }}
+{{ end }}
+{{- $content := $scratch.Get "content" -}}
+
+{{ $content | safeHTML }}
+
+---
+## References
+{{- $scratch.Set "ref" (add (len $links) 1) }}
+{{- range $refs }}
+{{- $ref := $scratch.Get "ref" }}
+{{- $url := (printf "%s #%d" . $ref) }}
+=> {{ $url | replaceRE `\[(.+?)\]\((.+?)\) #(\d+)` "$2 [$3] $1 ($2)" -}}
+{{- $scratch.Set "ref" (add $ref 1) }}
+{{- end}}
+{{- range $linksMD }}
+{{- $ref := $scratch.Get "ref" }}
+{{- $url := (printf "%s #%d" (index . 1) $ref) }}
+=> {{ $scratch.Get (index . 2) }} [{{ $ref }}] {{ index . 1}} ({{ $scratch.Get (index . 2) }})
+{{- $scratch.Set "ref" (add $ref 1) }}
+{{- end}}
+---
+
+=> / Back to the Index
+=> https://agileek.github.io{{ replace (replace .RelPermalink "/gemini" "" 1) "index.gmi" "" }} View this article on the WWW

@@ -1,0 +1,18 @@
+## Navigation
+
+{{ range .RegularPages }}
+=> {{ .RelPermalink }} {{ .Title }}
+{{- end }}
+
+## List of posts
+{{- if .IsHome }}
+{{- $pages := union .RegularPages .Sections }}
+{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
+
+{{- $paginator := .Paginate $pages }}
+{{- range $index, $page := $paginator.Pages }}
+=> {{ .RelPermalink }} {{ .Title }}
+{{- end }}
+
+{{- end }}

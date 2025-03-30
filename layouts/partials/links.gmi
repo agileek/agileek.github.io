@@ -1,0 +1,10 @@
+{{ $scratch := newScratch }}{{ $content := .RawContent -}}
+{{- $linksMD := findRESubmatch `\[(.+?)\]\[(.+?)\]` $content }}
+{{- $linksValue := findRESubmatch `\[(.+?)\]:[ ]*(.+)` $content }}
+{{- $scratch.Set "content" $content }}
+{{- range $linksValue }}
+{{- $scratch.Set (index . 1) (index . 2) }}
+{{- end }}
+{{- range $linksMD }}
+=> {{ $scratch.Get (index . 2) }} {{ index . 1 }}
+{{- end }}
