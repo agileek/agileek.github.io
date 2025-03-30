@@ -12,6 +12,6 @@
     {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
     {{- $paginator := .Paginate $pages }}
     {{- range $index, $page := $paginator.Pages }}
-=> {{ .RelPermalink }} {{ .Title | plainify }}{{ if gt (len .Summary) 0 }} - {{ .Summary | plainify | htmlUnescape }} {{ end }} ({{ .Date.Format ((default "2006/01/02" site.Params.DateFormat)) }})
+=> {{ .RelPermalink }} {{ .Title | plainify }}{{ if gt (len .Summary) 0 }} - {{ .Summary | plainify | htmlUnescape }}{{ end }} ({{ .Date.Format ((default "2006/01/02" site.Params.DateFormat)) }})
     {{- end }}
 {{- end }}

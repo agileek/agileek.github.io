@@ -3,10 +3,10 @@
 {{- $scratch := newScratch }}
 {{- $content := .RawContent -}}
 {{- $content := $content | replaceRE `#### ` "### " -}}
+{{- $content := $content | replaceRE `\\\n` "\n" -}}
 {{- $content := $content | replaceRE `\n- (.+?)` "\n* $1" -}}
 {{- $content := $content | replaceRE `\n(\d+). (.+?)` "\n* $2" -}}
 {{- $content := $content | replaceRE `<br/??>` "\n" -}}
-{{- $content := $content | replaceRE `\$` "$" -}}
 {{- $content := $content | replaceRE `<a .*href="(.+?)".*>(.+?)</a>` "[$2]($1)" -}}
 {{- $content := $content | replaceRE `\sgemini://(\S*)` " [gemini://$1](gemini://$1)" -}}
 {{- $content := $content | replaceRE `{{ youtube (.+?) >}}` "=> https://www.youtube.com/watch?v=$1 YouTube Video link to $1" -}}
@@ -34,7 +34,7 @@
     {{- $contentInLoop := replace $contentInLoop (index . 0) "" -}}
     {{- $scratch.Set "content" $contentInLoop }}
 {{- end }}
-{{- $imagesMD := findRESubmatch `!\[(.+?)\]\[(.+?)\]` $content }}
+{{- $imagesMD := findRESubmatch `!\[([^^]+?)\]\[(.+?)\]` $content }}
 {{- range $imagesMD }}
     {{- $contentInLoop := $scratch.Get "content" }}
     {{- $url := (printf "![%s](%s)" (index . 1) ($scratch.Get (index . 2) )) }}
@@ -44,7 +44,7 @@
 {{- $content := $scratch.Get "content" -}}
 {{- $content := $content | replaceRE `\n\n!\[.*\]\((.+?) \"(.+?)\"\)` "\n\n=> $1 Image: $2" -}}
 {{- $content := $content | replaceRE `\n\n!\[.*]\((.+?)\)` "\n\n=> $1 Embedded Image: $1" -}}
-{{- $linksMD := findRESubmatch `\[(.+?)\]\[(.+?)\]` $content }}
+{{- $linksMD := findRESubmatch `\[([^^]+?)\]\[(.+?)\]` $content }}
 {{- $scratch.Set "content" $content }}
 {{- range $linksMD }}
     {{- $ref := $scratch.Get "ref" }}
