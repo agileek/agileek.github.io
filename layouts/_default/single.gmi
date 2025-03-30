@@ -8,7 +8,6 @@
 {{- $content := $content | replaceRE `\n(\d+). (.+?)` "\n* $2" -}}
 {{- $content := $content | replaceRE `<br/??>` "\n" -}}
 {{- $content := $content | replaceRE `<a .*href="(.+?)".*>(.+?)</a>` "[$2]($1)" -}}
-{{- $content := $content | replaceRE `\sgemini://(\S*)` " [gemini://$1](gemini://$1)" -}}
 {{- $content := $content | replaceRE `{{ youtube (.+?) >}}` "=> https://www.youtube.com/watch?v=$1 YouTube Video link to $1" -}}
 {{- $content := $content | replaceRE "([^`])<.*?>([^`])" "$1$2" -}}
 {{- $content := $content | replaceRE `\n\n!\[.*\]\((.+?) \"(.+?)\"\)` "\n\n=> $1 Image: $2" -}}
@@ -26,7 +25,7 @@
     {{- $scratch.Set "ref" (add $ref 1) }}
 {{- end }}
 {{- $content := $scratch.Get "content" | replaceRE `\[(.+?)\]\((.+?)\) #(\d+)` "$1 [$3]" -}}
-{{- $linksValue := findRESubmatch `\[([^^:\]]*)\]:[ ]*(.+)` $content }}
+{{- $linksValue := findRESubmatch `\[([^^:\]]*)\]:[ ]*(.+)\n` $content }}
 {{- $scratch.Set "content" $content }}
 {{- range $linksValue }}
     {{- $contentInLoop := $scratch.Get "content" }}
