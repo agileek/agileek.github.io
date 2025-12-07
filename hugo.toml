@@ -44,7 +44,11 @@ text = "Yet another blog on software stuff"
 
 [markup.goldmark.renderer]
   unsafe = true
-
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true
 # FIXME add asciinema
 # FIXME Languages
 # [[module.imports]]
