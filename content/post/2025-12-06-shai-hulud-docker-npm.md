@@ -3,7 +3,7 @@ categories:
 - software
 date: "2025-12-06T00:00:00Z"
 tags: ["software"]
-title: What can we do to prevent stuff like Shai-Hulud to affect our computers.
+title: Mitigate Shai-Hulud attacks on developer machine.
 summary: Npm, docker and the least privileges possible
 ---
 

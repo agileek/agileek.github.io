@@ -22,7 +22,6 @@ And it was really well ranked in duckduckgo!
 
 First result when searching for `dioxus styledcomponent`[^3]
 
-
 ![duckduckgosearch][duckduckgosearch]
 
 Hooray! It was exactly what I was looking for!
