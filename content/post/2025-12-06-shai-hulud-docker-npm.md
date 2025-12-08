@@ -100,20 +100,22 @@ You have to enable host loopback by putting this environment variable to false i
 Environment="DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK=false"
 ```
 
-Then you have to set your IP address in the docker daemon config `~/.config/docker/daemon.json`:
+Then you have to set a hardcoded IP address in the docker daemon config `~/.config/docker/daemon.json`:
 
 ```json
 {
   "host-gateway-ips": [
-    "MACHINE_IP_ADDRESS"
+    "10.0.2.2"
   ]
 }
 ```
 
-That's a real bummer, if you have a dynamic IP, that'll change...
-
 The second issue is that I wanted to reach to container network with it's IP from my machine.
 It's not possible with docker rootless (at least I did not found a way to do it, so I user --network=host more often now... on my development machine)
+
+### Edit 2025-12-08
+
+The host-gateway-ip is 10.0.2.2 and not your real IP address, my bad. (Unless you have configured slirp4netns to use another subnet)
 
 [issue_host_gateway]: https://github.com/moby/moby/issues/47684
 [docker_rootless_setup]: <https://docs.docker.com/engine/security/rootless/#install>
